@@ -1,0 +1,17 @@
+@import '../styles/theme.scss';
+
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: $background;
+  font-family: $font-family;
+}
+
+main {
+  padding: 0;
+  min-height: 100vh;
+
+  &.with-header {
+    min-height: calc(100vh - 45px);
+  }
+}

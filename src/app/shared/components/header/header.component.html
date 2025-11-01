@@ -1,0 +1,35 @@
+<header class="app-header">
+  <div class="header-content">
+    <div class="header-left">
+      <button class="menu-button" (click)="onMenuClick()" title="Menu">
+        ☰
+      </button>
+      <a routerLink="/" class="logo-link">
+        <h1 class="title">IntelliCare Release Assistant</h1>
+      </a>
+    </div>
+
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search..." />
+    </div>
+
+    <div class="header-right">
+      @if (authService.currentUser$ | async; as user) {
+        <div class="user-menu">
+          <button mat-button [matMenuTriggerFor]="menu" class="user-button">
+            <span class="user-name">{{ user.username }}</span>
+            <span class="dropdown-icon">▼</span>
+          </button>
+          <mat-menu #menu="matMenu">
+            <div class="menu-user-info">
+              <div class="menu-item">{{ user.first_name }} {{ user.last_name }}</div>
+              <div class="menu-item">{{ user.email }}</div>
+            </div>
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="logout()" class="logout-button">Logout</button>
+          </mat-menu>
+        </div>
+      }
+    </div>
+  </div>
+</header>

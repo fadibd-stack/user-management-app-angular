@@ -1,0 +1,133 @@
+@import '../../../../styles/theme.scss';
+
+.app-header {
+  background-color: $primary;
+  height: 45px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid $primary-dark;
+}
+
+.header-content {
+  height: 100%;
+  padding: 0 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.menu-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: $white;
+  cursor: pointer;
+  padding: 4px 8px;
+  line-height: 1;
+  height: 30px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.logo-link {
+  text-decoration: none;
+}
+
+.title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: $font-weight-bold;
+  color: $white;
+  white-space: nowrap;
+}
+
+.search-container {
+  flex: 1;
+  max-width: 600px;
+  margin: 0 20px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+  background-color: rgba(255, 255, 255, 0.9);
+  font-size: $font-size-base;
+  outline: none;
+
+  &:focus {
+    background-color: $white;
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-menu {
+  position: relative;
+}
+
+.user-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  cursor: pointer;
+  color: $white;
+  min-width: auto;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.user-name {
+  color: $white;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+}
+
+.dropdown-icon {
+  font-size: 10px;
+  margin-left: 4px;
+}
+
+// Material menu overrides
+::ng-deep {
+  .mat-mdc-menu-panel {
+    min-width: 200px;
+  }
+}
+
+.menu-user-info {
+  padding: 0;
+}
+
+.menu-item {
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-size-sm;
+  color: $text-secondary;
+  border-bottom: 1px solid $border-light;
+}
+
+.logout-button {
+  color: $error;
+  font-weight: $font-weight-medium;
+}

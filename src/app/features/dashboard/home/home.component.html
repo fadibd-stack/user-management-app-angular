@@ -1,0 +1,124 @@
+<div class="dashboard-container">
+  <div class="welcome-section">
+    <h1>Welcome back, {{ currentUser?.first_name }}!</h1>
+    <p>Here's an overview of your test management platform</p>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div *ngIf="!loading" class="stats-grid">
+    <!-- Total Users -->
+    <mat-card class="stat-card">
+      <div class="stat-icon users-icon">
+        <mat-icon>people</mat-icon>
+      </div>
+      <div class="stat-content">
+        <h3>{{ stats.totalUsers }}</h3>
+        <p>Total Users</p>
+      </div>
+      <button mat-button routerLink="/users" class="view-link">
+        View All
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </mat-card>
+
+    <!-- Total Test Cases -->
+    <mat-card class="stat-card">
+      <div class="stat-icon test-cases-icon">
+        <mat-icon>assignment</mat-icon>
+      </div>
+      <div class="stat-content">
+        <h3>{{ stats.totalTestCases }}</h3>
+        <p>Test Cases</p>
+      </div>
+      <button mat-button routerLink="/test-cases" class="view-link">
+        View All
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </mat-card>
+
+    <!-- Organizations -->
+    <mat-card class="stat-card">
+      <div class="stat-icon orgs-icon">
+        <mat-icon>business</mat-icon>
+      </div>
+      <div class="stat-content">
+        <h3>{{ stats.totalOrganizations }}</h3>
+        <p>Organizations</p>
+      </div>
+      <button mat-button routerLink="/organizations" class="view-link">
+        View All
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </mat-card>
+
+    <!-- Active Test Cases -->
+    <mat-card class="stat-card">
+      <div class="stat-icon active-icon">
+        <mat-icon>play_circle</mat-icon>
+      </div>
+      <div class="stat-content">
+        <h3>{{ stats.activeTestCases }}</h3>
+        <p>In Progress</p>
+      </div>
+      <button mat-button routerLink="/test-cases" class="view-link">
+        View All
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </mat-card>
+
+    <!-- Completed Test Cases -->
+    <mat-card class="stat-card">
+      <div class="stat-icon completed-icon">
+        <mat-icon>check_circle</mat-icon>
+      </div>
+      <div class="stat-content">
+        <h3>{{ stats.completedTestCases }}</h3>
+        <p>Completed</p>
+      </div>
+      <button mat-button routerLink="/test-cases" class="view-link">
+        View All
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </mat-card>
+
+    <!-- Failed Test Cases -->
+    <mat-card class="stat-card">
+      <div class="stat-icon failed-icon">
+        <mat-icon>error</mat-icon>
+      </div>
+      <div class="stat-content">
+        <h3>{{ stats.failedTestCases }}</h3>
+        <p>Failed</p>
+      </div>
+      <button mat-button routerLink="/test-cases" class="view-link">
+        View All
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </mat-card>
+  </div>
+
+  <div *ngIf="!loading" class="quick-actions">
+    <h2>Quick Actions</h2>
+    <div class="actions-grid">
+      <button mat-raised-button color="primary" routerLink="/test-cases">
+        <mat-icon>add</mat-icon>
+        Create Test Case
+      </button>
+      <button mat-raised-button routerLink="/users">
+        <mat-icon>person_add</mat-icon>
+        Add User
+      </button>
+      <button mat-raised-button routerLink="/organizations">
+        <mat-icon>add_business</mat-icon>
+        Add Organization
+      </button>
+      <button mat-raised-button routerLink="/code-tables">
+        <mat-icon>settings</mat-icon>
+        Manage Code Tables
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+<!-- Overlay -->
+@if (isOpen) {
+  <div class="overlay" (click)="onClose()"></div>
+}
+
+<!-- Sidebar -->
+<div class="sidebar" [class.open]="isOpen">
+  <div class="sidebar-header">
+    <input type="text" class="search-input" placeholder="Search..." />
+  </div>
+
+  <div class="sidebar-content">
+    @for (section of menuSections; track section.title) {
+      <div class="section">
+        <div class="section-title" (click)="toggleSection(section.title)">
+          <span class="expand-icon">{{ isSectionExpanded(section.title) ? '▼' : '▶' }}</span>
+          <span>{{ section.title }}</span>
+        </div>
+
+        @if (isSectionExpanded(section.title)) {
+          <div class="section-items">
+            @for (item of section.items; track item.label) {
+              @if (item.collapsible) {
+                <!-- Collapsible item with subitems -->
+                <div>
+                  <div class="collapsible-item" (click)="toggleSection(item.label)">
+                    <span class="expand-icon-small">{{ isSectionExpanded(item.label) ? '▼' : '▶' }}</span>
+                    <span>{{ item.label }}</span>
+                  </div>
+
+                  @if (isSectionExpanded(item.label) && item.subitems) {
+                    <div class="subitems">
+                      @for (subitem of item.subitems; track subitem.path) {
+                        <a
+                          [routerLink]="subitem.path"
+                          (click)="onLinkClick()"
+                          class="menu-item submenu-item"
+                          [class.active]="isActiveRoute(subitem.path!)"
+                        >
+                          {{ subitem.label }}
+                        </a>
+                      }
+                    </div>
+                  }
+                </div>
+              } @else {
+                <!-- Regular menu item -->
+                <a
+                  [routerLink]="item.path"
+                  (click)="onLinkClick()"
+                  class="menu-item"
+                  [class.active]="isActiveRoute(item.path!)"
+                >
+                  {{ item.label }}
+                </a>
+              }
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

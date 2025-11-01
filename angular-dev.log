@@ -1,0 +1,2857 @@
+
+> user-management-app-angular@0.0.0 start
+> ng serve
+
+Component HMR has been enabled, see https://angular.dev/hmr for more info.
+❯ Building...
+✔ Building...
+Initial chunk files | Names         |  Raw size
+polyfills.js        | polyfills     |  89.77 kB | 
+main.js             | main          |  61.31 kB | 
+styles.css          | styles        |   8.01 kB | 
+
+                    | Initial total | 159.09 kB
+
+Application bundle generation complete. [1.192 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/app.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/shared/components/header/header.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../../../../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/shared/components/sidebar/sidebar.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../../../../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:2:8:
+[37m      2 │ @import [32m[37m'styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://localhost:4200/
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names | Raw size
+main.js             | main  | 61.04 kB | 
+
+Application bundle generation complete. [0.186 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:2:8:
+[37m      2 │ @import [32m[37m'styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+Page reload sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names | Raw size
+main.js             | main  | 61.22 kB | 
+
+Application bundle generation complete. [0.074 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:2:8:
+[37m      2 │ @import [32m[37m'styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+Page reload sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names |  Raw size
+main.js             | main  | 116.40 kB | 
+
+Application bundle generation complete. [0.440 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:2:8:
+[37m      2 │ @import [32m[37m'styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/app.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/shared/components/header/header.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../../../../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/shared/components/sidebar/sidebar.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../../../../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+Page reload sent to client(s).
+10:45:28 PM [vite] (client) ✨ new dependencies optimized: @angular/material/table, @angular/material/chips, @angular/material/tabs, @angular/material/dialog, @angular/material/select, @angular/material/checkbox
+10:45:28 PM [vite] (client) ✨ optimized dependencies changed. reloading
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names |  Raw size
+main.js             | main  | 186.92 kB | 
+
+Application bundle generation complete. [0.613 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:2:8:
+[37m      2 │ @import [32m[37m'styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/app.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/shared/components/header/header.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../../../../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/shared/components/sidebar/sidebar.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../../../../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+Page reload sent to client(s).
+10:47:45 PM [vite] (client) ✨ new dependencies optimized: @angular/material/datepicker, @angular/material/core
+10:47:45 PM [vite] (client) ✨ optimized dependencies changed. reloading
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.738 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:2:8:
+[37m      2 │ @import [32m[37m'styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/app.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/code-tables/components/code-table-value-form.component.ts:27:76:
+[37m      27 │ ...isEditMode ? 'Edit' : 'Create' }} {{ data.type?.[32mname[37m }} Value</h2>
+         ╵                                                    [32m~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/shared/components/header/header.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../../../../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/shared/components/sidebar/sidebar.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../../../../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2729: Property 'authService' is used before its initialization.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/core/components/main-layout.component.ts:161:21:
+[37m      161 │   currentUser = this.[32mauthService[37m.currentUser;
+          ╵                      [32m~~~~~~~~~~~[0m
+
+  'authService' is declared here.
+
+    src/app/core/components/main-layout.component.ts:163:14:
+[37m      163 │   constructor([32mprivate authService: AuthService[37m) {}
+          ╵               [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.334 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:2:8:
+[37m      2 │ @import [32m[37m'styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/code-tables/components/code-table-value-form.component.ts:27:76:
+[37m      27 │ ...isEditMode ? 'Edit' : 'Create' }} {{ data.type?.[32mname[37m }} Value</h2>
+         ╵                                                    [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2729: Property 'authService' is used before its initialization.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/core/components/main-layout.component.ts:161:21:
+[37m      161 │   currentUser = this.[32mauthService[37m.currentUser;
+          ╵                      [32m~~~~~~~~~~~[0m
+
+  'authService' is declared here.
+
+    src/app/core/components/main-layout.component.ts:163:14:
+[37m      163 │   constructor([32mprivate authService: AuthService[37m) {}
+          ╵               [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2729: Property 'authService' is used before its initialization.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/dashboard/home/home.component.ts:28:21:
+[37m      28 │   currentUser = this.[32mauthService[37m.currentUser;
+         ╵                      [32m~~~~~~~~~~~[0m
+
+  'authService' is declared here.
+
+    src/app/features/dashboard/home/home.component.ts:40:4:
+[37m      40 │     [32mprivate authService: AuthService[37m,
+         ╵     [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.215 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:2:8:
+[37m      2 │ @import [32m[37m'styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/code-tables/components/code-table-value-form.component.ts:27:76:
+[37m      27 │ ...isEditMode ? 'Edit' : 'Create' }} {{ data.type?.[32mname[37m }} Value</h2>
+         ╵                                                    [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2729: Property 'authService' is used before its initialization.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/core/components/main-layout.component.ts:161:21:
+[37m      161 │   currentUser = this.[32mauthService[37m.currentUser;
+          ╵                      [32m~~~~~~~~~~~[0m
+
+  'authService' is declared here.
+
+    src/app/core/components/main-layout.component.ts:163:14:
+[37m      163 │   constructor([32mprivate authService: AuthService[37m) {}
+          ╵               [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2729: Property 'authService' is used before its initialization.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/dashboard/home/home.component.ts:28:21:
+[37m      28 │   currentUser = this.[32mauthService[37m.currentUser;
+         ╵                      [32m~~~~~~~~~~~[0m
+
+  'authService' is declared here.
+
+    src/app/features/dashboard/home/home.component.ts:40:4:
+[37m      40 │     [32mprivate authService: AuthService[37m,
+         ╵     [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.172 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:2:8:
+[37m      2 │ @import [32m[37m'styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/code-tables/components/code-table-value-form.component.ts:27:76:
+[37m      27 │ ...isEditMode ? 'Edit' : 'Create' }} {{ data.type?.[32mname[37m }} Value</h2>
+         ╵                                                    [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2729: Property 'authService' is used before its initialization.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/core/components/main-layout.component.ts:161:21:
+[37m      161 │   currentUser = this.[32mauthService[37m.currentUser;
+          ╵                      [32m~~~~~~~~~~~[0m
+
+  'authService' is declared here.
+
+    src/app/core/components/main-layout.component.ts:163:14:
+[37m      163 │   constructor([32mprivate authService: AuthService[37m) {}
+          ╵               [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2729: Property 'authService' is used before its initialization.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/dashboard/home/home.component.ts:28:21:
+[37m      28 │   currentUser = this.[32mauthService[37m.currentUser;
+         ╵                      [32m~~~~~~~~~~~[0m
+
+  'authService' is declared here.
+
+    src/app/features/dashboard/home/home.component.ts:40:4:
+[37m      40 │     [32mprivate authService: AuthService[37m,
+         ╵     [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names         |  Raw size
+main.js             | main          | 318.16 kB | 
+polyfills.js        | polyfills     |  89.77 kB | 
+styles.css          | styles        |   8.01 kB | 
+
+                    | Initial total | 415.94 kB
+
+Application bundle generation complete. [0.275 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:2:8:
+[37m      2 │ @import [32m[37m'styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+Page reload sent to client(s).
+10:56:01 PM [vite] (client) ✨ new dependencies optimized: @angular/material/sidenav, @angular/material/toolbar, @angular/material/list
+10:56:01 PM [vite] (client) ✨ optimized dependencies changed. reloading
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names |  Raw size
+main.js             | main  | 318.31 kB | 
+
+Application bundle generation complete. [0.244 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:2:8:
+[37m      2 │ @import [32m[37m'styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+Page reload sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.633 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:24:8:
+[37m      24 │ @import [32m[37m'styles/theme.scss';
+         ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mUndefined function.
+  ╷
+8 │ $my-primary: mat.define-palette(mat.$indigo-palette);
+  │              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+  src/styles.scss 8:14  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.191 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:24:8:
+[37m      24 │ @import [32m[37m'styles/theme.scss';
+         ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mUndefined function.
+  ╷
+8 │ $my-primary: mat.define-palette(mat.$indigo-palette);
+  │              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+  src/styles.scss 8:14  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.403 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:24:8:
+[37m      24 │ @import [32m[37m'styles/theme.scss';
+         ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mUndefined function.
+  ╷
+8 │ $my-primary: mat.define-palette(mat.$indigo-palette);
+  │              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+  src/styles.scss 8:14  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.334 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:24:8:
+[37m      24 │ @import [32m[37m'styles/theme.scss';
+         ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mUndefined function.
+  ╷
+8 │ $my-primary: mat.define-palette(mat.$indigo-palette);
+  │              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+  src/styles.scss 8:14  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.168 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:24:8:
+[37m      24 │ @import [32m[37m'styles/theme.scss';
+         ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mUndefined function.
+  ╷
+8 │ $my-primary: mat.define-palette(mat.$indigo-palette);
+  │              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+  src/styles.scss 8:14  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.353 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:24:8:
+[37m      24 │ @import [32m[37m'styles/theme.scss';
+         ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mUndefined function.
+  ╷
+8 │ $my-primary: mat.define-palette(mat.$indigo-palette);
+  │              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+  src/styles.scss 8:14  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.231 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:24:8:
+[37m      24 │ @import [32m[37m'styles/theme.scss';
+         ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mUndefined function.
+  ╷
+8 │ $my-primary: mat.define-palette(mat.$indigo-palette);
+  │              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+  src/styles.scss 8:14  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.223 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:24:8:
+[37m      24 │ @import [32m[37m'styles/theme.scss';
+         ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mUndefined function.
+  ╷
+8 │ $my-primary: mat.define-palette(mat.$indigo-palette);
+  │              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+  src/styles.scss 8:14  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.204 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:24:8:
+[37m      24 │ @import [32m[37m'styles/theme.scss';
+         ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mUndefined function.
+  ╷
+8 │ $my-primary: mat.define-palette(mat.$indigo-palette);
+  │              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+  src/styles.scss 8:14  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.991 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:24:8:
+[37m      24 │ @import [32m[37m'styles/theme.scss';
+         ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/app.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/shared/components/header/header.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../../../../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/shared/components/sidebar/sidebar.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../../../../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mUndefined function.
+  ╷
+8 │ $my-primary: mat.define-palette(mat.$indigo-palette);
+  │              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+  src/styles.scss 8:14  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:53:78:
+[37m      53 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:29:
+[37m      54 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:49:
+[37m      54 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:183:46:
+[37m      183 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:60:78:
+[37m      60 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:29:
+[37m      61 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:49:
+[37m      61 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:279:46:
+[37m      279 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.344 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/styles.scss:24:8:
+[37m      24 │ @import [32m[37m'styles/theme.scss';
+         ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+  The plugin "angular-sass" was triggered by this import
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mUndefined function.
+  ╷
+8 │ $my-primary: mat.define-palette(mat.$indigo-palette);
+  │              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+  src/styles.scss 8:14  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:53:78:
+[37m      53 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:29:
+[37m      54 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:49:
+[37m      54 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:183:46:
+[37m      183 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:60:78:
+[37m      60 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:29:
+[37m      61 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:49:
+[37m      61 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:279:46:
+[37m      279 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.647 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mUndefined function.
+  ╷
+9 │ $my-primary: mat.define-palette(mat.$indigo-palette);
+  │              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+  src/styles.scss 9:14  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:53:78:
+[37m      53 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:29:
+[37m      54 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:49:
+[37m      54 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:183:46:
+[37m      183 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:60:78:
+[37m      60 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:29:
+[37m      61 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:49:
+[37m      61 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:279:46:
+[37m      279 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.488 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mUndefined function.
+  ╷
+9 │ $my-primary: mat.define-palette(mat.$indigo-palette);
+  │              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ╵
+  src/styles.scss 9:14  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:53:78:
+[37m      53 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:29:
+[37m      54 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:49:
+[37m      54 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:183:46:
+[37m      183 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:60:78:
+[37m      60 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:29:
+[37m      61 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:49:
+[37m      61 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:279:46:
+[37m      279 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.015 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mThere is no module with the namespace "theme".
+   ╷
+14 │   font-family: theme.$font-family;
+   │                ^^^^^^^^^^^^^^^^^^
+   ╵
+  src/styles.scss 14:16  root stylesheet[0m [1m[35m[plugin angular-sass][0m
+
+    angular:styles/global:styles:2:8:
+[37m      2 │ @import [32m'src/styles.scss'[37m;
+        ╵         [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:53:78:
+[37m      53 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:29:
+[37m      54 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:49:
+[37m      54 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:183:46:
+[37m      183 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:60:78:
+[37m      60 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:29:
+[37m      61 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:49:
+[37m      61 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:279:46:
+[37m      279 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.020 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:53:78:
+[37m      53 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:29:
+[37m      54 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:49:
+[37m      54 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:183:46:
+[37m      183 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:60:78:
+[37m      60 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:29:
+[37m      61 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:49:
+[37m      61 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:279:46:
+[37m      279 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.242 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:53:78:
+[37m      53 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:29:
+[37m      54 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:49:
+[37m      54 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:183:46:
+[37m      183 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:60:78:
+[37m      60 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:29:
+[37m      61 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:49:
+[37m      61 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:279:46:
+[37m      279 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.192 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:53:78:
+[37m      53 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:29:
+[37m      54 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:49:
+[37m      54 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:183:46:
+[37m      183 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:60:78:
+[37m      60 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:29:
+[37m      61 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:49:
+[37m      61 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:279:46:
+[37m      279 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [1.027 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/app.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/shared/components/header/header.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../../../../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/shared/components/sidebar/sidebar.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../../../../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'getCurrentProject' does not exist on type 'ProjectsService'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/component-tiles/components/component-tiles.component.ts:122:36:
+[37m      122 │       project: this.projectsService.[32mgetCurrentProject[37m(),
+          ╵                                     [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2554: Expected 0 arguments, but got 1.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/component-tiles/components/component-tiles.component.ts:130:43:
+[37m      130 │ ...rvice.getTestCases([32m{ project_id: result.project.id }[37m).subscribe({
+          ╵                       [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2769: No overload matches this call.
+  Overload 1 of 2, '(observerOrNext?: Partial<Observer<unknown>> | ((value: unknown) => void) | undefined): Subscription', gave the following error.
+    Type '(issues: any[]) => void' is not assignable to type '(value: unknown) => void'.
+      Types of parameters 'issues' and 'value' are incompatible.
+        Type 'unknown' is not assignable to type 'any[]'.
+  Overload 2 of 2, '(next?: ((value: unknown) => void) | null | undefined, error?: ((error: any) => void) | null | undefined, complete?: (() => void) | null | undefined): Subscription', gave the following error.
+    Object literal may only specify known properties, and 'next' does not exist in type '(value: unknown) => void'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/jira-issues/components/jira-issues.component.ts:132:6:
+[37m      132 │       [32mnext[37m: (issues: any[]) => {
+          ╵       [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:53:78:
+[37m      53 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:29:
+[37m      54 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:49:
+[37m      54 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:183:46:
+[37m      183 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:60:78:
+[37m      60 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:29:
+[37m      61 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:49:
+[37m      61 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:279:46:
+[37m      279 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.383 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'getCurrentProject' does not exist on type 'ProjectsService'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/component-tiles/components/component-tiles.component.ts:122:36:
+[37m      122 │       project: this.projectsService.[32mgetCurrentProject[37m(),
+          ╵                                     [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2554: Expected 0 arguments, but got 1.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/component-tiles/components/component-tiles.component.ts:130:43:
+[37m      130 │ ...rvice.getTestCases([32m{ project_id: result.project.id }[37m).subscribe({
+          ╵                       [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2769: No overload matches this call.
+  Overload 1 of 2, '(observerOrNext?: Partial<Observer<unknown>> | ((value: unknown) => void) | undefined): Subscription', gave the following error.
+    Type '(issues: any[]) => void' is not assignable to type '(value: unknown) => void'.
+      Types of parameters 'issues' and 'value' are incompatible.
+        Type 'unknown' is not assignable to type 'any[]'.
+  Overload 2 of 2, '(next?: ((value: unknown) => void) | null | undefined, error?: ((error: any) => void) | null | undefined, complete?: (() => void) | null | undefined): Subscription', gave the following error.
+    Object literal may only specify known properties, and 'next' does not exist in type '(value: unknown) => void'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/jira-issues/components/jira-issues.component.ts:132:6:
+[37m      132 │       [32mnext[37m: (issues: any[]) => {
+          ╵       [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:53:78:
+[37m      53 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:29:
+[37m      54 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:49:
+[37m      54 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:183:46:
+[37m      183 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:60:78:
+[37m      60 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:29:
+[37m      61 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:49:
+[37m      61 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:279:46:
+[37m      279 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.278 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'getCurrentProject' does not exist on type 'ProjectsService'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/component-tiles/components/component-tiles.component.ts:122:36:
+[37m      122 │       project: this.projectsService.[32mgetCurrentProject[37m(),
+          ╵                                     [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2554: Expected 0 arguments, but got 1.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/component-tiles/components/component-tiles.component.ts:130:43:
+[37m      130 │ ...rvice.getTestCases([32m{ project_id: result.project.id }[37m).subscribe({
+          ╵                       [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2769: No overload matches this call.
+  Overload 1 of 2, '(observerOrNext?: Partial<Observer<unknown>> | ((value: unknown) => void) | undefined): Subscription', gave the following error.
+    Type '(issues: any[]) => void' is not assignable to type '(value: unknown) => void'.
+      Types of parameters 'issues' and 'value' are incompatible.
+        Type 'unknown' is not assignable to type 'any[]'.
+  Overload 2 of 2, '(next?: ((value: unknown) => void) | null | undefined, error?: ((error: any) => void) | null | undefined, complete?: (() => void) | null | undefined): Subscription', gave the following error.
+    Object literal may only specify known properties, and 'next' does not exist in type '(value: unknown) => void'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/jira-issues/components/jira-issues.component.ts:132:6:
+[37m      132 │       [32mnext[37m: (issues: any[]) => {
+          ╵       [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:53:78:
+[37m      53 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:29:
+[37m      54 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:49:
+[37m      54 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:183:46:
+[37m      183 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:60:78:
+[37m      60 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:29:
+[37m      61 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:49:
+[37m      61 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:279:46:
+[37m      279 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.259 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'getCurrentProject' does not exist on type 'ProjectsService'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/component-tiles/components/component-tiles.component.ts:122:36:
+[37m      122 │       project: this.projectsService.[32mgetCurrentProject[37m(),
+          ╵                                     [32m~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2554: Expected 0 arguments, but got 1.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/component-tiles/components/component-tiles.component.ts:130:43:
+[37m      130 │ ...rvice.getTestCases([32m{ project_id: result.project.id }[37m).subscribe({
+          ╵                       [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2769: No overload matches this call.
+  Overload 1 of 2, '(observerOrNext?: Partial<Observer<unknown>> | ((value: unknown) => void) | undefined): Subscription', gave the following error.
+    Type '(issues: any[]) => void' is not assignable to type '(value: unknown) => void'.
+      Types of parameters 'issues' and 'value' are incompatible.
+        Type 'unknown' is not assignable to type 'any[]'.
+  Overload 2 of 2, '(next?: ((value: unknown) => void) | null | undefined, error?: ((error: any) => void) | null | undefined, complete?: (() => void) | null | undefined): Subscription', gave the following error.
+    Object literal may only specify known properties, and 'next' does not exist in type '(value: unknown) => void'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/jira-issues/components/jira-issues.component.ts:132:6:
+[37m      132 │       [32mnext[37m: (issues: any[]) => {
+          ╵       [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:53:78:
+[37m      53 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:29:
+[37m      54 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:49:
+[37m      54 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:183:46:
+[37m      183 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:60:78:
+[37m      60 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:29:
+[37m      61 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:49:
+[37m      61 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:279:46:
+[37m      279 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.199 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2769: No overload matches this call.
+  Overload 1 of 2, '(observerOrNext?: Partial<Observer<unknown>> | ((value: unknown) => void) | undefined): Subscription', gave the following error.
+    Type '(issues: any[]) => void' is not assignable to type '(value: unknown) => void'.
+      Types of parameters 'issues' and 'value' are incompatible.
+        Type 'unknown' is not assignable to type 'any[]'.
+  Overload 2 of 2, '(next?: ((value: unknown) => void) | null | undefined, error?: ((error: any) => void) | null | undefined, complete?: (() => void) | null | undefined): Subscription', gave the following error.
+    Object literal may only specify known properties, and 'next' does not exist in type '(value: unknown) => void'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/jira-issues/components/jira-issues.component.ts:132:6:
+[37m      132 │       [32mnext[37m: (issues: any[]) => {
+          ╵       [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:53:78:
+[37m      53 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:29:
+[37m      54 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:49:
+[37m      54 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:183:46:
+[37m      183 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:60:78:
+[37m      60 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:29:
+[37m      61 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:49:
+[37m      61 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:279:46:
+[37m      279 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.227 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:53:78:
+[37m      53 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:29:
+[37m      54 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:54:49:
+[37m      54 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:183:46:
+[37m      183 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:60:78:
+[37m      60 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:29:
+[37m      61 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:49:
+[37m      61 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:279:46:
+[37m      279 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.217 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/release-highlights/components/release-highlights.component.ts:183:46:
+[37m      183 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:60:78:
+[37m      60 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:29:
+[37m      61 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:49:
+[37m      61 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:279:46:
+[37m      279 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.237 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:60:78:
+[37m      60 │ ...at-option *ngFor="let release of releases" [value]="release.[32mcode[37m">
+         ╵                                                                [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'name' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:29:
+[37m      61 │                   {{ release.[32mname[37m }} ({{ release.code }})
+         ╵                              [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:61:49:
+[37m      61 │                   {{ release.name }} ({{ release.[32mcode[37m }})
+         ╵                                                  [32m~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:279:46:
+[37m      279 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.235 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'code' does not exist on type 'Release'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/workbench/components/workbench.component.ts:279:46:
+[37m      279 │           this.formData.release = releases[0].[32mcode[37m || '';
+          ╵                                               [32m~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names         |  Raw size
+main.js             | main          | 827.06 kB | 
+styles.css          | styles        | 103.44 kB | 
+polyfills.js        | polyfills     |  89.77 kB | 
+
+                    | Initial total |   1.02 MB
+
+Application bundle generation complete. [0.269 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+Page reload sent to client(s).
+11:32:27 PM [vite] (client) ✨ new dependencies optimized: @angular/material/expansion, @angular/material/button-toggle, @angular/material/progress-bar
+11:32:27 PM [vite] (client) ✨ optimized dependencies changed. reloading
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names |  Raw size
+main.js             | main  | 855.90 kB | 
+
+Application bundle generation complete. [0.851 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/app.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/shared/components/header/header.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../../../../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/shared/components/sidebar/sidebar.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../../../../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+Page reload sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.239 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/app.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'showLayout' does not exist on type 'AppComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.html:2:5:
+[37m      2 │ @if ([32mshowLayout[37m) {
+        ╵      [32m~~~~~~~~~~[0m
+
+  Error occurs in the template of component AppComponent.
+
+    src/app/app.component.ts:8:15:
+[37m      8 │   templateUrl: [32m'./app.component.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG8001: 'app-header' is not a known element:
+1. If 'app-header' is an Angular component, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-header' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.html:3:2:
+[37m      3 │   [32m<app-header (menuClick)="toggleSidebar()">[37m</app-header>
+        ╵   [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component AppComponent.
+
+    src/app/app.component.ts:8:15:
+[37m      8 │   templateUrl: [32m'./app.component.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'toggleSidebar' does not exist on type 'AppComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.html:3:27:
+[37m      3 │   <app-header (menuClick)="[32mtoggleSidebar[37m()"></app-header>
+        ╵                            [32m~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component AppComponent.
+
+    src/app/app.component.ts:8:15:
+[37m      8 │   templateUrl: [32m'./app.component.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG8001: 'app-sidebar' is not a known element:
+1. If 'app-sidebar' is an Angular component, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-sidebar' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.html:4:2:
+[37m      4 │   [32m<app-sidebar [isOpen]="sidebarOpen" (close)="closeSidebar()">[37m</ap...
+        ╵   [32m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component AppComponent.
+
+    src/app/app.component.ts:8:15:
+[37m      8 │   templateUrl: [32m'./app.component.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG8002: Can't bind to 'isOpen' since it isn't a known property of 'app-sidebar'.
+1. If 'app-sidebar' is an Angular component and it has 'isOpen' input, then verify that it is included in the '@Component.imports' of this component.
+2. If 'app-sidebar' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@Component.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@Component.schemas' of this component.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.html:4:15:
+[37m      4 │   <app-sidebar [32m[isOpen]="sidebarOpen"[37m (close)="closeSidebar()"></ap...
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component AppComponent.
+
+    src/app/app.component.ts:8:15:
+[37m      8 │   templateUrl: [32m'./app.component.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'sidebarOpen' does not exist on type 'AppComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.html:4:25:
+[37m      4 │   <app-sidebar [isOpen]="[32msidebarOpen[37m" (close)="closeSidebar()"></ap...
+        ╵                          [32m~~~~~~~~~~~[0m
+
+  Error occurs in the template of component AppComponent.
+
+    src/app/app.component.ts:8:15:
+[37m      8 │   templateUrl: [32m'./app.component.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'closeSidebar' does not exist on type 'AppComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.html:4:47:
+[37m      4 │ ...ebar [isOpen]="sidebarOpen" (close)="[32mcloseSidebar[37m()"></app-sidebar>
+        ╵                                         [32m~~~~~~~~~~~~[0m
+
+  Error occurs in the template of component AppComponent.
+
+    src/app/app.component.ts:8:15:
+[37m      8 │   templateUrl: [32m'./app.component.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mNG9: Property 'showLayout' does not exist on type 'AppComponent'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/app.component.html:7:27:
+[37m      7 │ <main [class.with-header]="[32mshowLayout[37m">
+        ╵                            [32m~~~~~~~~~~[0m
+
+  Error occurs in the template of component AppComponent.
+
+    src/app/app.component.ts:8:15:
+[37m      8 │   templateUrl: [32m'./app.component.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names         |  Raw size
+main.js             | main          | 817.46 kB | 
+styles.css          | styles        | 103.44 kB | 
+polyfills.js        | polyfills     |  89.77 kB | 
+
+                    | Initial total |   1.01 MB
+
+Application bundle generation complete. [0.166 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/app.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+Page reload sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.848 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mDeprecation[0m [1m[35m[plugin angular-sass][0m
+
+    src/app/app.component.scss:1:8:
+[37m      1 │ @import [32m[37m'../styles/theme.scss';
+        ╵         [32m^[0m
+
+
+  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
+  
+  More info and automated migrator: [4mhttps://sass-lang.com/d/import[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'deleteEdition' does not exist on type 'EditionsService'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/editions/components/editions-list.component.ts:236:27:
+[37m      236 │       this.editionsService.[32mdeleteEdition[37m(edition.id).subscribe({
+          ╵                            [32m~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS7006: Parameter 'err' implicitly has an 'any' type.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/editions/components/editions-list.component.ts:241:16:
+[37m      241 │         error: ([32merr[37m) => {
+          ╵                 [32m~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names         |  Raw size
+main.js             | main          | 828.54 kB | 
+styles.css          | styles        | 103.44 kB | 
+polyfills.js        | polyfills     |  89.77 kB | 
+
+                    | Initial total |   1.02 MB
+
+Application bundle generation complete. [0.157 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+Page reload sent to client(s).
+12:50:16 AM [vite] (client) ✨ new dependencies optimized: @angular/material/snack-bar
+12:50:16 AM [vite] (client) ✨ optimized dependencies changed. reloading
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names |  Raw size
+main.js             | main  | 828.87 kB | 
+
+Application bundle generation complete. [0.248 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+Page reload sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names |  Raw size
+main.js             | main  | 828.87 kB | 
+
+Application bundle generation complete. [0.342 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+Page reload sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names |  Raw size
+main.js             | main  | 843.63 kB | 
+
+Application bundle generation complete. [0.251 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+Page reload sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names |  Raw size
+main.js             | main  | 843.63 kB | 
+
+Application bundle generation complete. [0.287 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+Page reload sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names |  Raw size
+main.js             | main  | 849.63 kB | 
+
+Application bundle generation complete. [0.264 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+Page reload sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names |  Raw size
+main.js             | main  | 849.65 kB | 
+
+Application bundle generation complete. [0.159 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+Page reload sent to client(s).
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+
+No output file changes.
+
+Application bundle generation complete. [0.168 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Application bundle generation failed. [0.157 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2740: Type 'SyncResponse' is missing the following properties from type 'Edition[]': length, pop, push, concat, and 29 more.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/editions/components/editions-list.component.ts:218:8:
+[37m      218 │         [32mthis.editions[37m = editions;
+          ╵         [32m~~~~~~~~~~~~~[0m
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'length' does not exist on type 'SyncResponse'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/editions/components/editions-list.component.ts:220:59:
+[37m      220 │ ...cessfully synced ${editions.[32mlength[37m} editions from Trakintel!`,...
+          ╵                                [32m~~~~~~[0m
+
+
+❯ Changes detected. Rebuilding...
+✔ Changes detected. Rebuilding...
+Initial chunk files | Names         |  Raw size
+main.js             | main          | 850.10 kB | 
+styles.css          | styles        | 103.44 kB | 
+polyfills.js        | polyfills     |  89.77 kB | 
+
+                    | Initial total |   1.04 MB
+
+Application bundle generation complete. [0.205 seconds]
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:61:
+[37m      65 │ ...essages">{{ advice.messages?.[32mlength[37m || 0 }} message{{ advice.me...
+         ╵                                 [32m~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/features/advice/components/advice-list.component.ts:65:103:
+[37m      65 │ ...| 0 }} message{{ advice.messages?.[32mlength[37m !== 1 ? 's' : '' }}</div>
+         ╵                                      [32m~~~~~~[0m
+
+
+Page reload sent to client(s).
