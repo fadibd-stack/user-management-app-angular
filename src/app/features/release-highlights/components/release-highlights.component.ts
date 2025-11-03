@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -123,7 +124,7 @@ import { Edition } from '../../editions/models/edition.model';
           </button>
         </div>
 
-        <div *ngIf="formData.format === 'html'" class="html-content" [innerHTML]="highlights"></div>
+        <div *ngIf="formData.format === 'html'" class="html-content" [innerHTML]="sanitizedHighlights"></div>
         <div *ngIf="formData.format === 'json'" class="json-content">{{ highlights | json }}</div>
       </mat-card>
     </div>
@@ -167,7 +168,8 @@ export class ReleaseHighlightsComponent implements OnInit {
   constructor(
     private highlightsService: ReleaseHighlightsService,
     private releasesService: ReleasesService,
-    private editionsService: EditionsService
+    private editionsService: EditionsService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -237,5 +239,13 @@ export class ReleaseHighlightsComponent implements OnInit {
   copyToClipboard(): void {
     navigator.clipboard.writeText(JSON.stringify(this.highlights, null, 2));
     alert('Copied to clipboard!');
+  }
+
+  get sanitizedHighlights(): SafeHtml {
+    if (!this.highlights) {
+      return '';
+    }
+    // Sanitize HTML to prevent XSS attacks
+    return this.sanitizer.sanitize(1, this.highlights) || '';
   }
 }

@@ -41,6 +41,9 @@ import { HttpClient } from '@angular/common/http';
           <mat-error *ngIf="passwordForm.get('newPassword')?.hasError('minlength')">
             Password must be at least 8 characters
           </mat-error>
+          <mat-error *ngIf="passwordForm.get('newPassword')?.hasError('weakPassword')">
+            Password must contain uppercase, lowercase, and numbers
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
@@ -92,9 +95,24 @@ export class ChangePasswordDialogComponent {
   ) {
     this.passwordForm = this.fb.group({
       currentPassword: ['', Validators.required],
-      newPassword: ['', [Validators.required, Validators.minLength(8)]],
+      newPassword: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator]],
       confirmPassword: ['', Validators.required]
     }, { validators: this.passwordMatchValidator });
+  }
+
+  passwordStrengthValidator(control: any) {
+    const value = control.value;
+    if (!value) {
+      return null;
+    }
+
+    const hasUpperCase = /[A-Z]/.test(value);
+    const hasLowerCase = /[a-z]/.test(value);
+    const hasNumeric = /[0-9]/.test(value);
+
+    const passwordValid = hasUpperCase && hasLowerCase && hasNumeric;
+
+    return passwordValid ? null : { weakPassword: true };
   }
 
   passwordMatchValidator(form: FormGroup) {
@@ -116,7 +134,7 @@ export class ChangePasswordDialogComponent {
       this.saving = true;
       const { currentPassword, newPassword } = this.passwordForm.value;
 
-      this.http.put(`http://localhost:8000/users/me/password`, {
+      this.http.put(`http://localhost:8000/api/users/me/password`, {
         current_password: currentPassword,
         new_password: newPassword
       }).subscribe({

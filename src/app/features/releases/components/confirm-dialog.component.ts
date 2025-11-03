@@ -10,7 +10,7 @@ export interface ConfirmDialogData {
 }
 
 @Component({
-  selector: 'app-confirm-dialog',
+  selector: 'app-releases-confirm-dialog',
   standalone: true,
   imports: [MatDialogModule, MatButtonModule],
   template: `

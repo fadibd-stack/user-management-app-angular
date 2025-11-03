@@ -52,7 +52,7 @@ import { CodeTableValueFormComponent } from './code-table-value-form.component';
       </div>
 
       <mat-card *ngIf="loading" class="loading-card">
-        <mat-spinner></mat-spinner>
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       </mat-card>
 
       <mat-card *ngIf="!loading && selectedType" class="table-card">
@@ -165,7 +165,7 @@ export class CodeTablesListComponent implements OnInit {
   types: CodeTableType[] = [];
   values: CodeTableValue[] = [];
   selectedType: string = '';
-  loading = false;
+  loading = true;
   displayedColumns: string[] = ['display_order', 'code', 'name', 'description', 'color', 'is_default', 'is_active', 'actions'];
 
   constructor(

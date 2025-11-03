@@ -1,12 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UsersService } from '../services/users.service';
 import { OrganizationsService } from '../../organizations/services/organizations.service';
@@ -44,12 +45,14 @@ const COMMON_TIMEZONES: Timezone[] = [
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatRadioModule,
     MatProgressSpinnerModule
   ],
   template: `
@@ -57,6 +60,13 @@ const COMMON_TIMEZONES: Timezone[] = [
 
     <mat-dialog-content>
       <form [formGroup]="userForm" class="user-form">
+        <!-- User Type Selection (only for create mode) -->
+        <div *ngIf="!isEditMode" class="user-type-section">
+          <mat-radio-group [(ngModel)]="userType" [ngModelOptions]="{standalone: true}" (change)="onUserTypeChange()" class="user-type-radio-group">
+            <mat-radio-button value="customer" class="user-type-radio">Customer</mat-radio-button>
+            <mat-radio-button value="intersystems" class="user-type-radio">InterSystems Employee</mat-radio-button>
+          </mat-radio-group>
+        </div>
         <!-- Username -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Username *</mat-label>
@@ -66,8 +76,8 @@ const COMMON_TIMEZONES: Timezone[] = [
           </mat-error>
         </mat-form-field>
 
-        <!-- Organization (only for superusers) -->
-        <mat-form-field *ngIf="isSuperuser" appearance="outline" class="full-width">
+        <!-- Organization (only for customers and superusers) -->
+        <mat-form-field *ngIf="isSuperuser && (isEditMode || userType === 'customer')" appearance="outline" class="full-width">
           <mat-label>Organization</mat-label>
           <mat-select formControlName="organization_id">
             <mat-option [value]="null">-- Select Organization (Optional for Superusers) --</mat-option>
@@ -190,6 +200,14 @@ const COMMON_TIMEZONES: Timezone[] = [
           Active User
         </mat-checkbox>
 
+        <!-- Classic Menu Preference -->
+        <div class="full-width" style="margin-top: 8px;">
+          <mat-checkbox formControlName="use_classic_menu">
+            Use Classic Menu
+          </mat-checkbox>
+          <div class="menu-hint">Enable simple list menu style instead of collapsible groups</div>
+        </div>
+
         <p *ngIf="error" class="error-message">{{ error }}</p>
       </form>
     </mat-dialog-content>
@@ -205,7 +223,7 @@ const COMMON_TIMEZONES: Timezone[] = [
   styles: [`
     .full-width {
       width: 100%;
-      margin-bottom: 16px;
+      margin-bottom: 4px;
     }
 
     .user-form {
@@ -213,10 +231,11 @@ const COMMON_TIMEZONES: Timezone[] = [
     }
 
     mat-dialog-content {
-      min-height: 400px;
-      max-height: 70vh;
+      min-height: 500px;
+      max-height: 75vh;
       overflow-y: auto;
       padding: 24px;
+      padding-bottom: 40px;
     }
 
     .error-message {
@@ -239,6 +258,32 @@ const COMMON_TIMEZONES: Timezone[] = [
       display: inline-block;
       margin-right: 8px;
     }
+
+    .menu-hint {
+      display: block;
+      margin-top: -8px;
+      margin-bottom: 16px;
+      margin-left: 32px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .user-type-section {
+      margin-bottom: 16px;
+      padding: 8px 12px;
+      background-color: #f5f5f5;
+      border-radius: 4px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .user-type-radio-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .user-type-radio {
+      flex: 1;
+    }
   `]
 })
 export class UserFormComponent implements OnInit {
@@ -251,6 +296,7 @@ export class UserFormComponent implements OnInit {
   organizations: Organization[] = [];
   timezones = COMMON_TIMEZONES;
   permissionWarning = '';
+  userType: 'customer' | 'intersystems' = 'customer';
 
   constructor(
     private fb: FormBuilder,
@@ -276,7 +322,8 @@ export class UserFormComponent implements OnInit {
       employment_type: ['customer', Validators.required],
       permission_level: ['user', Validators.required],
       organization_id: [null],
-      is_active: [true]
+      is_active: [true],
+      use_classic_menu: [false]
     });
 
     // Listen to permission level and employment type changes for validation
@@ -310,7 +357,8 @@ export class UserFormComponent implements OnInit {
         employment_type: this.data.employment_type,
         permission_level: this.data.permission_level,
         organization_id: this.data.organization_id || null,
-        is_active: this.data.is_active
+        is_active: this.data.is_active,
+        use_classic_menu: this.data.use_classic_menu ?? false
       });
     }
   }
@@ -323,6 +371,20 @@ export class UserFormComponent implements OnInit {
       this.permissionWarning = '⚠️ System Admin permission is restricted to InterSystems staff only';
     } else {
       this.permissionWarning = '';
+    }
+  }
+
+  onUserTypeChange(): void {
+    // Update employment_type based on user type selection
+    this.userForm.patchValue({
+      employment_type: this.userType
+    });
+
+    // If InterSystems employee, clear organization (they don't belong to an org)
+    if (this.userType === 'intersystems') {
+      this.userForm.patchValue({
+        organization_id: null
+      });
     }
   }
 
@@ -340,7 +402,12 @@ export class UserFormComponent implements OnInit {
       const { username, password, ...updateData } = formValue;  // Exclude username and password
 
       this.usersService.updateUser(this.data.id, updateData as UserUpdate).subscribe({
-        next: () => {
+        next: (updatedUser) => {
+          // If the updated user is the current logged-in user, refresh the auth service
+          const currentUser = this.authService.currentUserValue;
+          if (currentUser && this.data && currentUser.id === this.data.id) {
+            this.authService.updateCurrentUser(updatedUser);
+          }
           this.dialogRef.close(true);
         },
         error: (err) => {

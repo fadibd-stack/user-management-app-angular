@@ -1,0 +1,1648 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { AuthService } from '../services/auth.service';
+import { ChangePasswordDialogComponent } from './change-password-dialog.component';
+
+interface MenuItem {
+  path?: string;
+  label: string;
+  icon?: string;
+  collapsible?: boolean;
+  subitems?: MenuItem[];
+  queryParams?: { [key: string]: any };
+}
+
+interface MenuSection {
+  title: string;
+  items: MenuItem[];
+  show?: boolean;
+}
+
+@Component({
+  selector: 'app-main-layout',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatExpansionModule,
+    MatMenuModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatTooltipModule
+  ],
+  styleUrls: ['./main-layout.component.scss'],
+  template: `
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav #sidenav mode="side" [opened]="sidenavOpened" class="sidenav">
+        <div class="logo" [class.logo-collapsed]="!sidenavOpened">
+          <img src="assets/intellicare-logo.svg" alt="IntelliCare" class="logo-image" />
+          <p class="logo-subtitle">Release Assistant</p>
+        </div>
+
+        <div class="menu-search" *ngIf="sidenavOpened">
+          <mat-form-field appearance="outline" class="search-menu-field">
+            <mat-icon matPrefix class="menu-search-icon">search</mat-icon>
+            <input matInput placeholder="Search" [(ngModel)]="menuSearchQuery" (input)="onMenuSearch()" class="menu-search-input">
+            <button mat-icon-button matSuffix *ngIf="menuSearchQuery" (click)="clearMenuSearch()" class="clear-search">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+        </div>
+
+        <mat-nav-list>
+          <!-- Classic Menu Style -->
+          @if (useClassicMenu) {
+            @for (section of filteredMenuSections; track section.title) {
+              <!-- Section Header - Clickable to expand/collapse -->
+              <div class="classic-section-header" (click)="toggleSection(section.title)">
+                <mat-icon class="section-chevron">{{ isSectionExpanded(section.title) ? 'expand_more' : 'chevron_right' }}</mat-icon>
+                <span>{{ section.title }}</span>
+              </div>
+
+              <!-- Section items - shown when section is expanded -->
+              @if (isSectionExpanded(section.title)) {
+                @for (item of section.items; track item.label) {
+                  @if (item.collapsible) {
+                    <!-- Parent item with chevron for expandable menu -->
+                    <div class="classic-menu-item classic-menu-parent" (click)="toggleSubsection(item.label)">
+                      <mat-icon class="chevron-icon">{{ isSubsectionExpanded(item.label) ? 'expand_more' : 'chevron_right' }}</mat-icon>
+                      <span>{{ item.label }}</span>
+                    </div>
+                    <!-- Subitems shown when expanded -->
+                    @if (isSubsectionExpanded(item.label)) {
+                      @for (subitem of item.subitems; track subitem.path) {
+                        @if (subitem.path) {
+                          <span class="classic-menu-item classic-menu-subitem" (click)="navigateToRoute(subitem.path, subitem.queryParams)">
+                            {{ subitem.label }}
+                          </span>
+                        }
+                      }
+                    }
+                  } @else {
+                    <!-- Direct menu item without subitems -->
+                    @if (item.path) {
+                      <span class="classic-menu-item" (click)="navigateToRoute(item.path, item.queryParams)">
+                        {{ item.label }}
+                      </span>
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          <!-- Modern Collapsible Menu Style -->
+          @if (!useClassicMenu) {
+            @for (section of filteredMenuSections; track section.title) {
+              <div class="menu-section">
+                <div class="section-header" (click)="toggleSection(section.title)">
+                  <mat-icon class="expand-icon">{{ isSectionExpanded(section.title) ? 'expand_more' : 'chevron_right' }}</mat-icon>
+                  <span class="section-title">{{ section.title }}</span>
+                </div>
+
+                @if (isSectionExpanded(section.title)) {
+                  <div class="section-items">
+                    @for (item of section.items; track item.label) {
+                      @if (item.collapsible) {
+                        <mat-expansion-panel class="submenu-panel" [expanded]="isSubsectionExpanded(item.label)">
+                          <mat-expansion-panel-header (click)="toggleSubsection(item.label)">
+                            <mat-panel-title>{{ item.label }}</mat-panel-title>
+                          </mat-expansion-panel-header>
+                          @for (subitem of item.subitems; track subitem.path) {
+                            <a mat-list-item [routerLink]="subitem.path" [queryParams]="subitem.queryParams" routerLinkActive="active" class="submenu-item">
+                              <span matListItemTitle>{{ subitem.label }}</span>
+                            </a>
+                          }
+                        </mat-expansion-panel>
+                      } @else {
+                        <a mat-list-item [routerLink]="item.path" routerLinkActive="active">
+                          @if (item.icon) {
+                            <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+                          }
+                          <span matListItemTitle>{{ item.label }}</span>
+                        </a>
+                      }
+                    }
+                  </div>
+                }
+
+                <mat-divider></mat-divider>
+              </div>
+            }
+          }
+
+        </mat-nav-list>
+      </mat-sidenav>
+
+      <mat-sidenav-content>
+        <mat-toolbar color="primary" class="top-toolbar">
+          <div class="left-buttons">
+            <button mat-icon-button (click)="toggleSidenav()" class="toolbar-menu-btn">
+              <mat-icon>menu</mat-icon>
+            </button>
+            <button mat-icon-button routerLink="/" class="toolbar-home-btn">
+              <mat-icon>home</mat-icon>
+            </button>
+          </div>
+
+          <div class="search-container">
+            <mat-form-field appearance="outline" class="search-field">
+              <input matInput placeholder="Search" class="search-input">
+              <mat-icon matSuffix class="search-icon">search</mat-icon>
+            </mat-form-field>
+            <button mat-button class="ai-assistant-btn" (click)="openAIAssistant()">
+              <img src="assets/ai-assistant-icon.svg" alt="AI Assistant" class="ai-icon">
+            </button>
+          </div>
+
+          <div class="user-menu" *ngIf="currentUser">
+            <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
+              <mat-icon>account_circle</mat-icon>
+              <span class="user-name">{{ currentUser.first_name }} {{ currentUser.last_name }}</span>
+              <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
+            </button>
+            <mat-menu #userMenu="matMenu">
+              <div class="user-menu-header">
+                <div class="user-details">
+                  <strong>{{ currentUser.first_name }} {{ currentUser.last_name }}</strong>
+                  <small>{{ currentUser.email }}</small>
+                </div>
+              </div>
+              <mat-divider></mat-divider>
+              <button mat-menu-item [matMenuTriggerFor]="languageMenu">
+                <mat-icon>language</mat-icon>
+                <span>Language: {{ getLanguageLabel(currentUser.language) }}</span>
+              </button>
+              <mat-divider></mat-divider>
+              <div class="user-actions">
+                <button mat-icon-button (click)="lockSession()" matTooltip="Lock Session" class="action-icon-btn">
+                  <mat-icon>lock</mat-icon>
+                </button>
+                <button mat-icon-button (click)="changePassword()" matTooltip="Change Password" class="action-icon-btn">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-raised-button color="primary" (click)="logout()" class="logout-btn">
+                  Logout
+                </button>
+              </div>
+            </mat-menu>
+            <mat-menu #languageMenu="matMenu">
+              <button mat-menu-item (click)="changeLanguage('en')">
+                <mat-icon>{{ currentUser.language === 'en' ? 'check' : '' }}</mat-icon>
+                <span>English</span>
+              </button>
+              <button mat-menu-item (click)="changeLanguage('es')">
+                <mat-icon>{{ currentUser.language === 'es' ? 'check' : '' }}</mat-icon>
+                <span>Español</span>
+              </button>
+              <button mat-menu-item (click)="changeLanguage('fr')">
+                <mat-icon>{{ currentUser.language === 'fr' ? 'check' : '' }}</mat-icon>
+                <span>Français</span>
+              </button>
+              <button mat-menu-item (click)="changeLanguage('de')">
+                <mat-icon>{{ currentUser.language === 'de' ? 'check' : '' }}</mat-icon>
+                <span>Deutsch</span>
+              </button>
+              <button mat-menu-item (click)="changeLanguage('pt')">
+                <mat-icon>{{ currentUser.language === 'pt' ? 'check' : '' }}</mat-icon>
+                <span>Português</span>
+              </button>
+            </mat-menu>
+          </div>
+        </mat-toolbar>
+
+        <div class="content" (click)="onContentClick()">
+          <router-outlet></router-outlet>
+        </div>
+
+        <!-- AI Assistant Chat Panel -->
+        <div class="ai-chat-panel" [class.open]="aiChatOpen">
+          <div class="ai-chat-header">
+            <h3>AI Assistant</h3>
+            <button mat-icon-button (click)="closeAIAssistant()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          <div class="ai-chat-messages">
+            <div *ngFor="let message of aiMessages" class="ai-message" [class.user]="message.isUser">
+              <div class="message-bubble">{{ message.text }}</div>
+            </div>
+          </div>
+          <div class="ai-chat-input">
+            <mat-form-field appearance="outline" class="chat-input-field">
+              <input matInput placeholder="Type your message..." [(ngModel)]="aiInputText" (keyup.enter)="sendAIMessage()">
+              <button mat-icon-button matSuffix (click)="sendAIMessage()" [disabled]="!aiInputText.trim()">
+                <mat-icon>send</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  `,
+  styles: [`
+    .sidenav-container {
+      height: 100vh;
+    }
+
+    .sidenav {
+      width: 280px;
+      background: #f5f5f5;
+      border-right: 1px solid #e0e0e0;
+      overflow-y: auto;
+    }
+
+    .logo {
+      padding: 12px 16px 8px 16px;
+      background: white;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .logo.logo-collapsed {
+      display: none;
+    }
+
+    .logo-image {
+      width: 100%;
+      max-width: 240px;
+      height: auto;
+    }
+
+    .logo-subtitle {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: #333695;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    .menu-search {
+      padding: 8px 12px 6px 12px;
+      background: white;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .search-menu-field {
+      width: 100%;
+      margin: 0;
+      font-size: 13px;
+    }
+
+    .search-menu-field ::ng-deep .mat-mdc-form-field-wrapper {
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    .search-menu-field ::ng-deep .mat-mdc-form-field-infix {
+      padding-top: 2px;
+      padding-bottom: 2px;
+      min-height: 24px;
+    }
+
+    .search-menu-field ::ng-deep .mat-mdc-text-field-wrapper {
+      border: 1px solid #ccc !important;
+      border-radius: 4px;
+      height: 32px;
+    }
+
+    .search-menu-field ::ng-deep .mdc-notched-outline__leading,
+    .search-menu-field ::ng-deep .mdc-notched-outline__notch,
+    .search-menu-field ::ng-deep .mdc-notched-outline__trailing {
+      border-color: #ccc !important;
+      border-width: 1px !important;
+    }
+
+    .search-menu-field ::ng-deep .mat-mdc-form-field-focus-overlay {
+      background-color: transparent;
+    }
+
+    .search-menu-field ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
+
+    .menu-search-input {
+      font-size: 13px;
+      color: #333;
+      line-height: 24px;
+    }
+
+    .search-menu-field ::ng-deep input {
+      transform: translateY(0px);
+    }
+
+    .search-menu-field ::ng-deep .mat-mdc-form-field-text-prefix,
+    .search-menu-field ::ng-deep .mat-mdc-form-field-text-suffix {
+      align-self: center;
+    }
+
+    .menu-search-icon {
+      color: #999;
+      margin-right: 4px;
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .clear-search {
+      width: 28px;
+      height: 28px;
+    }
+
+    .clear-search mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      color: #999;
+    }
+
+    mat-nav-list {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    mat-nav-list ::ng-deep .mat-mdc-list {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    .menu-section {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      cursor: pointer;
+      background: #e8e8e8;
+      transition: background-color 0.2s;
+    }
+
+    .section-header:hover {
+      background: #d8d8d8;
+    }
+
+    .expand-icon {
+      margin-right: 6px;
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #555;
+      letter-spacing: 0.5px;
+    }
+
+    .section-items {
+      background: #fafafa;
+    }
+
+    mat-list-item {
+      cursor: pointer;
+      font-size: 14px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      line-height: 36px !important;
+      overflow: hidden !important;
+      letter-spacing: 0 !important;
+    }
+
+    mat-list-item:hover {
+      background-color: #e0e0e0;
+    }
+
+    mat-list-item ::ng-deep .mat-mdc-list-item-interactive::before {
+      height: 36px !important;
+      top: 0 !important;
+    }
+
+    mat-list-item ::ng-deep .mat-ripple-element {
+      height: 36px !important;
+    }
+
+    mat-list-item ::ng-deep .mdc-list-item__ripple {
+      height: 36px !important;
+    }
+
+    /* Force ALL Material list item elements to 36px */
+    ::ng-deep .mat-mdc-list-item {
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    ::ng-deep .mat-mdc-list-item.mdc-list-item {
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    ::ng-deep a[mat-list-item] {
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      display: block !important;
+    }
+
+    ::ng-deep .mat-mdc-list-item-interactive::before {
+      height: 36px !important;
+    }
+
+    ::ng-deep .mat-mdc-list-item .mat-mdc-list-item-unscoped-content {
+      height: 36px !important;
+      line-height: 36px !important;
+    }
+
+    mat-list-item ::ng-deep .mdc-list-item__content {
+      padding: 0 !important;
+      margin: 0 !important;
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      line-height: 36px !important;
+      display: flex !important;
+      align-items: center !important;
+    }
+
+    mat-list-item ::ng-deep .mat-mdc-list-item-unscoped-content {
+      padding: 0 16px !important;
+      margin: 0 !important;
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      line-height: 36px !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+    }
+
+    mat-list-item ::ng-deep .mat-mdc-list-item-icon {
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 24px !important;
+      min-width: 24px !important;
+      flex-shrink: 0 !important;
+    }
+
+    mat-list-item mat-icon {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      vertical-align: middle !important;
+    }
+
+    mat-list-item ::ng-deep span[matlistitemtitle],
+    mat-list-item ::ng-deep [matlistitemtitle] {
+      line-height: normal !important;
+      display: flex !important;
+      align-items: center !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      letter-spacing: 0 !important;
+      height: 36px !important;
+    }
+
+    mat-list-item ::ng-deep .mat-mdc-list-item {
+      padding: 0 !important;
+      margin: 0 !important;
+      height: 32px !important;
+      min-height: 32px !important;
+      max-height: 32px !important;
+    }
+
+    mat-list-item ::ng-deep a {
+      padding: 0 !important;
+      margin: 0 !important;
+      height: 32px !important;
+      line-height: 32px !important;
+    }
+
+    mat-list-item.active {
+      background-color: #e3f2fd;
+      color: #1976d2;
+    }
+
+    mat-list-item.active mat-icon {
+      color: #1976d2;
+    }
+
+    .submenu-panel {
+      box-shadow: none !important;
+      margin: 0 !important;
+    }
+
+    .submenu-panel ::ng-deep .mat-expansion-panel-header {
+      padding: 0 12px !important;
+      margin: 0 !important;
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      font-size: 13px;
+      line-height: 36px !important;
+    }
+
+    .submenu-panel ::ng-deep .mat-expansion-panel-body {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    .submenu-item {
+      padding-left: 40px !important;
+      margin: 0 !important;
+      font-size: 13px;
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      line-height: 36px !important;
+    }
+
+    .submenu-item ::ng-deep .mdc-list-item__content {
+      padding: 0 !important;
+      margin: 0 !important;
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      line-height: 36px !important;
+    }
+
+    .submenu-item ::ng-deep .mat-mdc-list-item-unscoped-content {
+      padding: 0 40px !important;
+      margin: 0 !important;
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      line-height: 36px !important;
+    }
+
+    // Classic menu section header
+    .classic-section-header {
+      display: flex;
+      align-items: center;
+      padding: 6px 16px 6px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #333;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+      margin-bottom: 2px;
+      height: auto;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.2s ease;
+      background-color: #e0e0e0 !important;
+    }
+
+    .classic-section-header:hover {
+      background-color: #d5d5d5 !important;
+    }
+
+    .classic-section-header:first-child {
+      margin-top: 0;
+    }
+
+    .classic-section-header .section-chevron {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
+      color: #666;
+    }
+
+    // Classic menu item styling
+    .classic-menu-item {
+      display: block !important;
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+      padding-top: 4px !important;
+      padding-bottom: 4px !important;
+      border: none !important;
+      outline: none !important;
+      cursor: pointer;
+      color: #333;
+      margin: 0 !important;
+      font-size: 14px !important;
+      font-weight: 400 !important;
+      line-height: 1.4 !important;
+    }
+
+    .classic-menu-item *,
+    .classic-menu-item *::before,
+    .classic-menu-item *::after {
+      border: none !important;
+      outline: none !important;
+    }
+
+    // Override all Material Design font sizes for classic menu items
+    .classic-menu-item *,
+    .classic-menu-item span {
+      font-size: 13px !important;
+      font-weight: 400 !important;
+    }
+
+    .classic-menu-item:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+      border: none !important;
+      border-left: none !important;
+    }
+
+    .classic-menu-item:focus,
+    .classic-menu-item:focus-visible,
+    .classic-menu-item:focus-within,
+    .classic-menu-item:active,
+    .classic-menu-item:target {
+      outline: none !important;
+      background-color: transparent !important;
+      background: none !important;
+      color: #333 !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+
+    .classic-menu-item:focus span,
+    .classic-menu-item:active span {
+      color: #333 !important;
+    }
+
+    // Remove ALL Material Design ripple, focus, and state effects
+    .classic-menu-item::before,
+    .classic-menu-item::after {
+      display: none !important;
+    }
+
+    .classic-menu-item .mat-mdc-list-item-unscoped-content {
+      color: inherit;
+    }
+
+    .classic-menu-item.active .mat-mdc-list-item-unscoped-content {
+      color: white;
+    }
+
+    // Force remove Material focus indicators
+    ::ng-deep a.classic-menu-item.mat-mdc-list-item,
+    ::ng-deep a.classic-menu-item.mat-mdc-list-item:focus {
+      background: none !important;
+      background-color: transparent !important;
+    }
+
+    ::ng-deep a.classic-menu-item.mat-mdc-list-item:hover {
+      background-color: rgba(0, 0, 0, 0.04) !important;
+    }
+
+    ::ng-deep a.classic-menu-item.mat-mdc-list-item.active {
+      background-color: #233575 !important;
+    }
+
+    ::ng-deep a.classic-menu-item.mat-mdc-list-item .mat-mdc-list-item-unscoped-content::before,
+    ::ng-deep a.classic-menu-item.mat-mdc-list-item .mat-mdc-list-item-unscoped-content::after,
+    ::ng-deep a.classic-menu-item.mat-mdc-list-item .mdc-list-item__ripple {
+      display: none !important;
+      content: none !important;
+      background: none !important;
+    }
+
+    // Ultimate nuclear option - remove ALL backgrounds from classic menu items when focused/clicked
+    ::ng-deep .classic-menu-item[tabindex]:focus,
+    ::ng-deep .classic-menu-item[tabindex]:active {
+      background-color: transparent !important;
+      color: #333 !important;
+    }
+
+    ::ng-deep .classic-menu-item[tabindex]:focus span,
+    ::ng-deep .classic-menu-item[tabindex]:active span {
+      color: #333 !important;
+    }
+
+    ::ng-deep .classic-menu-item.active[tabindex]:focus,
+    ::ng-deep .classic-menu-item.active[tabindex]:active {
+      background-color: #233575 !important;
+      color: white !important;
+    }
+
+    ::ng-deep .classic-menu-item.active[tabindex]:focus span,
+    ::ng-deep .classic-menu-item.active[tabindex]:active span {
+      color: white !important;
+    }
+
+    ::ng-deep .mat-mdc-list-item.classic-menu-item[tabindex]:focus::before {
+      opacity: 0 !important;
+    }
+
+    ::ng-deep .mat-mdc-list-item.classic-menu-item .mat-mdc-list-item-ripple,
+    ::ng-deep .mat-mdc-list-item.classic-menu-item .mat-mdc-list-item-focus-overlay {
+      opacity: 0 !important;
+      display: none !important;
+    }
+
+    // Prevent browser default link active state
+    a.classic-menu-item:active,
+    a.classic-menu-item:focus,
+    a.classic-menu-item:visited,
+    a.classic-menu-item:link {
+      background-color: transparent !important;
+      background: none !important;
+      color: #333 !important;
+    }
+
+    a.classic-menu-item:active span,
+    a.classic-menu-item:focus span,
+    a.classic-menu-item:visited span,
+    a.classic-menu-item:link span {
+      color: #333 !important;
+    }
+
+    // Ultra-aggressive: prevent ANY blue on non-active items
+    a.classic-menu-item:not(.active) {
+      background-color: transparent !important;
+      background: none !important;
+    }
+
+    a.classic-menu-item:not(.active):focus,
+    a.classic-menu-item:not(.active):active,
+    a.classic-menu-item:not(.active):focus-visible {
+      background-color: transparent !important;
+      background: none !important;
+      color: #333 !important;
+    }
+
+    // Global override for span/div used as menu items
+    ::ng-deep span.classic-menu-item,
+    ::ng-deep div.classic-menu-item {
+      border: none !important;
+      border-left: 0 !important;
+      border-right: 0 !important;
+      border-top: 0 !important;
+      border-bottom: 0 !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    ::ng-deep span.classic-menu-item:focus,
+    ::ng-deep span.classic-menu-item:active,
+    ::ng-deep span.classic-menu-item:hover,
+    ::ng-deep div.classic-menu-item:focus,
+    ::ng-deep div.classic-menu-item:active,
+    ::ng-deep div.classic-menu-item:hover {
+      border: none !important;
+      border-left: 0 !important;
+      border-right: 0 !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    // Nuclear option: remove ALL borders from everything in sidenav
+    ::ng-deep mat-sidenav *,
+    ::ng-deep mat-sidenav,
+    ::ng-deep mat-nav-list,
+    ::ng-deep mat-nav-list * {
+      border-left: 0 !important;
+      border-left-width: 0 !important;
+      border-left-style: none !important;
+    }
+
+    ::ng-deep .classic-menu-item,
+    ::ng-deep .classic-menu-item *,
+    ::ng-deep .classic-menu-subitem,
+    ::ng-deep .classic-menu-parent {
+      border-left-width: 0 !important;
+      border-left-style: none !important;
+      border-left-color: transparent !important;
+      border: 0 !important;
+    }
+
+    // Extra aggressive - target everything
+    mat-sidenav ::ng-deep *,
+    mat-nav-list ::ng-deep * {
+      border-left: 0 !important;
+      border: 0 !important;
+      box-shadow: none !important;
+      -webkit-box-shadow: none !important;
+    }
+
+    // Maybe it's a background gradient or inset shadow
+    ::ng-deep .classic-menu-item,
+    ::ng-deep .classic-menu-subitem {
+      box-shadow: none !important;
+      -webkit-box-shadow: none !important;
+      background-image: none !important;
+    }
+
+    // Target all possible focus/active states
+    ::ng-deep .classic-menu-item:focus,
+    ::ng-deep .classic-menu-item:active,
+    ::ng-deep .classic-menu-item:hover,
+    ::ng-deep .classic-menu-subitem:focus,
+    ::ng-deep .classic-menu-subitem:active,
+    ::ng-deep .classic-menu-subitem:hover {
+      box-shadow: none !important;
+      border-left: 0 !important;
+      background-image: none !important;
+    }
+
+    // Ensure first menu item (Dashboard) doesn't have blue line
+    .classic-menu-item:first-of-type {
+      border-left: 0 !important;
+      box-shadow: none !important;
+    }
+
+    // Parent item with chevron (not clickable link, just expands/collapses)
+    .classic-menu-parent {
+      font-weight: 600;
+      font-size: 14px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      background-color: #e0e0e0 !important;
+      padding: 4px 16px !important;
+      margin-bottom: 0 !important;
+    }
+
+    .classic-menu-parent:hover {
+      background-color: #d5d5d5 !important;
+    }
+
+    .classic-menu-parent:focus,
+    .classic-menu-parent:focus-visible,
+    .classic-menu-parent:focus-within {
+      outline: none !important;
+      background-color: transparent !important;
+    }
+
+    .classic-menu-parent:active {
+      background-color: rgba(0, 0, 0, 0.04) !important;
+    }
+
+    // Remove ALL Material Design ripple, state layer, and focus indicators
+    .classic-menu-parent::before,
+    .classic-menu-parent::after,
+    .classic-menu-parent .mat-mdc-button-persistent-ripple,
+    .classic-menu-parent .mat-mdc-focus-indicator,
+    .classic-menu-parent .mat-ripple,
+    .classic-menu-parent .mat-ripple-element,
+    .classic-menu-parent .mdc-button__ripple,
+    .classic-menu-parent .mdc-list-item__ripple,
+    .classic-menu-parent .mat-mdc-list-item-interactive,
+    .classic-menu-parent .mat-mdc-list-item-focus-overlay {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+    }
+
+    // Target deep Material Design classes
+    ::ng-deep .classic-menu-parent .mat-mdc-button-persistent-ripple,
+    ::ng-deep .classic-menu-parent .mdc-list-item__ripple,
+    ::ng-deep .classic-menu-parent::before,
+    ::ng-deep .classic-menu-parent::after {
+      display: none !important;
+      background-color: transparent !important;
+    }
+
+    // Force remove all focus indicators and state overlays
+    ::ng-deep button.classic-menu-parent.mat-mdc-list-item {
+      background: none !important;
+    }
+
+    ::ng-deep button.classic-menu-parent.mat-mdc-list-item:focus {
+      background: none !important;
+      background-color: transparent !important;
+    }
+
+    ::ng-deep button.classic-menu-parent.mat-mdc-list-item:hover {
+      background-color: rgba(0, 0, 0, 0.04) !important;
+    }
+
+    ::ng-deep button.classic-menu-parent.mat-mdc-list-item .mat-mdc-list-item-unscoped-content::before,
+    ::ng-deep button.classic-menu-parent.mat-mdc-list-item .mat-mdc-list-item-unscoped-content::after {
+      display: none !important;
+      content: none !important;
+      background: none !important;
+    }
+
+    .classic-menu-parent .chevron-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      color: #666;
+      margin-right: 4px;
+    }
+
+    // Subitems are indented to the right (aligned with parent text, not chevron)
+    .classic-menu-subitem {
+      padding-left: 44px !important;
+      font-weight: 400 !important;
+      font-size: 14px !important;
+      margin-bottom: 0 !important;
+      padding-top: 2px !important;
+      padding-bottom: 2px !important;
+    }
+
+    // Last subitem should have minimal bottom spacing
+    .classic-menu-subitem:last-of-type {
+      margin-bottom: 0 !important;
+      padding-bottom: 2px !important;
+    }
+
+    .classic-menu-parent .mat-mdc-list-item-title,
+    .classic-menu-parent .mdc-list-item__primary-text {
+      font-size: 14px !important;
+      font-weight: 400 !important;
+    }
+
+    mat-divider {
+      margin: 0;
+    }
+
+    .top-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 42px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      padding: 0 12px;
+      background-color: #233575 !important;
+    }
+
+    .left-buttons {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 100%;
+      margin-top: -8px;
+    }
+
+    .toolbar-menu-btn,
+    .toolbar-home-btn {
+      color: white;
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toolbar-menu-btn mat-icon,
+    .toolbar-home-btn mat-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      margin-top: -4px;
+    }
+
+    .search-field {
+      width: 600px;
+      max-width: 600px;
+      margin: 0;
+      margin-top: 10px;
+    }
+
+    .search-field ::ng-deep .mat-mdc-text-field-wrapper {
+      height: 32px;
+    }
+
+    .search-field ::ng-deep .mat-mdc-form-field-infix {
+      min-height: 32px;
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
+
+    .search-field ::ng-deep .mat-mdc-form-field-wrapper {
+      padding: 0;
+      margin: 0;
+    }
+
+    .search-field ::ng-deep .mat-mdc-form-field-flex {
+      align-items: center;
+    }
+
+    .search-field ::ng-deep .mat-mdc-text-field-wrapper {
+      background-color: white;
+      border-radius: 24px;
+    }
+
+    .search-field ::ng-deep .mat-mdc-form-field-focus-overlay {
+      background-color: white;
+      border-radius: 24px;
+    }
+
+    .search-field ::ng-deep .mdc-notched-outline__leading,
+    .search-field ::ng-deep .mdc-notched-outline__notch,
+    .search-field ::ng-deep .mdc-notched-outline__trailing {
+      border-color: transparent !important;
+      border-radius: 24px !important;
+    }
+
+    .search-field ::ng-deep .mdc-notched-outline__leading {
+      border-radius: 24px 0 0 24px !important;
+    }
+
+    .search-field ::ng-deep .mdc-notched-outline__trailing {
+      border-radius: 0 24px 24px 0 !important;
+    }
+
+    .search-field ::ng-deep .mat-mdc-form-field-infix {
+      padding-top: 4px;
+      padding-bottom: 4px;
+      min-height: 28px;
+    }
+
+    .search-input {
+      color: #333 !important;
+      caret-color: #1976d2;
+      font-size: 14px;
+    }
+
+    .search-input::placeholder {
+      color: #999;
+    }
+
+    .search-icon {
+      color: #666;
+      margin-left: 4px;
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .spacer {
+      flex: 1 1 auto;
+    }
+
+    .ai-assistant-btn {
+      padding: 0;
+      min-width: auto;
+      height: 28px;
+      border-radius: 14px;
+      transition: transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: -10px;
+    }
+
+    .ai-assistant-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .ai-icon {
+      height: 28px;
+      width: auto;
+      display: block;
+    }
+
+    .user-menu {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: -8px;
+    }
+
+    .user-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 12px;
+      text-transform: none;
+      font-size: 14px;
+      color: white;
+      border-radius: 8px;
+      height: 32px;
+      margin: 0;
+    }
+
+    .user-button:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .user-button mat-icon:first-child {
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+      color: white;
+    }
+
+    .user-name {
+      font-weight: 500;
+      color: white;
+    }
+
+    .dropdown-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .user-menu-header {
+      padding: 6px 12px;
+      background-color: #f5f5f5;
+    }
+
+    .user-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+    }
+
+    .user-details strong {
+      font-size: 13px;
+      color: #333;
+    }
+
+    .user-details small {
+      font-size: 11px;
+      color: #666;
+    }
+
+    .user-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+    }
+
+    .action-icon-btn {
+      width: 40px;
+      height: 40px;
+    }
+
+    .action-icon-btn mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .logout-btn {
+      min-width: 80px;
+    }
+
+    // AI Chat Panel Styles
+    .ai-chat-panel {
+      position: fixed;
+      top: 42px;
+      right: -400px;
+      width: 400px;
+      height: calc(100vh - 42px);
+      background: white;
+      box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+      transition: right 0.3s ease;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ai-chat-panel.open {
+      right: 0;
+    }
+
+    .ai-chat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      background: linear-gradient(90deg, #233575 0%, #1a2962 100%);
+      color: white;
+      position: relative;
+    }
+
+    .ai-chat-header h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .ai-chat-header button {
+      color: white;
+      margin-left: auto;
+      z-index: 1;
+    }
+
+    .ai-chat-messages {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      background: #f9f9f9;
+    }
+
+    .ai-message {
+      margin-bottom: 12px;
+      display: flex;
+    }
+
+    .ai-message.user {
+      justify-content: flex-end;
+    }
+
+    .message-bubble {
+      max-width: 60%;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: white;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .ai-message.user .message-bubble {
+      background: linear-gradient(90deg, #233575 0%, #1a2962 100%);
+      color: white;
+    }
+
+    .ai-chat-input {
+      padding: 16px;
+      background: white;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .chat-input-field {
+      width: 100%;
+      margin: 0;
+    }
+
+    .chat-input-field ::ng-deep .mat-mdc-form-field-wrapper {
+      padding: 0;
+    }
+
+    ::ng-deep .mat-mdc-menu-item {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    ::ng-deep .mat-mdc-menu-item .mat-icon {
+      margin-right: 12px;
+      color: rgba(0, 0, 0, 0.54);
+    }
+
+    .content {
+      min-height: calc(100vh - 42px);
+      background: #fafafa;
+    }
+  `]
+})
+export class MainLayoutComponent {
+  currentUser: any;
+  sidenavOpened = true;
+  menuSearchQuery = '';
+  useClassicMenu = false;
+  expandedSections: { [key: string]: boolean } = {
+    'MAIN': true,
+    'SYSTEM CONFIGURATION': true,
+    'ORGANIZATION': true,
+    'ADDITIONAL': true,
+    'Table Configuration': true
+  };
+
+  // AI Chat properties
+  aiChatOpen = false;
+  aiInputText = '';
+  aiMessages: { text: string; isUser: boolean }[] = [];
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private http: HttpClient
+  ) {
+    this.currentUser = this.authService.currentUserValue;
+
+    // Subscribe to user updates and apply classic menu preference
+    this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+      // Apply user's menu preference from database
+      if (user) {
+        this.useClassicMenu = user.use_classic_menu ?? false;
+      }
+    });
+
+    // Initialize menu preference from current user
+    if (this.currentUser) {
+      this.useClassicMenu = this.currentUser.use_classic_menu ?? false;
+    }
+  }
+
+  get menuSections(): MenuSection[] {
+    const user = this.currentUser;
+
+    const sections: MenuSection[] = [
+      {
+        title: 'MAIN',
+        items: [
+          { path: '/', label: 'Dashboard', icon: 'dashboard' },
+          { path: '/team-dashboard', label: 'Team Dashboard', icon: 'analytics' },
+          { path: '/release-highlights', label: 'Get Release Highlights', icon: 'highlight' },
+          { path: '/workbench', label: 'Workbench', icon: 'work' },
+          { path: '/test-cases', label: 'Test Cases', icon: 'assignment' },
+          { path: '/test-executions', label: 'Test Executions', icon: 'play_circle_filled' },
+          { path: '/task-pool', label: 'Task Pool', icon: 'task' },
+          { path: '/advice', label: 'Advice', icon: 'question_answer' },
+          { path: '/team-discussions', label: 'Team Discussions', icon: 'forum' },
+          { path: '/functions', label: 'Functions', icon: 'functions' }
+        ]
+      }
+    ];
+
+    // Add System Configuration section for InterSystems employees
+    if (user?.employment_type === 'intersystems') {
+      sections.push({
+        title: 'SYSTEM CONFIGURATION',
+        items: [
+          { path: '/editions', label: 'Editions', icon: 'category' },
+          { path: '/releases', label: 'Releases', icon: 'new_releases' },
+          { path: '/countries', label: 'Countries', icon: 'public' },
+          { path: '/organizations', label: 'Organizations', icon: 'business' },
+          { path: '/users', label: 'Users', icon: 'people' },
+          { path: '/components', label: 'System Areas', icon: 'dashboard_customize' },
+          { path: '/impact-score-config', label: 'Impact Score Settings', icon: 'assessment' }
+        ]
+      });
+    }
+
+    // Add Org Code Table section for org/system admins
+    if (
+      user?.permission_level === 'org_admin' ||
+      user?.permission_level === 'system_admin' ||
+      user?.is_superuser ||
+      user?.is_org_admin
+    ) {
+      sections.push({
+        title: 'ORGANIZATION',
+        items: [
+          { path: '/org-code-tables', label: 'Code Tables', icon: 'table_chart' },
+          { path: '/environments', label: 'Environments', icon: 'dns' },
+          { path: '/groups', label: 'Groups & Permissions', icon: 'groups' }
+        ]
+      });
+    }
+
+    // Additional section
+    const additionalItems: MenuItem[] = [
+      { path: '/jira-dashboard', label: 'JIRA Dashboard', icon: 'bar_chart' },
+      { path: '/jira', label: 'JIRA Issues', icon: 'bug_report' },
+      { path: '/jira-config', label: 'JIRA Configuration', icon: 'settings' },
+      { path: '/trakintel-config', label: 'Trakintel Configuration', icon: 'tune' }
+    ];
+
+    if (user?.employment_type === 'intersystems') {
+      additionalItems.push({ path: '/audit-trail', label: 'Audit Trail', icon: 'history' });
+    }
+
+    additionalItems.push({ path: '/api-docs', label: 'API Documentation', icon: 'code' });
+
+    sections.push({
+      title: 'ADDITIONAL',
+      items: additionalItems
+    });
+
+    return sections;
+  }
+
+  toggleSidenav(): void {
+    this.sidenavOpened = !this.sidenavOpened;
+  }
+
+  closeSidenavOnMobile(): void {
+    // Close sidenav on mobile devices when a menu item is clicked
+    if (window.innerWidth < 768) {
+      this.sidenavOpened = false;
+    }
+  }
+
+  preventFocus(event: MouseEvent): void {
+    // Prevent the element from receiving focus to avoid blue highlight
+    event.preventDefault();
+    const target = event.currentTarget as HTMLElement;
+    if (target) {
+      target.blur();
+    }
+  }
+
+  navigateToRoute(path: string, queryParams?: any): void {
+    // Navigate programmatically and close sidenav on mobile
+    this.router.navigate([path], { queryParams });
+    this.closeSidenavOnMobile();
+  }
+
+  toggleSection(section: string): void {
+    this.expandedSections[section] = !this.expandedSections[section];
+  }
+
+  toggleSubsection(subsection: string): void {
+    this.expandedSections[subsection] = !this.expandedSections[subsection];
+  }
+
+  isSectionExpanded(section: string): boolean {
+    return this.expandedSections[section] !== false;
+  }
+
+  isSubsectionExpanded(subsection: string): boolean {
+    return this.expandedSections[subsection] !== false;
+  }
+
+  get filteredMenuSections(): MenuSection[] {
+    if (!this.menuSearchQuery || this.menuSearchQuery.trim() === '') {
+      return this.menuSections;
+    }
+
+    const query = this.menuSearchQuery.toLowerCase().trim();
+    const filtered: MenuSection[] = [];
+
+    for (const section of this.menuSections) {
+      const filteredItems: MenuItem[] = [];
+
+      for (const item of section.items) {
+        // Check if the item label matches
+        if (item.label.toLowerCase().includes(query)) {
+          filteredItems.push(item);
+        } else if (item.subitems) {
+          // Check subitems
+          const filteredSubitems = item.subitems.filter(subitem =>
+            subitem.label.toLowerCase().includes(query)
+          );
+
+          if (filteredSubitems.length > 0) {
+            // Include the parent item with filtered subitems
+            filteredItems.push({
+              ...item,
+              subitems: filteredSubitems
+            });
+          }
+        }
+      }
+
+      if (filteredItems.length > 0) {
+        filtered.push({
+          ...section,
+          items: filteredItems
+        });
+        // Auto-expand sections when searching
+        this.expandedSections[section.title] = true;
+        // Auto-expand collapsible items
+        filteredItems.forEach(item => {
+          if (item.collapsible) {
+            this.expandedSections[item.label] = true;
+          }
+        });
+      }
+    }
+
+    return filtered;
+  }
+
+  onMenuSearch(): void {
+    // Trigger filtering by accessing the getter
+    // The getter will automatically filter based on menuSearchQuery
+  }
+
+  clearMenuSearch(): void {
+    this.menuSearchQuery = '';
+  }
+
+  logout(): void {
+    this.authService.logout();
+  }
+
+  onContentClick(): void {
+    if (this.sidenavOpened) {
+      this.sidenavOpened = false;
+    }
+  }
+
+  changePassword(): void {
+    this.dialog.open(ChangePasswordDialogComponent, {
+      width: '500px'
+    });
+  }
+
+  lockSession(): void {
+    // Navigate to login screen without clearing user data
+    this.router.navigate(['/login']);
+  }
+
+  openAIAssistant(): void {
+    this.aiChatOpen = true;
+    // Add welcome message if first time opening
+    if (this.aiMessages.length === 0) {
+      this.aiMessages.push({
+        text: 'Hello! I\'m your AI Assistant. How can I help you today?',
+        isUser: false
+      });
+    }
+  }
+
+  closeAIAssistant(): void {
+    this.aiChatOpen = false;
+  }
+
+  sendAIMessage(): void {
+    if (!this.aiInputText.trim()) return;
+
+    // Add user message
+    this.aiMessages.push({
+      text: this.aiInputText,
+      isUser: true
+    });
+
+    // Simulate AI response
+    setTimeout(() => {
+      this.aiMessages.push({
+        text: 'This is a demo response. AI Assistant integration coming soon!',
+        isUser: false
+      });
+    }, 500);
+
+    this.aiInputText = '';
+  }
+
+  getLanguageLabel(code: string): string {
+    const languages: { [key: string]: string } = {
+      'en': 'English',
+      'es': 'Español',
+      'fr': 'Français',
+      'de': 'Deutsch',
+      'pt': 'Português'
+    };
+    return languages[code] || code;
+  }
+
+  changeLanguage(language: string): void {
+    if (!this.currentUser) return;
+
+    this.http.put(`http://localhost:8000/users/${this.currentUser.id}`, {
+      language: language
+    }).subscribe({
+      next: (updatedUser: any) => {
+        // Update current user in localStorage and auth service
+        this.currentUser = { ...this.currentUser!, language: language };
+        localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+        this.snackBar.open(`Language changed to ${this.getLanguageLabel(language)}`, 'Close', { duration: 3000 });
+      },
+      error: (err) => {
+        console.error('Error changing language:', err);
+        this.snackBar.open('Failed to change language', 'Close', { duration: 3000 });
+      }
+    });
+  }
+}

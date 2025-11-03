@@ -42,7 +42,7 @@ import { GroupFormComponent } from './group-form.component';
       </div>
 
       <mat-card *ngIf="loading" class="loading-card">
-        <mat-spinner></mat-spinner>
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
         <p>Loading groups...</p>
       </mat-card>
 

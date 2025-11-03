@@ -24,7 +24,7 @@ import { TeamDiscussion } from '../models/discussion.model';
       </div>
 
       <mat-card *ngIf="loading" class="loading-card">
-        <mat-spinner></mat-spinner>
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
         <p>Loading discussions...</p>
       </mat-card>
 

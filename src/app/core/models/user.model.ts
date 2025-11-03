@@ -15,6 +15,7 @@ export interface User {
   is_active: boolean;
   is_superuser: boolean;
   is_org_admin: boolean;
+  use_classic_menu?: boolean;
   created_at?: string;
   updated_at?: string;
 }

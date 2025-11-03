@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -119,7 +120,7 @@ import { Edition } from '../../editions/models/edition.model';
           <div class="content-layout">
             <div class="left-panel">
               <h4>Further Information</h4>
-              <div *ngIf="issue.AIData" class="ai-content" [innerHTML]="issue.AIData"></div>
+              <div *ngIf="issue.AIData" class="ai-content" [innerHTML]="sanitizeHtml(issue.AIData)"></div>
             </div>
 
             <div class="right-panel">
@@ -260,7 +261,8 @@ export class WorkbenchComponent implements OnInit {
     private workbenchService: WorkbenchService,
     private releasesService: ReleasesService,
     private editionsService: EditionsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -351,5 +353,13 @@ export class WorkbenchComponent implements OnInit {
     if (totalScore >= this.impactThresholds.high_threshold) return 'High';
     if (totalScore >= this.impactThresholds.medium_threshold) return 'Medium';
     return 'Low';
+  }
+
+  sanitizeHtml(html: string): SafeHtml {
+    if (!html) {
+      return '';
+    }
+    // Sanitize HTML to prevent XSS attacks
+    return this.sanitizer.sanitize(1, html) || '';
   }
 }

@@ -1,0 +1,31 @@
+<svg width="120" height="48" viewBox="0 0 120 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gradient background pill -->
+  <defs>
+    <linearGradient id="aiGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#4F7CFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A855F7;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded pill background -->
+  <rect width="120" height="48" rx="24" fill="url(#aiGradient)"/>
+
+  <!-- Stethoscope icon on left -->
+  <g transform="translate(12, 12)">
+    <path d="M8 2C8 0.895 8.895 0 10 0C11.105 0 12 0.895 12 2C12 3.105 11.105 4 10 4C8.895 4 8 3.105 8 2Z" fill="white"/>
+    <path d="M10 5C8.343 5 7 6.343 7 8V12C7 14.761 4.761 17 2 17C0.895 17 0 17.895 0 19C0 20.105 0.895 21 2 21C6.971 21 11 16.971 11 12V10H13V12C13 16.971 17.029 21 22 21C23.105 21 24 20.105 24 19C24 17.895 23.105 17 22 17C19.239 17 17 14.761 17 12V8C17 6.343 15.657 5 14 5H10Z" fill="white" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Sparkles in middle -->
+  <g transform="translate(44, 14)">
+    <!-- Small sparkle -->
+    <path d="M6 0L6.5 2L8.5 2.5L6.5 3L6 5L5.5 3L3.5 2.5L5.5 2L6 0Z" fill="white"/>
+    <!-- Medium sparkle -->
+    <path d="M2 6L2.75 9L5.75 9.75L2.75 10.5L2 13.5L1.25 10.5L-1.75 9.75L1.25 9L2 6Z" fill="white"/>
+    <!-- Large sparkle top right -->
+    <path d="M14 2L15 6L19 7L15 8L14 12L13 8L9 7L13 6L14 2Z" fill="white"/>
+  </g>
+
+  <!-- AI text on right -->
+  <text x="78" y="32" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white">AI</text>
+</svg>

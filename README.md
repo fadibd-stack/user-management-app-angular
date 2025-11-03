@@ -6,10 +6,10 @@ A modern, enterprise-grade test case management platform built with Angular 19 a
 
 TrakIntel is a comprehensive test management solution designed for software testing teams. This Angular frontend provides an intuitive, responsive interface for managing test cases, tracking executions, collaborating with teams, and generating insights.
 
-**Version:** 2.0.0
+**Version:** 2.0.1
 **Angular Version:** 19.2.13
 **Material Design Version:** 19.2.19
-**Last Updated:** October 2025
+**Last Updated:** November 2025
 
 ---
 
@@ -37,6 +37,8 @@ TrakIntel is a comprehensive test management solution designed for software test
 - ✅ **Responsive Layout** - Desktop and mobile support
 - ✅ **Collapsible Navigation** - Toggleable sidebar with permission-based menus
 - ✅ **Real-time Updates** - Dynamic data loading with RxJS
+- ✅ **Custom Branding** - InterSystems color scheme (#233575)
+- ✅ **AI Assistant** - Sliding chat panel with intelligent help
 - ✅ **Dark Mode Ready** - Material theme infrastructure in place
 
 ---
@@ -281,6 +283,12 @@ Or view it directly in the app at `/api-docs`
 
 ## 🔗 Related Documentation
 
+### Frontend Documentation
+- [Architecture Documentation](ARCHITECTURE.md)
+- [AI Assistant Feature Guide](AI_ASSISTANT.md)
+- [Editions Feature](EDITIONS_FEATURE.md)
+
+### Backend Documentation
 - [Backend API Documentation](/backend/API_DOCUMENTATION.md)
 - [Audit Trail Guide](/backend/AUDIT_TRAIL_VIEWER_README.md)
 - [Seed Data Guide](/backend/SEED_DATA_README.md)
@@ -296,6 +304,13 @@ Or view it directly in the app at `/api-docs`
 ---
 
 ## 📈 Version History
+
+### v2.0.1 (November 2025) - AI Assistant & Enhancements
+- ✅ AI Assistant chat panel with sliding interface
+- ✅ Custom branded AI icon in toolbar
+- ✅ Real-time messaging with chat history
+- ✅ Enhanced color consistency (#233575)
+- ✅ Comprehensive documentation updates
 
 ### v2.0.0 (October 2025) - Angular Migration Complete
 - ✅ Complete migration from React to Angular 19

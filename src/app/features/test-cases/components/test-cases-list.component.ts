@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,6 +16,8 @@ import { TestCasesService } from '../services/test-cases.service';
 import { TestCase, SystemArea } from '../models/test-case.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { TestCaseFormComponent } from './test-case-form.component';
+import { OrganizationsService } from '../../organizations/services/organizations.service';
+import { Organization } from '../../organizations/models/organization.model';
 
 @Component({
   selector: 'app-test-cases-list',
@@ -42,6 +45,10 @@ import { TestCaseFormComponent } from './test-case-form.component';
             <p>Manage and track test cases</p>
           </div>
           <div class="header-actions">
+            <button mat-raised-button color="accent" (click)="exportCSV()">
+              <mat-icon>download</mat-icon>
+              Export CSV
+            </button>
             <button mat-raised-button color="primary" (click)="openTestCaseDialog()">
               <mat-icon>add</mat-icon>
               Add Test Case
@@ -87,6 +94,17 @@ import { TestCaseFormComponent } from './test-case-form.component';
             </mat-select>
           </mat-form-field>
 
+          <mat-form-field appearance="outline" class="filter-field" *ngIf="isInterSystemsUser">
+            <mat-label>Organization</mat-label>
+            <mat-select [(ngModel)]="filters.organization_id" (ngModelChange)="applyFilters()">
+              <mat-option value="all">All Organizations</mat-option>
+              <mat-option value="null">No Organization</mat-option>
+              <mat-option *ngFor="let org of organizations" [value]="org.id">
+                {{ org.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
           <mat-form-field appearance="outline" class="filter-field search-field">
             <mat-label>Search</mat-label>
             <input matInput [(ngModel)]="filters.search" (ngModelChange)="applyFilters()" placeholder="Search title...">
@@ -95,8 +113,13 @@ import { TestCaseFormComponent } from './test-case-form.component';
         </div>
       </mat-card>
 
+      <!-- Results count -->
+      <div class="results-count" *ngIf="!loading">
+        Showing {{ filteredTestCases.length }} of {{ testCases.length }} test cases
+      </div>
+
       <mat-card *ngIf="loading" class="loading-card">
-        <mat-spinner></mat-spinner>
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
         <p>Loading test cases...</p>
       </mat-card>
 
@@ -124,6 +147,15 @@ import { TestCaseFormComponent } from './test-case-form.component';
             <td mat-cell *matCellDef="let testCase">
               <span *ngIf="testCase.system_area_name">{{ testCase.system_area_name }}</span>
               <span *ngIf="!testCase.system_area_name" class="text-muted">-</span>
+            </td>
+          </ng-container>
+
+          <!-- Organization Column -->
+          <ng-container matColumnDef="organization" *ngIf="isInterSystemsUser">
+            <th mat-header-cell *matHeaderCellDef>ORGANIZATION</th>
+            <td mat-cell *matCellDef="let testCase">
+              <span *ngIf="testCase.organization_name">{{ testCase.organization_name }}</span>
+              <span *ngIf="!testCase.organization_name" class="text-muted">No Organization</span>
             </td>
           </ng-container>
 
@@ -296,37 +328,53 @@ import { TestCaseFormComponent } from './test-case-form.component';
       font-size: 14px;
       max-width: 400px;
     }
+
+    .results-count {
+      font-size: 14px;
+      color: #666;
+      margin: 16px 0 8px 0;
+      padding: 0 4px;
+    }
   `]
 })
 export class TestCasesListComponent implements OnInit {
   testCases: TestCase[] = [];
   filteredTestCases: TestCase[] = [];
   systemAreas: SystemArea[] = [];
+  organizations: Organization[] = [];
   loading = true;
+  currentUser: any;
 
   filters = {
     status: 'all',
     priority: 'all',
     system_area_id: 'all',
+    organization_id: 'all',
     search: ''
   };
 
-  displayedColumns: string[] = [
-    'id',
-    'title',
-    'system_area',
-    'status',
-    'priority',
-    'test_type',
-    'created_by',
-    'actions'
-  ];
+  get displayedColumns(): string[] {
+    const columns = ['id', 'title', 'system_area'];
+    if (this.isInterSystemsUser) {
+      columns.push('organization');
+    }
+    columns.push('status', 'priority', 'test_type', 'created_by', 'actions');
+    return columns;
+  }
+
+  get isInterSystemsUser(): boolean {
+    return this.currentUser?.employment_type === 'intersystems';
+  }
 
   constructor(
     private testCasesService: TestCasesService,
     private authService: AuthService,
-    private dialog: MatDialog
-  ) {}
+    private organizationsService: OrganizationsService,
+    private dialog: MatDialog,
+    private http: HttpClient
+  ) {
+    this.currentUser = this.authService.currentUserValue;
+  }
 
   ngOnInit(): void {
     this.loadData();
@@ -334,21 +382,42 @@ export class TestCasesListComponent implements OnInit {
 
   loadData(): void {
     this.loading = true;
-    Promise.all([
+    const requests: Promise<any>[] = [
       this.testCasesService.getTestCases().toPromise(),
       this.testCasesService.getSystemAreas().toPromise()
-    ]).then(([testCases, systemAreas]) => {
-      this.testCases = testCases || [];
-      this.systemAreas = systemAreas || [];
+    ];
+
+    // Fetch organizations for InterSystems users
+    if (this.isInterSystemsUser) {
+      requests.push(this.organizationsService.getOrganizations().toPromise());
+    }
+
+    Promise.all(requests).then((responses) => {
+      this.testCases = responses[0] || [];
+      this.systemAreas = responses[1] || [];
+
+      if (this.isInterSystemsUser && responses[2]) {
+        this.organizations = responses[2] || [];
+      }
+
       this.applyFilters();
       this.loading = false;
     }).catch(err => {
       console.error('Error loading data:', err);
+      this.testCases = [];
+      this.systemAreas = [];
+      this.organizations = [];
+      this.filteredTestCases = [];
       this.loading = false;
     });
   }
 
   applyFilters(): void {
+    if (!this.testCases) {
+      this.filteredTestCases = [];
+      return;
+    }
+
     let filtered = [...this.testCases];
 
     if (this.filters.status !== 'all') {
@@ -363,10 +432,19 @@ export class TestCasesListComponent implements OnInit {
       filtered = filtered.filter(tc => tc.system_area_id === +this.filters.system_area_id);
     }
 
+    if (this.filters.organization_id !== 'all') {
+      if (this.filters.organization_id === 'null') {
+        // Show test cases without organization
+        filtered = filtered.filter(tc => !tc.organization_id);
+      } else {
+        filtered = filtered.filter(tc => tc.organization_id === +this.filters.organization_id);
+      }
+    }
+
     if (this.filters.search) {
       const searchLower = this.filters.search.toLowerCase();
       filtered = filtered.filter(tc =>
-        tc.title.toLowerCase().includes(searchLower) ||
+        tc.title?.toLowerCase().includes(searchLower) ||
         tc.description?.toLowerCase().includes(searchLower)
       );
     }
@@ -406,14 +484,59 @@ export class TestCasesListComponent implements OnInit {
   }
 
   formatStatus(status: string): string {
+    if (!status) return '-';
     return status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   }
 
   formatPriority(priority: string): string {
+    if (!priority) return '-';
     return priority.charAt(0).toUpperCase() + priority.slice(1);
   }
 
   formatTestType(type: string): string {
+    if (!type) return '-';
     return type.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  }
+
+  exportCSV(): void {
+    // Build query params based on current filters
+    const params: any = {};
+    if (this.filters.status !== 'all') {
+      params.status = this.filters.status;
+    }
+    if (this.filters.priority !== 'all') {
+      params.priority = this.filters.priority;
+    }
+    if (this.filters.system_area_id !== 'all') {
+      params.system_area_id = this.filters.system_area_id;
+    }
+    if (this.filters.organization_id !== 'all') {
+      params.organization_id = this.filters.organization_id;
+    }
+
+    // Make HTTP request with authentication
+    this.http.get('http://localhost:8000/api/test-cases/export.csv', {
+      params,
+      responseType: 'blob',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    }).subscribe({
+      next: (blob) => {
+        // Create blob URL and trigger download
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `test_cases_${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      },
+      error: (err) => {
+        console.error('Error exporting CSV:', err);
+        alert('Error exporting CSV. Please try again.');
+      }
+    });
   }
 }

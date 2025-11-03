@@ -83,7 +83,7 @@ import { TCFTTriplet, TCFTProduct, TCFTDomain } from '../models/tcft.model';
       </mat-button-toggle-group>
 
       <mat-card *ngIf="loading" class="loading-card">
-        <mat-spinner></mat-spinner>
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       </mat-card>
 
       <mat-card *ngIf="!loading && viewMode === 'table'" class="table-card">

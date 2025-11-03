@@ -212,12 +212,18 @@ MainLayoutComponent
 │   │   ├── Org Code Table
 │   │   └── Additional
 │   └── Logout
-└── mat-sidenav-content
-    ├── mat-toolbar (header)
-    │   ├── Menu toggle
-    │   ├── Page title
-    │   └── User info
-    └── router-outlet (content)
+├── mat-sidenav-content
+│   ├── mat-toolbar (header)
+│   │   ├── Menu toggle
+│   │   ├── Page title
+│   │   ├── Search bar
+│   │   ├── AI Assistant button
+│   │   └── User info
+│   └── router-outlet (content)
+└── AI Chat Panel (sliding from right)
+    ├── Header (with title and close button)
+    ├── Messages area (chat history)
+    └── Input field (with send button)
 ```
 
 ### Permission-Based UI
@@ -240,6 +246,50 @@ get menuSections(): MenuSection[] {
   return sections;
 }
 ```
+
+### AI Assistant Chat Panel
+
+**Location:** `core/components/main-layout.component.ts`
+
+A sliding chat interface for AI-powered assistance:
+
+**Features:**
+- Fixed position panel (400px wide, slides from right)
+- Gradient header matching app branding (#233575 to #1a2962)
+- Message history with user/AI message distinction
+- Real-time message input with send button
+- Keyboard support (Enter to send)
+- Smooth slide animation (0.3s transition)
+
+**Implementation:**
+```typescript
+// State management
+aiChatOpen = false;
+aiInputText = '';
+aiMessages: { text: string; isUser: boolean }[] = [];
+
+// Open/Close controls
+openAIAssistant(): void {
+  this.aiChatOpen = true;
+  // Add welcome message on first open
+}
+
+closeAIAssistant(): void {
+  this.aiChatOpen = false;
+}
+
+// Message handling
+sendAIMessage(): void {
+  // Add user message
+  // Trigger AI response (currently demo)
+}
+```
+
+**Styling:**
+- Message bubbles: Max 60% width, centered text
+- User messages: Gradient background, right-aligned
+- AI messages: White background, left-aligned
+- Responsive design with z-index layering
 
 ---
 
@@ -537,6 +587,18 @@ Current size: ~1.34 MB (needs optimization)
 - Impact scoring
 - AI documentation
 
+### AI Assistant Integration
+- **Location:** MainLayoutComponent (sliding chat panel)
+- **Icon:** Custom SVG with gradient styling (blue to purple)
+- **Features:**
+  - Real-time message display
+  - Chat history with user/AI message distinction
+  - Send message with Enter key or button
+  - Sliding panel animation from right
+  - Styled with application colors (#233575)
+- **Future Integration:** Backend AI service API
+- **Current Status:** Demo responses for UI testing
+
 ---
 
 ## 📝 Code Style Guide
@@ -601,6 +663,8 @@ readonly baseUrl = 'http://localhost:8000';
 8. **E2E Tests** - Playwright/Cypress
 9. **Performance Monitoring** - Analytics
 10. **Accessibility** - WCAG compliance
+11. **AI Assistant Backend** - Connect to AI service API for intelligent responses
+12. **AI Context Awareness** - Page-aware AI assistance based on current feature
 
 ### Technical Debt
 

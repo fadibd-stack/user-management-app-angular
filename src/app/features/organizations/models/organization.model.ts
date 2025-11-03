@@ -15,6 +15,10 @@ export interface Organization {
   settings_json?: string;
   go_live_date?: string;
   version?: string;
+  trakcare_version?: string;
+  latest_patch?: string;
+  latest_patch_captured_date?: string;
+  latest_patch_applied_date?: string;
   created_at: string;
   updated_at?: string;
 }

@@ -15,6 +15,7 @@ export interface User {
   is_active: boolean;
   is_superuser: boolean;
   is_org_admin: boolean;
+  use_classic_menu?: boolean;
   created_at?: string;
   updated_at?: string;
 }
@@ -33,6 +34,7 @@ export interface UserCreate {
   employment_type: 'intersystems' | 'customer';
   permission_level: 'read_only' | 'standard' | 'org_admin' | 'system_admin' | 'user';
   is_active?: boolean;
+  use_classic_menu?: boolean;
 }
 
 export interface UserUpdate {
@@ -48,4 +50,5 @@ export interface UserUpdate {
   employment_type?: 'intersystems' | 'customer';
   permission_level?: 'read_only' | 'standard' | 'org_admin' | 'system_admin' | 'user';
   is_active?: boolean;
+  use_classic_menu?: boolean;
 }

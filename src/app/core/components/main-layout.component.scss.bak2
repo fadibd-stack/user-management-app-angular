@@ -1,0 +1,1072 @@
+.sidenav-container {
+  height: 100vh;
+}
+
+    .sidenav {
+      width: 280px;
+      background: #f5f5f5;
+      border-right: 1px solid #e0e0e0;
+      overflow-y: auto;
+    }
+
+    .logo {
+      padding: 12px 16px 8px 16px;
+      background: white;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .logo.logo-collapsed {
+      display: none;
+    }
+
+    .logo-image {
+      width: 100%;
+      max-width: 240px;
+      height: auto;
+    }
+
+    .logo-subtitle {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: #333695;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    .menu-search {
+      padding: 8px 12px 6px 12px;
+      background: white;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .search-menu-field {
+      width: 100%;
+      margin: 0;
+      font-size: 13px;
+    }
+
+    .search-menu-field ::ng-deep .mat-mdc-form-field-wrapper {
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    .search-menu-field ::ng-deep .mat-mdc-form-field-infix {
+      padding-top: 2px;
+      padding-bottom: 2px;
+      min-height: 24px;
+    }
+
+    .search-menu-field ::ng-deep .mat-mdc-text-field-wrapper {
+      border: 1px solid #ccc !important;
+      border-radius: 4px;
+      height: 32px;
+    }
+
+    .search-menu-field ::ng-deep .mdc-notched-outline__leading,
+    .search-menu-field ::ng-deep .mdc-notched-outline__notch,
+    .search-menu-field ::ng-deep .mdc-notched-outline__trailing {
+      border-color: #ccc !important;
+      border-width: 1px !important;
+    }
+
+    .search-menu-field ::ng-deep .mat-mdc-form-field-focus-overlay {
+      background-color: transparent;
+    }
+
+    .search-menu-field ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
+
+    .menu-search-input {
+      font-size: 13px;
+      color: #333;
+      line-height: 24px;
+    }
+
+    .search-menu-field ::ng-deep input {
+      transform: translateY(0px);
+    }
+
+    .search-menu-field ::ng-deep .mat-mdc-form-field-text-prefix,
+    .search-menu-field ::ng-deep .mat-mdc-form-field-text-suffix {
+      align-self: center;
+    }
+
+    .menu-search-icon {
+      color: #999;
+      margin-right: 4px;
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .clear-search {
+      width: 28px;
+      height: 28px;
+    }
+
+    .clear-search mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      color: #999;
+    }
+
+    mat-nav-list {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    mat-nav-list ::ng-deep .mat-mdc-list {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    .menu-section {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      cursor: pointer;
+      background: #e8e8e8;
+      transition: background-color 0.2s;
+    }
+
+    .section-header:hover {
+      background: #d8d8d8;
+    }
+
+    .expand-icon {
+      margin-right: 6px;
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: #555;
+      letter-spacing: 0.5px;
+    }
+
+    .section-items {
+      background: #fafafa;
+    }
+
+    mat-list-item {
+      cursor: pointer;
+      font-size: 14px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      line-height: 36px !important;
+      overflow: hidden !important;
+      letter-spacing: 0 !important;
+    }
+
+    mat-list-item:hover {
+      background-color: #e0e0e0;
+    }
+
+    mat-list-item ::ng-deep .mat-mdc-list-item-interactive::before {
+      height: 36px !important;
+      top: 0 !important;
+    }
+
+    mat-list-item ::ng-deep .mat-ripple-element {
+      height: 36px !important;
+    }
+
+    mat-list-item ::ng-deep .mdc-list-item__ripple {
+      height: 36px !important;
+    }
+
+    /* Force ALL Material list item elements to 36px */
+    ::ng-deep .mat-mdc-list-item {
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    ::ng-deep .mat-mdc-list-item.mdc-list-item {
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    ::ng-deep a[mat-list-item] {
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      display: block !important;
+    }
+
+    ::ng-deep .mat-mdc-list-item-interactive::before {
+      height: 36px !important;
+    }
+
+    ::ng-deep .mat-mdc-list-item .mat-mdc-list-item-unscoped-content {
+      height: 36px !important;
+      line-height: 36px !important;
+    }
+
+    mat-list-item ::ng-deep .mdc-list-item__content {
+      padding: 0 !important;
+      margin: 0 !important;
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      line-height: 36px !important;
+      display: flex !important;
+      align-items: center !important;
+    }
+
+    mat-list-item ::ng-deep .mat-mdc-list-item-unscoped-content {
+      padding: 0 16px !important;
+      margin: 0 !important;
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      line-height: 36px !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+    }
+
+    mat-list-item ::ng-deep .mat-mdc-list-item-icon {
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 24px !important;
+      min-width: 24px !important;
+      flex-shrink: 0 !important;
+    }
+
+    mat-list-item mat-icon {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      vertical-align: middle !important;
+    }
+
+    mat-list-item ::ng-deep span[matlistitemtitle],
+    mat-list-item ::ng-deep [matlistitemtitle] {
+      line-height: normal !important;
+      display: flex !important;
+      align-items: center !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      letter-spacing: 0 !important;
+      height: 36px !important;
+    }
+
+    mat-list-item ::ng-deep .mat-mdc-list-item {
+      padding: 0 !important;
+      margin: 0 !important;
+      height: 32px !important;
+      min-height: 32px !important;
+      max-height: 32px !important;
+    }
+
+    mat-list-item ::ng-deep a {
+      padding: 0 !important;
+      margin: 0 !important;
+      height: 32px !important;
+      line-height: 32px !important;
+    }
+
+    mat-list-item.active {
+      background-color: #e3f2fd;
+      color: #1976d2;
+    }
+
+    mat-list-item.active mat-icon {
+      color: #1976d2;
+    }
+
+    .submenu-panel {
+      box-shadow: none !important;
+      margin: 0 !important;
+    }
+
+    .submenu-panel ::ng-deep .mat-expansion-panel-header {
+      padding: 0 12px !important;
+      margin: 0 !important;
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      font-size: 13px;
+      line-height: 36px !important;
+    }
+
+    .submenu-panel ::ng-deep .mat-expansion-panel-body {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    .submenu-item {
+      padding-left: 40px !important;
+      margin: 0 !important;
+      font-size: 13px;
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      line-height: 36px !important;
+    }
+
+    .submenu-item ::ng-deep .mdc-list-item__content {
+      padding: 0 !important;
+      margin: 0 !important;
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      line-height: 36px !important;
+    }
+
+    .submenu-item ::ng-deep .mat-mdc-list-item-unscoped-content {
+      padding: 0 40px !important;
+      margin: 0 !important;
+      height: 36px !important;
+      min-height: 36px !important;
+      max-height: 36px !important;
+      line-height: 36px !important;
+    }
+
+    // Classic menu section header
+    .classic-section-header {
+      display: flex;
+      align-items: center;
+      padding: 6px 16px 6px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #333;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+      margin-bottom: 2px;
+      height: auto;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.2s ease;
+      background-color: #e0e0e0 !important;
+    }
+
+    .classic-section-header:hover {
+      background-color: #d5d5d5 !important;
+    }
+
+    .classic-section-header:first-child {
+      margin-top: 0;
+    }
+
+    .classic-section-header .section-chevron {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
+      color: #666;
+    }
+
+    // Classic menu item styling
+    .classic-menu-item {
+      display: block !important;
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+      padding-top: 4px !important;
+      padding-bottom: 4px !important;
+      border: none !important;
+      outline: none !important;
+      cursor: pointer;
+      color: #333;
+      margin: 0 !important;
+      font-size: 14px !important;
+      font-weight: 400 !important;
+      line-height: 1.4 !important;
+    }
+
+    .classic-menu-item *,
+    .classic-menu-item *::before,
+    .classic-menu-item *::after {
+      border: none !important;
+      outline: none !important;
+    }
+
+    // Override all Material Design font sizes for classic menu items
+    .classic-menu-item *,
+    .classic-menu-item span {
+      font-size: 13px !important;
+      font-weight: 400 !important;
+    }
+
+    .classic-menu-item:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+      border: none !important;
+      border-left: none !important;
+    }
+
+    .classic-menu-item:focus,
+    .classic-menu-item:focus-visible,
+    .classic-menu-item:focus-within,
+    .classic-menu-item:active,
+    .classic-menu-item:target {
+      outline: none !important;
+      background-color: transparent !important;
+      background: none !important;
+      color: #333 !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+
+    .classic-menu-item:focus span,
+    .classic-menu-item:active span {
+      color: #333 !important;
+    }
+
+    // Remove ALL Material Design ripple, focus, and state effects
+    .classic-menu-item::before,
+    .classic-menu-item::after {
+      display: none !important;
+    }
+
+    .classic-menu-item .mat-mdc-list-item-unscoped-content {
+      color: inherit;
+    }
+
+    .classic-menu-item.active .mat-mdc-list-item-unscoped-content {
+      color: white;
+    }
+
+    // Force remove Material focus indicators
+    ::ng-deep a.classic-menu-item.mat-mdc-list-item,
+    ::ng-deep a.classic-menu-item.mat-mdc-list-item:focus {
+      background: none !important;
+      background-color: transparent !important;
+    }
+
+    ::ng-deep a.classic-menu-item.mat-mdc-list-item:hover {
+      background-color: rgba(0, 0, 0, 0.04) !important;
+    }
+
+    ::ng-deep a.classic-menu-item.mat-mdc-list-item.active {
+      background-color: #233575 !important;
+    }
+
+    ::ng-deep a.classic-menu-item.mat-mdc-list-item .mat-mdc-list-item-unscoped-content::before,
+    ::ng-deep a.classic-menu-item.mat-mdc-list-item .mat-mdc-list-item-unscoped-content::after,
+    ::ng-deep a.classic-menu-item.mat-mdc-list-item .mdc-list-item__ripple {
+      display: none !important;
+      content: none !important;
+      background: none !important;
+    }
+
+    // Ultimate nuclear option - remove ALL backgrounds from classic menu items when focused/clicked
+    ::ng-deep .classic-menu-item[tabindex]:focus,
+    ::ng-deep .classic-menu-item[tabindex]:active {
+      background-color: transparent !important;
+      color: #333 !important;
+    }
+
+    ::ng-deep .classic-menu-item[tabindex]:focus span,
+    ::ng-deep .classic-menu-item[tabindex]:active span {
+      color: #333 !important;
+    }
+
+    ::ng-deep .classic-menu-item.active[tabindex]:focus,
+    ::ng-deep .classic-menu-item.active[tabindex]:active {
+      background-color: #233575 !important;
+      color: white !important;
+    }
+
+    ::ng-deep .classic-menu-item.active[tabindex]:focus span,
+    ::ng-deep .classic-menu-item.active[tabindex]:active span {
+      color: white !important;
+    }
+
+    ::ng-deep .mat-mdc-list-item.classic-menu-item[tabindex]:focus::before {
+      opacity: 0 !important;
+    }
+
+    ::ng-deep .mat-mdc-list-item.classic-menu-item .mat-mdc-list-item-ripple,
+    ::ng-deep .mat-mdc-list-item.classic-menu-item .mat-mdc-list-item-focus-overlay {
+      opacity: 0 !important;
+      display: none !important;
+    }
+
+    // Prevent browser default link active state
+    a.classic-menu-item:active,
+    a.classic-menu-item:focus,
+    a.classic-menu-item:visited,
+    a.classic-menu-item:link {
+      background-color: transparent !important;
+      background: none !important;
+      color: #333 !important;
+    }
+
+    a.classic-menu-item:active span,
+    a.classic-menu-item:focus span,
+    a.classic-menu-item:visited span,
+    a.classic-menu-item:link span {
+      color: #333 !important;
+    }
+
+    // Ultra-aggressive: prevent ANY blue on non-active items
+    a.classic-menu-item:not(.active) {
+      background-color: transparent !important;
+      background: none !important;
+    }
+
+    a.classic-menu-item:not(.active):focus,
+    a.classic-menu-item:not(.active):active,
+    a.classic-menu-item:not(.active):focus-visible {
+      background-color: transparent !important;
+      background: none !important;
+      color: #333 !important;
+    }
+
+    // Global override for span/div used as menu items
+    ::ng-deep span.classic-menu-item,
+    ::ng-deep div.classic-menu-item {
+      border: none !important;
+      border-left: 0 !important;
+      border-right: 0 !important;
+      border-top: 0 !important;
+      border-bottom: 0 !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    ::ng-deep span.classic-menu-item:focus,
+    ::ng-deep span.classic-menu-item:active,
+    ::ng-deep span.classic-menu-item:hover,
+    ::ng-deep div.classic-menu-item:focus,
+    ::ng-deep div.classic-menu-item:active,
+    ::ng-deep div.classic-menu-item:hover {
+      border: none !important;
+      border-left: 0 !important;
+      border-right: 0 !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    // Nuclear option: remove ALL borders from everything in sidenav
+    ::ng-deep mat-sidenav *,
+    ::ng-deep mat-sidenav,
+    ::ng-deep mat-nav-list,
+    ::ng-deep mat-nav-list * {
+      border-left: 0 !important;
+      border-left-width: 0 !important;
+      border-left-style: none !important;
+    }
+
+    ::ng-deep .classic-menu-item,
+    ::ng-deep .classic-menu-item *,
+    ::ng-deep .classic-menu-subitem,
+    ::ng-deep .classic-menu-parent {
+      border-left-width: 0 !important;
+      border-left-style: none !important;
+      border-left-color: transparent !important;
+      border: 0 !important;
+    }
+
+    // Extra aggressive - target everything
+    mat-sidenav ::ng-deep *,
+    mat-nav-list ::ng-deep * {
+      border-left: 0 !important;
+      border: 0 !important;
+      box-shadow: none !important;
+      -webkit-box-shadow: none !important;
+    }
+
+    // Maybe it's a background gradient or inset shadow
+    ::ng-deep .classic-menu-item,
+    ::ng-deep .classic-menu-subitem {
+      box-shadow: none !important;
+      -webkit-box-shadow: none !important;
+      background-image: none !important;
+    }
+
+    // Target all possible focus/active states
+    ::ng-deep .classic-menu-item:focus,
+    ::ng-deep .classic-menu-item:active,
+    ::ng-deep .classic-menu-item:hover,
+    ::ng-deep .classic-menu-subitem:focus,
+    ::ng-deep .classic-menu-subitem:active,
+    ::ng-deep .classic-menu-subitem:hover {
+      box-shadow: none !important;
+      border-left: 0 !important;
+      background-image: none !important;
+    }
+
+    // Ensure first menu item (Dashboard) doesn't have blue line
+    .classic-menu-item:first-of-type {
+      border-left: 0 !important;
+      box-shadow: none !important;
+    }
+
+    // Parent item with chevron (not clickable link, just expands/collapses)
+    .classic-menu-parent {
+      font-weight: 600;
+      font-size: 14px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      background-color: #e0e0e0 !important;
+      padding: 4px 16px !important;
+      margin-bottom: 0 !important;
+    }
+
+    .classic-menu-parent:hover {
+      background-color: #d5d5d5 !important;
+    }
+
+    .classic-menu-parent:focus,
+    .classic-menu-parent:focus-visible,
+    .classic-menu-parent:focus-within {
+      outline: none !important;
+      background-color: transparent !important;
+    }
+
+    .classic-menu-parent:active {
+      background-color: rgba(0, 0, 0, 0.04) !important;
+    }
+
+    // Remove ALL Material Design ripple, state layer, and focus indicators
+    .classic-menu-parent::before,
+    .classic-menu-parent::after,
+    .classic-menu-parent .mat-mdc-button-persistent-ripple,
+    .classic-menu-parent .mat-mdc-focus-indicator,
+    .classic-menu-parent .mat-ripple,
+    .classic-menu-parent .mat-ripple-element,
+    .classic-menu-parent .mdc-button__ripple,
+    .classic-menu-parent .mdc-list-item__ripple,
+    .classic-menu-parent .mat-mdc-list-item-interactive,
+    .classic-menu-parent .mat-mdc-list-item-focus-overlay {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+    }
+
+    // Target deep Material Design classes
+    ::ng-deep .classic-menu-parent .mat-mdc-button-persistent-ripple,
+    ::ng-deep .classic-menu-parent .mdc-list-item__ripple,
+    ::ng-deep .classic-menu-parent::before,
+    ::ng-deep .classic-menu-parent::after {
+      display: none !important;
+      background-color: transparent !important;
+    }
+
+    // Force remove all focus indicators and state overlays
+    ::ng-deep button.classic-menu-parent.mat-mdc-list-item {
+      background: none !important;
+    }
+
+    ::ng-deep button.classic-menu-parent.mat-mdc-list-item:focus {
+      background: none !important;
+      background-color: transparent !important;
+    }
+
+    ::ng-deep button.classic-menu-parent.mat-mdc-list-item:hover {
+      background-color: rgba(0, 0, 0, 0.04) !important;
+    }
+
+    ::ng-deep button.classic-menu-parent.mat-mdc-list-item .mat-mdc-list-item-unscoped-content::before,
+    ::ng-deep button.classic-menu-parent.mat-mdc-list-item .mat-mdc-list-item-unscoped-content::after {
+      display: none !important;
+      content: none !important;
+      background: none !important;
+    }
+
+    .classic-menu-parent .chevron-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      color: #666;
+      margin-right: 4px;
+    }
+
+    // Subitems are indented to the right (aligned with parent text, not chevron)
+    .classic-menu-subitem {
+      padding-left: 44px !important;
+      font-weight: 400 !important;
+      font-size: 14px !important;
+      margin-bottom: 0 !important;
+      padding-top: 2px !important;
+      padding-bottom: 2px !important;
+    }
+
+    // Last subitem should have minimal bottom spacing
+    .classic-menu-subitem:last-of-type {
+      margin-bottom: 0 !important;
+      padding-bottom: 2px !important;
+    }
+
+    .classic-menu-parent .mat-mdc-list-item-title,
+    .classic-menu-parent .mdc-list-item__primary-text {
+      font-size: 14px !important;
+      font-weight: 400 !important;
+    }
+
+    mat-divider {
+      margin: 0;
+    }
+
+    .top-toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      height: 42px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      padding: 0 12px;
+      background-color: #233575 !important;
+    }
+
+    .left-buttons {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      height: 100%;
+      margin-top: -8px;
+    }
+
+    .toolbar-menu-btn,
+    .toolbar-home-btn {
+      color: white;
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toolbar-menu-btn mat-icon,
+    .toolbar-home-btn mat-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      margin-top: -4px;
+    }
+
+    .search-field {
+      width: 600px;
+      max-width: 600px;
+      margin: 0;
+      margin-top: 10px;
+    }
+
+    .search-field ::ng-deep .mat-mdc-text-field-wrapper {
+      height: 32px;
+    }
+
+    .search-field ::ng-deep .mat-mdc-form-field-infix {
+      min-height: 32px;
+      padding-top: 4px;
+      padding-bottom: 4px;
+    }
+
+    .search-field ::ng-deep .mat-mdc-form-field-wrapper {
+      padding: 0;
+      margin: 0;
+    }
+
+    .search-field ::ng-deep .mat-mdc-form-field-flex {
+      align-items: center;
+    }
+
+    .search-field ::ng-deep .mat-mdc-text-field-wrapper {
+      background-color: white;
+      border-radius: 24px;
+    }
+
+    .search-field ::ng-deep .mat-mdc-form-field-focus-overlay {
+      background-color: white;
+      border-radius: 24px;
+    }
+
+    .search-field ::ng-deep .mdc-notched-outline__leading,
+    .search-field ::ng-deep .mdc-notched-outline__notch,
+    .search-field ::ng-deep .mdc-notched-outline__trailing {
+      border-color: transparent !important;
+      border-radius: 24px !important;
+    }
+
+    .search-field ::ng-deep .mdc-notched-outline__leading {
+      border-radius: 24px 0 0 24px !important;
+    }
+
+    .search-field ::ng-deep .mdc-notched-outline__trailing {
+      border-radius: 0 24px 24px 0 !important;
+    }
+
+    .search-field ::ng-deep .mat-mdc-form-field-infix {
+      padding-top: 4px;
+      padding-bottom: 4px;
+      min-height: 28px;
+    }
+
+    .search-input {
+      color: #333 !important;
+      caret-color: #1976d2;
+      font-size: 14px;
+    }
+
+    .search-input::placeholder {
+      color: #999;
+    }
+
+    .search-icon {
+      color: #666;
+      margin-left: 4px;
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .spacer {
+      flex: 1 1 auto;
+    }
+
+    .ai-assistant-btn {
+      padding: 0;
+      min-width: auto;
+      height: 28px;
+      border-radius: 14px;
+      transition: transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: -10px;
+    }
+
+    .ai-assistant-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .ai-icon {
+      height: 28px;
+      width: auto;
+      display: block;
+    }
+
+    .user-menu {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: -8px;
+    }
+
+    .user-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 12px;
+      text-transform: none;
+      font-size: 14px;
+      color: white;
+      border-radius: 8px;
+      height: 32px;
+      margin: 0;
+    }
+
+    .user-button:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .user-button mat-icon:first-child {
+      font-size: 28px;
+      width: 28px;
+      height: 28px;
+      color: white;
+    }
+
+    .user-name {
+      font-weight: 500;
+      color: white;
+    }
+
+    .dropdown-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .user-menu-header {
+      padding: 6px 12px;
+      background-color: #f5f5f5;
+    }
+
+    .user-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+    }
+
+    .user-details strong {
+      font-size: 13px;
+      color: #333;
+    }
+
+    .user-details small {
+      font-size: 11px;
+      color: #666;
+    }
+
+    .user-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+    }
+
+    .action-icon-btn {
+      width: 40px;
+      height: 40px;
+    }
+
+    .action-icon-btn mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .logout-btn {
+      min-width: 80px;
+    }
+
+    // AI Chat Panel Styles
+    .ai-chat-panel {
+      position: fixed;
+      top: 42px;
+      right: -400px;
+      width: 400px;
+      height: calc(100vh - 42px);
+      background: white;
+      box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+      transition: right 0.3s ease;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ai-chat-panel.open {
+      right: 0;
+    }
+
+    .ai-chat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      background: linear-gradient(90deg, #233575 0%, #1a2962 100%);
+      color: white;
+      position: relative;
+    }
+
+    .ai-chat-header h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .ai-chat-header button {
+      color: white;
+      margin-left: auto;
+      z-index: 1;
+    }
+
+    .ai-chat-messages {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      background: #f9f9f9;
+    }
+
+    .ai-message {
+      margin-bottom: 12px;
+      display: flex;
+    }
+
+    .ai-message.user {
+      justify-content: flex-end;
+    }
+
+    .message-bubble {
+      max-width: 60%;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: white;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .ai-message.user .message-bubble {
+      background: linear-gradient(90deg, #233575 0%, #1a2962 100%);
+      color: white;
+    }
+
+    .ai-chat-input {
+      padding: 16px;
+      background: white;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .chat-input-field {
+      width: 100%;
+      margin: 0;
+    }
+
+    .chat-input-field ::ng-deep .mat-mdc-form-field-wrapper {
+      padding: 0;
+    }
+
+    ::ng-deep .mat-mdc-menu-item {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    ::ng-deep .mat-mdc-menu-item .mat-icon {
+      margin-right: 12px;
+      color: rgba(0, 0, 0, 0.54);
+    }
+
+    .content {
+      min-height: calc(100vh - 42px);
+      background: #fafafa;

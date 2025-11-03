@@ -10,19 +10,14 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req);
   }
 
-  // Get user from localStorage and add X-User-ID header
-  const userStr = localStorage.getItem('currentUser');
-  if (userStr) {
-    try {
-      const user = JSON.parse(userStr);
-      req = req.clone({
-        setHeaders: {
-          'X-User-ID': user.id.toString()
-        }
-      });
-    } catch (error) {
-      console.error('Failed to parse user from localStorage:', error);
-    }
+  // Add X-User-ID header if user is logged in
+  const user = authService.currentUser;
+  if (user) {
+    req = req.clone({
+      setHeaders: {
+        'X-User-ID': user.id.toString()
+      }
+    });
   }
 
   return next(req);

@@ -48,7 +48,7 @@ import { Group } from '../../groups/models/group.model';
       </div>
 
       <mat-card *ngIf="loading" class="loading-card">
-        <mat-spinner></mat-spinner>
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       </mat-card>
 
       <div *ngIf="!loading && summary" class="dashboard-content">
@@ -115,9 +115,9 @@ import { Group } from '../../groups/models/group.model';
           </div>
         </mat-card>
 
-        <mat-card *ngIf="summary.owner_load && summary.owner_load.length > 0" class="section-card">
+        <mat-card *ngIf="summary?.owner_load && summary.owner_load.length > 0" class="section-card">
           <h3>Top Users by Workload</h3>
-          <table mat-table [dataSource]="summary.owner_load">
+          <table mat-table [dataSource]="summary?.owner_load || []">
             <ng-container matColumnDef="username">
               <th mat-header-cell *matHeaderCellDef>Username</th>
               <td mat-cell *matCellDef="let owner">{{ owner.username }}</td>
@@ -196,8 +196,15 @@ export class TeamDashboardComponent implements OnInit {
   loadSummary(): void {
     this.loading = true;
     this.dashboardService.getTeamSummary(this.selectedRange, this.selectedGroup || undefined).subscribe({
-      next: (summary) => { this.summary = summary; this.loading = false; },
-      error: (err) => { console.error('Error loading summary:', err); this.loading = false; }
+      next: (summary) => {
+        this.summary = summary;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error loading summary:', err);
+        this.summary = null;
+        this.loading = false;
+      }
     });
   }
 }

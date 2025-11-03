@@ -15,8 +15,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthService } from '../services/auth.service';
-// import { ChangePasswordDialogComponent } from './change-password-dialog.component';
+import { ChangePasswordDialogComponent } from './change-password-dialog.component';
 
 interface MenuItem {
   path?: string;
@@ -51,8 +52,10 @@ interface MenuSection {
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTooltipModule
   ],
+  styleUrls: ['./main-layout.component.scss'],
   template: `
     <mat-sidenav-container class="sidenav-container">
       <mat-sidenav #sidenav mode="side" [opened]="sidenavOpened" class="sidenav">
@@ -72,41 +75,85 @@ interface MenuSection {
         </div>
 
         <mat-nav-list>
-          @for (section of filteredMenuSections; track section.title) {
-            <div class="menu-section">
-              <div class="section-header" (click)="toggleSection(section.title)">
-                <mat-icon class="expand-icon">{{ isSectionExpanded(section.title) ? 'expand_more' : 'chevron_right' }}</mat-icon>
-                <span class="section-title">{{ section.title }}</span>
+          <!-- Classic Menu Style -->
+          @if (useClassicMenu) {
+            @for (section of filteredMenuSections; track section.title) {
+              <!-- Section Header - Clickable to expand/collapse -->
+              <div class="classic-section-header" (click)="toggleSection(section.title)">
+                <mat-icon class="section-chevron">{{ isSectionExpanded(section.title) ? 'expand_more' : 'chevron_right' }}</mat-icon>
+                <span>{{ section.title }}</span>
               </div>
 
+              <!-- Section items - shown when section is expanded -->
               @if (isSectionExpanded(section.title)) {
-                <div class="section-items">
-                  @for (item of section.items; track item.label) {
-                    @if (item.collapsible) {
-                      <mat-expansion-panel class="submenu-panel" [expanded]="isSubsectionExpanded(item.label)">
-                        <mat-expansion-panel-header (click)="toggleSubsection(item.label)">
-                          <mat-panel-title>{{ item.label }}</mat-panel-title>
-                        </mat-expansion-panel-header>
-                        @for (subitem of item.subitems; track subitem.path) {
-                          <a mat-list-item [routerLink]="subitem.path" [queryParams]="subitem.queryParams" routerLinkActive="active" class="submenu-item">
-                            <span matListItemTitle>{{ subitem.label }}</span>
-                          </a>
+                @for (item of section.items; track item.label) {
+                  @if (item.collapsible) {
+                    <!-- Parent item with chevron for expandable menu -->
+                    <div class="classic-menu-item classic-menu-parent" (click)="toggleSubsection(item.label)">
+                      <mat-icon class="chevron-icon">{{ isSubsectionExpanded(item.label) ? 'expand_more' : 'chevron_right' }}</mat-icon>
+                      <span>{{ item.label }}</span>
+                    </div>
+                    <!-- Subitems shown when expanded -->
+                    @if (isSubsectionExpanded(item.label)) {
+                      @for (subitem of item.subitems; track subitem.path) {
+                        @if (subitem.path) {
+                          <span class="classic-menu-item classic-menu-subitem" (click)="navigateToRoute(subitem.path, subitem.queryParams)">
+                            {{ subitem.label }}
+                          </span>
                         }
-                      </mat-expansion-panel>
-                    } @else {
-                      <a mat-list-item [routerLink]="item.path" routerLinkActive="active">
-                        @if (item.icon) {
-                          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
-                        }
-                        <span matListItemTitle>{{ item.label }}</span>
-                      </a>
+                      }
+                    }
+                  } @else {
+                    <!-- Direct menu item without subitems -->
+                    @if (item.path) {
+                      <span class="classic-menu-item" (click)="navigateToRoute(item.path, item.queryParams)">
+                        {{ item.label }}
+                      </span>
                     }
                   }
-                </div>
+                }
               }
+            }
+          }
 
-              <mat-divider></mat-divider>
-            </div>
+          <!-- Modern Collapsible Menu Style -->
+          @if (!useClassicMenu) {
+            @for (section of filteredMenuSections; track section.title) {
+              <div class="menu-section">
+                <div class="section-header" (click)="toggleSection(section.title)">
+                  <mat-icon class="expand-icon">{{ isSectionExpanded(section.title) ? 'expand_more' : 'chevron_right' }}</mat-icon>
+                  <span class="section-title">{{ section.title }}</span>
+                </div>
+
+                @if (isSectionExpanded(section.title)) {
+                  <div class="section-items">
+                    @for (item of section.items; track item.label) {
+                      @if (item.collapsible) {
+                        <mat-expansion-panel class="submenu-panel" [expanded]="isSubsectionExpanded(item.label)">
+                          <mat-expansion-panel-header (click)="toggleSubsection(item.label)">
+                            <mat-panel-title>{{ item.label }}</mat-panel-title>
+                          </mat-expansion-panel-header>
+                          @for (subitem of item.subitems; track subitem.path) {
+                            <a mat-list-item [routerLink]="subitem.path" [queryParams]="subitem.queryParams" routerLinkActive="active" class="submenu-item">
+                              <span matListItemTitle>{{ subitem.label }}</span>
+                            </a>
+                          }
+                        </mat-expansion-panel>
+                      } @else {
+                        <a mat-list-item [routerLink]="item.path" routerLinkActive="active">
+                          @if (item.icon) {
+                            <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+                          }
+                          <span matListItemTitle>{{ item.label }}</span>
+                        </a>
+                      }
+                    }
+                  </div>
+                }
+
+                <mat-divider></mat-divider>
+              </div>
+            }
           }
 
         </mat-nav-list>
@@ -128,6 +175,9 @@ interface MenuSection {
               <input matInput placeholder="Search" class="search-input">
               <mat-icon matSuffix class="search-icon">search</mat-icon>
             </mat-form-field>
+            <button mat-button class="ai-assistant-btn" (click)="openAIAssistant()">
+              <img src="assets/ai-assistant-icon.svg" alt="AI Assistant" class="ai-icon">
+            </button>
           </div>
 
           <div class="user-menu" *ngIf="currentUser">
@@ -148,18 +198,18 @@ interface MenuSection {
                 <mat-icon>language</mat-icon>
                 <span>Language: {{ getLanguageLabel(currentUser.language) }}</span>
               </button>
-              <button mat-menu-item (click)="changePassword()">
-                <mat-icon>lock</mat-icon>
-                <span>Change Password</span>
-              </button>
-              <button mat-menu-item (click)="lockSession()">
-                <mat-icon>lock_clock</mat-icon>
-                <span>Lock Session</span>
-              </button>
-              <button mat-menu-item (click)="logout()">
-                <mat-icon>logout</mat-icon>
-                <span>Logout</span>
-              </button>
+              <mat-divider></mat-divider>
+              <div class="user-actions">
+                <button mat-icon-button (click)="lockSession()" matTooltip="Lock Session" class="action-icon-btn">
+                  <mat-icon>lock</mat-icon>
+                </button>
+                <button mat-icon-button (click)="changePassword()" matTooltip="Change Password" class="action-icon-btn">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-raised-button color="primary" (click)="logout()" class="logout-btn">
+                  Logout
+                </button>
+              </div>
             </mat-menu>
             <mat-menu #languageMenu="matMenu">
               <button mat-menu-item (click)="changeLanguage('en')">
@@ -189,552 +239,51 @@ interface MenuSection {
         <div class="content" (click)="onContentClick()">
           <router-outlet></router-outlet>
         </div>
+
+        <!-- AI Assistant Chat Panel -->
+        <div class="ai-chat-panel" [class.open]="aiChatOpen">
+          <div class="ai-chat-header">
+            <h3>AI Assistant</h3>
+            <button mat-icon-button (click)="closeAIAssistant()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          <div class="ai-chat-messages">
+            <div *ngFor="let message of aiMessages" class="ai-message" [class.user]="message.isUser">
+              <div class="message-bubble">{{ message.text }}</div>
+            </div>
+          </div>
+          <div class="ai-chat-input">
+            <mat-form-field appearance="outline" class="chat-input-field">
+              <input matInput placeholder="Type your message..." [(ngModel)]="aiInputText" (keyup.enter)="sendAIMessage()">
+              <button mat-icon-button matSuffix (click)="sendAIMessage()" [disabled]="!aiInputText.trim()">
+                <mat-icon>send</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
       </mat-sidenav-content>
     </mat-sidenav-container>
   `,
-  styles: [`
-    .sidenav-container {
-      height: 100vh;
-    }
-
-    .sidenav {
-      width: 280px;
-      background: #f5f5f5;
-      border-right: 1px solid #e0e0e0;
-      overflow-y: auto;
-    }
-
-    .logo {
-      padding: 12px 16px 8px 16px;
-      background: white;
-      border-bottom: 1px solid #e0e0e0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .logo.logo-collapsed {
-      display: none;
-    }
-
-    .logo-image {
-      width: 100%;
-      max-width: 240px;
-      height: auto;
-    }
-
-    .logo-subtitle {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 500;
-      color: #333695;
-      text-align: center;
-      letter-spacing: 0.5px;
-    }
-
-    .menu-search {
-      padding: 8px 12px 6px 12px;
-      background: white;
-      border-bottom: 1px solid #e0e0e0;
-    }
-
-    .search-menu-field {
-      width: 100%;
-      margin: 0;
-      font-size: 13px;
-    }
-
-    .search-menu-field ::ng-deep .mat-mdc-form-field-wrapper {
-      padding-bottom: 0;
-      margin-bottom: 0;
-    }
-
-    .search-menu-field ::ng-deep .mat-mdc-form-field-infix {
-      padding-top: 6px;
-      padding-bottom: 6px;
-      min-height: 32px;
-    }
-
-    .search-menu-field ::ng-deep .mdc-notched-outline__leading,
-    .search-menu-field ::ng-deep .mdc-notched-outline__notch,
-    .search-menu-field ::ng-deep .mdc-notched-outline__trailing {
-      border-color: #ddd !important;
-    }
-
-    .search-menu-field ::ng-deep .mat-mdc-form-field-focus-overlay {
-      background-color: transparent;
-    }
-
-    .search-menu-field ::ng-deep .mat-mdc-form-field-subscript-wrapper {
-      display: none;
-    }
-
-    .menu-search-input {
-      font-size: 13px;
-      color: #333;
-    }
-
-    .menu-search-icon {
-      color: #999;
-      margin-right: 4px;
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
-    }
-
-    .clear-search {
-      width: 28px;
-      height: 28px;
-    }
-
-    .clear-search mat-icon {
-      font-size: 16px;
-      width: 16px;
-      height: 16px;
-      color: #999;
-    }
-
-    mat-nav-list {
-      padding: 0 !important;
-      margin: 0 !important;
-    }
-
-    mat-nav-list ::ng-deep .mat-mdc-list {
-      padding: 0 !important;
-      margin: 0 !important;
-    }
-
-    .menu-section {
-      margin: 0 !important;
-      padding: 0 !important;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      padding: 8px 12px;
-      cursor: pointer;
-      background: #e8e8e8;
-      transition: background-color 0.2s;
-    }
-
-    .section-header:hover {
-      background: #d8d8d8;
-    }
-
-    .expand-icon {
-      margin-right: 6px;
-      font-size: 18px;
-      width: 18px;
-      height: 18px;
-    }
-
-    .section-title {
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      color: #555;
-      letter-spacing: 0.5px;
-    }
-
-    .section-items {
-      background: #fafafa;
-    }
-
-    mat-list-item {
-      cursor: pointer;
-      font-size: 14px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      height: 36px !important;
-      min-height: 36px !important;
-      max-height: 36px !important;
-      padding: 0 !important;
-      margin: 0 !important;
-      line-height: 36px !important;
-      overflow: hidden !important;
-      letter-spacing: 0 !important;
-    }
-
-    mat-list-item:hover {
-      background-color: #e0e0e0;
-    }
-
-    mat-list-item ::ng-deep .mat-mdc-list-item-interactive::before {
-      height: 36px !important;
-      top: 0 !important;
-    }
-
-    mat-list-item ::ng-deep .mat-ripple-element {
-      height: 36px !important;
-    }
-
-    mat-list-item ::ng-deep .mdc-list-item__ripple {
-      height: 36px !important;
-    }
-
-    /* Force ALL Material list item elements to 36px */
-    ::ng-deep .mat-mdc-list-item {
-      height: 36px !important;
-      min-height: 36px !important;
-      max-height: 36px !important;
-      padding: 0 !important;
-      margin: 0 !important;
-    }
-
-    ::ng-deep .mat-mdc-list-item.mdc-list-item {
-      height: 36px !important;
-      min-height: 36px !important;
-      max-height: 36px !important;
-      padding: 0 !important;
-      margin: 0 !important;
-    }
-
-    ::ng-deep a[mat-list-item] {
-      height: 36px !important;
-      min-height: 36px !important;
-      max-height: 36px !important;
-      padding: 0 !important;
-      margin: 0 !important;
-      display: block !important;
-    }
-
-    ::ng-deep .mat-mdc-list-item-interactive::before {
-      height: 36px !important;
-    }
-
-    ::ng-deep .mat-mdc-list-item .mat-mdc-list-item-unscoped-content {
-      height: 36px !important;
-      line-height: 36px !important;
-    }
-
-    mat-list-item ::ng-deep .mdc-list-item__content {
-      padding: 0 !important;
-      margin: 0 !important;
-      height: 36px !important;
-      min-height: 36px !important;
-      max-height: 36px !important;
-      line-height: 36px !important;
-      display: flex !important;
-      align-items: center !important;
-    }
-
-    mat-list-item ::ng-deep .mat-mdc-list-item-unscoped-content {
-      padding: 0 16px !important;
-      margin: 0 !important;
-      height: 36px !important;
-      min-height: 36px !important;
-      max-height: 36px !important;
-      line-height: 36px !important;
-      display: flex !important;
-      align-items: center !important;
-      gap: 8px !important;
-    }
-
-    mat-list-item ::ng-deep .mat-mdc-list-item-icon {
-      margin: 0 !important;
-      padding: 0 !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      width: 24px !important;
-      min-width: 24px !important;
-      flex-shrink: 0 !important;
-    }
-
-    mat-list-item mat-icon {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      vertical-align: middle !important;
-    }
-
-    mat-list-item ::ng-deep span[matlistitemtitle],
-    mat-list-item ::ng-deep [matlistitemtitle] {
-      line-height: normal !important;
-      display: flex !important;
-      align-items: center !important;
-      padding: 0 !important;
-      margin: 0 !important;
-      letter-spacing: 0 !important;
-      height: 36px !important;
-    }
-
-    mat-list-item ::ng-deep .mat-mdc-list-item {
-      padding: 0 !important;
-      margin: 0 !important;
-      height: 32px !important;
-      min-height: 32px !important;
-      max-height: 32px !important;
-    }
-
-    mat-list-item ::ng-deep a {
-      padding: 0 !important;
-      margin: 0 !important;
-      height: 32px !important;
-      line-height: 32px !important;
-    }
-
-    mat-list-item.active {
-      background-color: #e3f2fd;
-      color: #1976d2;
-    }
-
-    mat-list-item.active mat-icon {
-      color: #1976d2;
-    }
-
-    .submenu-panel {
-      box-shadow: none !important;
-      margin: 0 !important;
-    }
-
-    .submenu-panel ::ng-deep .mat-expansion-panel-header {
-      padding: 0 12px !important;
-      margin: 0 !important;
-      height: 36px !important;
-      min-height: 36px !important;
-      max-height: 36px !important;
-      font-size: 13px;
-      line-height: 36px !important;
-    }
-
-    .submenu-panel ::ng-deep .mat-expansion-panel-body {
-      padding: 0 !important;
-      margin: 0 !important;
-    }
-
-    .submenu-item {
-      padding-left: 40px !important;
-      margin: 0 !important;
-      font-size: 13px;
-      height: 36px !important;
-      min-height: 36px !important;
-      max-height: 36px !important;
-      line-height: 36px !important;
-    }
-
-    .submenu-item ::ng-deep .mdc-list-item__content {
-      padding: 0 !important;
-      margin: 0 !important;
-      height: 36px !important;
-      min-height: 36px !important;
-      max-height: 36px !important;
-      line-height: 36px !important;
-    }
-
-    .submenu-item ::ng-deep .mat-mdc-list-item-unscoped-content {
-      padding: 0 40px !important;
-      margin: 0 !important;
-      height: 36px !important;
-      min-height: 36px !important;
-      max-height: 36px !important;
-      line-height: 36px !important;
-    }
-
-    mat-divider {
-      margin: 0;
-    }
-
-    .top-toolbar {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      height: 42px;
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-      padding: 0 12px;
-    }
-
-    .left-buttons {
-      display: flex;
-      align-items: center;
-      gap: 2px;
-    }
-
-    .toolbar-menu-btn,
-    .toolbar-home-btn {
-      color: white;
-      width: 38px;
-      height: 38px;
-      padding: 0;
-    }
-
-    .toolbar-menu-btn mat-icon,
-    .toolbar-home-btn mat-icon {
-      font-size: 26px;
-      width: 26px;
-      height: 26px;
-    }
-
-    .search-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-    }
-
-    .search-field {
-      width: 600px;
-      max-width: 600px;
-      margin: 0;
-      margin-top: 5px;
-    }
-
-    .search-field ::ng-deep .mat-mdc-form-field-wrapper {
-      padding: 0;
-      margin: 0;
-    }
-
-    .search-field ::ng-deep .mat-mdc-form-field-flex {
-      align-items: center;
-    }
-
-    .search-field ::ng-deep .mat-mdc-text-field-wrapper {
-      background-color: white;
-      border-radius: 24px;
-    }
-
-    .search-field ::ng-deep .mat-mdc-form-field-focus-overlay {
-      background-color: white;
-      border-radius: 24px;
-    }
-
-    .search-field ::ng-deep .mdc-notched-outline__leading,
-    .search-field ::ng-deep .mdc-notched-outline__notch,
-    .search-field ::ng-deep .mdc-notched-outline__trailing {
-      border-color: transparent !important;
-      border-radius: 24px !important;
-    }
-
-    .search-field ::ng-deep .mdc-notched-outline__leading {
-      border-radius: 24px 0 0 24px !important;
-    }
-
-    .search-field ::ng-deep .mdc-notched-outline__trailing {
-      border-radius: 0 24px 24px 0 !important;
-    }
-
-    .search-field ::ng-deep .mat-mdc-form-field-infix {
-      padding-top: 4px;
-      padding-bottom: 4px;
-      min-height: 28px;
-    }
-
-    .search-input {
-      color: #333 !important;
-      caret-color: #1976d2;
-      font-size: 14px;
-    }
-
-    .search-input::placeholder {
-      color: #999;
-    }
-
-    .search-icon {
-      color: #666;
-      margin-left: 4px;
-      font-size: 20px;
-      width: 20px;
-      height: 20px;
-    }
-
-    .spacer {
-      flex: 1 1 auto;
-    }
-
-    .user-menu {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-    }
-
-    .user-button {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 0 12px;
-      text-transform: none;
-      font-size: 14px;
-      color: white;
-      border-radius: 8px;
-      height: 32px;
-      margin: 0;
-    }
-
-    .user-button:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .user-button mat-icon:first-child {
-      font-size: 28px;
-      width: 28px;
-      height: 28px;
-      color: white;
-    }
-
-    .user-name {
-      font-weight: 500;
-      color: white;
-    }
-
-    .dropdown-icon {
-      font-size: 20px;
-      width: 20px;
-      height: 20px;
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    .user-menu-header {
-      padding: 6px 12px;
-      background-color: #f5f5f5;
-    }
-
-    .user-details {
-      display: flex;
-      flex-direction: column;
-      gap: 0px;
-    }
-
-    .user-details strong {
-      font-size: 13px;
-      color: #333;
-    }
-
-    .user-details small {
-      font-size: 11px;
-      color: #666;
-    }
-
-    ::ng-deep .mat-mdc-menu-item {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 14px;
-      font-weight: 400;
-    }
-
-    ::ng-deep .mat-mdc-menu-item .mat-icon {
-      margin-right: 12px;
-      color: rgba(0, 0, 0, 0.54);
-    }
-
-    .content {
-      min-height: calc(100vh - 42px);
-      background: #fafafa;
-    }
-  `]
 })
 export class MainLayoutComponent {
   currentUser: any;
   sidenavOpened = true;
   menuSearchQuery = '';
+  useClassicMenu = false;
   expandedSections: { [key: string]: boolean } = {
     'MAIN': true,
+    'RELEASE VALIDATION': true,
     'SYSTEM CONFIGURATION': true,
     'ORGANIZATION': true,
     'ADDITIONAL': true,
     'Table Configuration': true
   };
+
+  // AI Chat properties
+  aiChatOpen = false;
+  aiInputText = '';
+  aiMessages: { text: string; isUser: boolean }[] = [];
 
   constructor(
     private authService: AuthService,
@@ -744,6 +293,20 @@ export class MainLayoutComponent {
     private http: HttpClient
   ) {
     this.currentUser = this.authService.currentUserValue;
+
+    // Subscribe to user updates and apply classic menu preference
+    this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+      // Apply user's menu preference from database
+      if (user) {
+        this.useClassicMenu = user.use_classic_menu ?? false;
+      }
+    });
+
+    // Initialize menu preference from current user
+    if (this.currentUser) {
+      this.useClassicMenu = this.currentUser.use_classic_menu ?? false;
+    }
   }
 
   get menuSections(): MenuSection[] {
@@ -754,15 +317,19 @@ export class MainLayoutComponent {
         title: 'MAIN',
         items: [
           { path: '/', label: 'Dashboard', icon: 'dashboard' },
-          { path: '/team-dashboard', label: 'Team Dashboard', icon: 'analytics' },
           { path: '/release-highlights', label: 'Get Release Highlights', icon: 'highlight' },
-          { path: '/workbench', label: 'Workbench', icon: 'work' },
+          { path: '/workbench', label: 'Workbench', icon: 'work' }
+        ]
+      },
+      {
+        title: 'RELEASE VALIDATION',
+        items: [
+          { path: '/team-dashboard', label: 'Team Dashboard', icon: 'analytics' },
           { path: '/test-cases', label: 'Test Cases', icon: 'assignment' },
           { path: '/test-executions', label: 'Test Executions', icon: 'play_circle_filled' },
           { path: '/task-pool', label: 'Task Pool', icon: 'task' },
           { path: '/advice', label: 'Advice', icon: 'question_answer' },
-          { path: '/team-discussions', label: 'Team Discussions', icon: 'forum' },
-          { path: '/functions', label: 'Functions', icon: 'functions' }
+          { path: '/team-discussions', label: 'Team Discussions', icon: 'forum' }
         ]
       }
     ];
@@ -800,30 +367,51 @@ export class MainLayoutComponent {
       });
     }
 
-    // Additional section
-    const additionalItems: MenuItem[] = [
-      { path: '/jira-dashboard', label: 'JIRA Dashboard', icon: 'bar_chart' },
-      { path: '/jira', label: 'JIRA Issues', icon: 'bug_report' },
-      { path: '/jira-config', label: 'JIRA Configuration', icon: 'settings' },
-      { path: '/trakintel-config', label: 'Trakintel Configuration', icon: 'tune' }
-    ];
-
+    // Additional section - only for InterSystems employees
     if (user?.employment_type === 'intersystems') {
-      additionalItems.push({ path: '/audit-trail', label: 'Audit Trail', icon: 'history' });
+      const additionalItems: MenuItem[] = [
+        { path: '/functions', label: 'Functions', icon: 'functions' },
+        { path: '/jira-dashboard', label: 'JIRA Dashboard', icon: 'bar_chart' },
+        { path: '/jira', label: 'JIRA Issues', icon: 'bug_report' },
+        { path: '/jira-config', label: 'JIRA Configuration', icon: 'settings' },
+        { path: '/trakintel-config', label: 'Trakintel Configuration', icon: 'tune' },
+        { path: '/audit-trail', label: 'Audit Trail', icon: 'history' },
+        { path: '/api-docs', label: 'API Documentation', icon: 'code' }
+      ];
+
+      sections.push({
+        title: 'ADDITIONAL',
+        items: additionalItems
+      });
     }
-
-    additionalItems.push({ path: '/api-docs', label: 'API Documentation', icon: 'code' });
-
-    sections.push({
-      title: 'ADDITIONAL',
-      items: additionalItems
-    });
 
     return sections;
   }
 
   toggleSidenav(): void {
     this.sidenavOpened = !this.sidenavOpened;
+  }
+
+  closeSidenavOnMobile(): void {
+    // Close sidenav on mobile devices when a menu item is clicked
+    if (window.innerWidth < 768) {
+      this.sidenavOpened = false;
+    }
+  }
+
+  preventFocus(event: MouseEvent): void {
+    // Prevent the element from receiving focus to avoid blue highlight
+    event.preventDefault();
+    const target = event.currentTarget as HTMLElement;
+    if (target) {
+      target.blur();
+    }
+  }
+
+  navigateToRoute(path: string, queryParams?: any): void {
+    // Navigate programmatically and close sidenav on mobile
+    this.router.navigate([path], { queryParams });
+    this.closeSidenavOnMobile();
   }
 
   toggleSection(section: string): void {
@@ -912,16 +500,49 @@ export class MainLayoutComponent {
   }
 
   changePassword(): void {
-    this.snackBar.open('Change password feature coming soon!', 'Close', { duration: 3000 });
-    // TODO: Implement password change dialog
-    // this.dialog.open(ChangePasswordDialogComponent, {
-    //   width: '500px'
-    // });
+    this.dialog.open(ChangePasswordDialogComponent, {
+      width: '500px'
+    });
   }
 
   lockSession(): void {
     // Navigate to login screen without clearing user data
     this.router.navigate(['/login']);
+  }
+
+  openAIAssistant(): void {
+    this.aiChatOpen = true;
+    // Add welcome message if first time opening
+    if (this.aiMessages.length === 0) {
+      this.aiMessages.push({
+        text: 'Hello! I\'m your AI Assistant. How can I help you today?',
+        isUser: false
+      });
+    }
+  }
+
+  closeAIAssistant(): void {
+    this.aiChatOpen = false;
+  }
+
+  sendAIMessage(): void {
+    if (!this.aiInputText.trim()) return;
+
+    // Add user message
+    this.aiMessages.push({
+      text: this.aiInputText,
+      isUser: true
+    });
+
+    // Simulate AI response
+    setTimeout(() => {
+      this.aiMessages.push({
+        text: 'This is a demo response. AI Assistant integration coming soon!',
+        isUser: false
+      });
+    }, 500);
+
+    this.aiInputText = '';
   }
 
   getLanguageLabel(code: string): string {

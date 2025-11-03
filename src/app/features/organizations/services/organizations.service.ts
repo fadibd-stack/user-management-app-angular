@@ -30,4 +30,11 @@ export class OrganizationsService {
   deleteOrganization(id: number): Observable<void> {
     return this.apiService.delete<void>(`${this.baseUrl}/${id}`);
   }
+
+  syncFromTrakIntel(): Observable<{ message: string; created: number; updated: number; total: number }> {
+    return this.apiService.post<{ message: string; created: number; updated: number; total: number }>(
+      `${this.baseUrl}/sync-from-trakintel`,
+      {}
+    );
+  }
 }

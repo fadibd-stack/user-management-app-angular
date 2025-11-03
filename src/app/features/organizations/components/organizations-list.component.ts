@@ -7,7 +7,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { OrganizationsService } from '../services/organizations.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { Organization } from '../models/organization.model';
 import { OrganizationFormComponent } from './organization-form.component';
 
@@ -22,7 +24,8 @@ import { OrganizationFormComponent } from './organization-form.component';
     MatCardModule,
     MatChipsModule,
     MatProgressSpinnerModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule
   ],
   template: `
     <div class="organizations-container">
@@ -33,6 +36,11 @@ import { OrganizationFormComponent } from './organization-form.component';
             <p>Manage customer organizations</p>
           </div>
           <div class="header-actions">
+            <button *ngIf="isSuperuser" mat-button (click)="syncTrakIntel()" [disabled]="syncing">
+              <mat-icon>sync</mat-icon>
+              <span *ngIf="!syncing">Sync TrakIntel</span>
+              <mat-spinner *ngIf="syncing" diameter="20"></mat-spinner>
+            </button>
             <button mat-raised-button color="primary" (click)="openDialog()">
               <mat-icon>add</mat-icon>
               Add Organization
@@ -42,19 +50,12 @@ import { OrganizationFormComponent } from './organization-form.component';
       </div>
 
       <mat-card *ngIf="loading" class="loading-card">
-        <mat-spinner></mat-spinner>
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
         <p>Loading organizations...</p>
       </mat-card>
 
       <mat-card *ngIf="!loading" class="table-card">
         <table mat-table [dataSource]="organizations" class="full-width-table">
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef>ID</th>
-            <td mat-cell *matCellDef="let org">
-              <span class="code-badge">{{ org.id }}</span>
-            </td>
-          </ng-container>
-
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>NAME</th>
             <td mat-cell *matCellDef="let org">{{ org.name }}</td>
@@ -73,9 +74,9 @@ import { OrganizationFormComponent } from './organization-form.component';
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="version">
-            <th mat-header-cell *matHeaderCellDef>VERSION</th>
-            <td mat-cell *matCellDef="let org">{{ org.version || '-' }}</td>
+          <ng-container matColumnDef="trakcare_version">
+            <th mat-header-cell *matHeaderCellDef>TRAKCARE VERSION</th>
+            <td mat-cell *matCellDef="let org">{{ org.trakcare_version || '-' }}</td>
           </ng-container>
 
           <ng-container matColumnDef="status">
@@ -187,12 +188,18 @@ import { OrganizationFormComponent } from './organization-form.component';
 export class OrganizationsListComponent implements OnInit {
   organizations: Organization[] = [];
   loading = true;
-  displayedColumns: string[] = ['id', 'name', 'country', 'deployment_mode', 'version', 'status', 'actions'];
+  syncing = false;
+  isSuperuser = false;
+  displayedColumns: string[] = ['name', 'country', 'deployment_mode', 'trakcare_version', 'status', 'actions'];
 
   constructor(
     private organizationsService: OrganizationsService,
-    private dialog: MatDialog
-  ) {}
+    private authService: AuthService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {
+    this.isSuperuser = this.authService.currentUserValue?.is_superuser || false;
+  }
 
   ngOnInit(): void {
     this.loadOrganizations();
@@ -237,5 +244,29 @@ export class OrganizationsListComponent implements OnInit {
         }
       });
     }
+  }
+
+  syncTrakIntel(): void {
+    this.syncing = true;
+    this.organizationsService.syncFromTrakIntel().subscribe({
+      next: (result) => {
+        this.syncing = false;
+        this.snackBar.open(
+          `Synced ${result.total} organizations (${result.created} created, ${result.updated} updated)`,
+          'Close',
+          { duration: 5000 }
+        );
+        this.loadOrganizations();
+      },
+      error: (err) => {
+        console.error('Error syncing organizations:', err);
+        this.syncing = false;
+        this.snackBar.open(
+          err.error?.detail || 'Failed to sync organizations from TrakIntel',
+          'Close',
+          { duration: 5000 }
+        );
+      }
+    });
   }
 }

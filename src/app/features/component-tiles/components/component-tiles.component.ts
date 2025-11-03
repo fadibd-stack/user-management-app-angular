@@ -22,7 +22,7 @@ import { forkJoin } from 'rxjs';
       </div>
 
       <div *ngIf="loading" class="loading">
-        <mat-spinner></mat-spinner>
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
         <p>Loading system areas...</p>
       </div>
 

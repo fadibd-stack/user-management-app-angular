@@ -70,7 +70,26 @@ export class AuthService {
     }
   }
 
-  getToken(): string | null {
-    return null;
+  refreshCurrentUser(): Observable<User> {
+    const currentUserId = this.currentUser?.id;
+    if (!currentUserId) {
+      return of(null as any);
+    }
+
+    return this.apiService.get<User>(`/api/users/${currentUserId}`).pipe(
+      tap(user => {
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
+      }),
+      catchError(error => {
+        console.error('Failed to refresh user:', error);
+        return of(this.currentUser as User);
+      })
+    );
+  }
+
+  updateCurrentUser(user: User): void {
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    this.currentUserSubject.next(user);
   }
 }
