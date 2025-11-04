@@ -6,6 +6,7 @@ export interface Organization {
   local_name?: string;
   workday_name?: string;
   edition_id?: number;
+  edition_name?: string;
   country_id?: number;
   country_name?: string;
   deployment_mode?: string;

@@ -8,6 +8,7 @@ import { TestCasesListComponent } from './features/test-cases/components/test-ca
 import { TestExecutionsListComponent } from './features/test-executions/components/test-executions-list.component';
 import { GroupsListComponent } from './features/groups/components/groups-list.component';
 import { OrganizationsListComponent } from './features/organizations/components/organizations-list.component';
+import { OrganizationDetailComponent } from './features/organizations/components/organization-detail.component';
 import { ProjectsListComponent } from './features/projects/components/projects-list.component';
 import { CodeTablesListComponent } from './features/code-tables/components/code-tables-list.component';
 import { CodeTablesTabsComponent } from './features/code-tables/components/code-tables-tabs.component';
@@ -46,6 +47,7 @@ export const routes: Routes = [
       { path: 'test-executions', component: TestExecutionsListComponent },
       { path: 'task-pool', component: TaskPoolListComponent },
       { path: 'organizations', component: OrganizationsListComponent },
+      { path: 'organizations/:id', component: OrganizationDetailComponent },
       { path: 'team-discussions', component: TeamDiscussionsListComponent },
       { path: 'team-dashboard', component: TeamDashboardComponent },
       { path: 'projects', component: ProjectsListComponent },

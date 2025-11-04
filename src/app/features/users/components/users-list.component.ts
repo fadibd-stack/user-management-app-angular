@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { MatTableModule } from '@angular/material/table';
+import { FormsModule } from '@angular/forms';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -10,6 +12,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { UsersService } from '../services/users.service';
 import { User } from '../models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
@@ -21,7 +25,9 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     MatTableModule,
+    MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
     MatCardModule,
@@ -29,7 +35,9 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
     MatProgressSpinnerModule,
     MatTabsModule,
     MatDialogModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   template: `
     <div class="users-container">
@@ -59,8 +67,21 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
         <p>Loading users...</p>
       </mat-card>
 
-      <mat-card *ngIf="!loading" class="table-card">
-        <table mat-table [dataSource]="filteredUsers" class="full-width-table">
+      <mat-card class="table-card">
+        <!-- Search Bar -->
+        <div class="search-container">
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Search Users</mat-label>
+            <input matInput [(ngModel)]="searchTerm" (input)="filterUsers()" placeholder="Search by name, username, or email...">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="loading" style="display: flex; justify-content: center; padding: 48px;">
+          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
+
+        <table mat-table [dataSource]="dataSource" class="full-width-table" [style.display]="loading ? 'none' : 'table'">
           <!-- Username Column -->
           <ng-container matColumnDef="username">
             <th mat-header-cell *matHeaderCellDef>USERNAME</th>
@@ -136,10 +157,17 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
 
-        <div *ngIf="filteredUsers.length === 0" class="no-data">
+        <mat-paginator
+          [pageSizeOptions]="[10, 20, 30, 50]"
+          [pageSize]="10"
+          [style.display]="loading ? 'none' : 'block'"
+          showFirstLastButtons>
+        </mat-paginator>
+
+        <div *ngIf="!loading && dataSource.data.length === 0" class="no-data">
           <mat-icon class="no-data-icon">people</mat-icon>
-          <p>No users found</p>
-          <p class="no-data-hint">Click "Add User" to create your first user</p>
+          <p>{{ searchTerm ? 'No users match your search' : 'No users found' }}</p>
+          <p class="no-data-hint" *ngIf="!searchTerm">Click "Add User" to create your first user</p>
         </div>
       </mat-card>
     </div>
@@ -158,6 +186,17 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
     .loading-card p { color: #666; margin: 0; }
 
     .table-card { overflow-x: auto; margin-top: 24px; }
+
+    .search-container {
+      padding: 16px;
+      background-color: #f5f5f5;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .search-field {
+      width: 100%;
+    }
+
     .full-width-table { width: 100%; }
 
     .code-badge {
@@ -238,12 +277,15 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
     }
   `]
 })
-export class UsersListComponent implements OnInit {
+export class UsersListComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   users: User[] = [];
-  filteredUsers: User[] = [];
+  dataSource = new MatTableDataSource<User>([]);
   loading = true;
   currentUser: User | null = null;
   selectedTabIndex = 0;
+  searchTerm = '';
 
   get displayedColumns(): string[] {
     const mode = this.viewMode;
@@ -291,6 +333,14 @@ export class UsersListComponent implements OnInit {
     private router: Router
   ) {
     this.currentUser = this.authService.currentUser;
+
+    // Set up custom filter predicate for searching by name, username, or email
+    this.dataSource.filterPredicate = (data: User, filter: string) => {
+      const searchStr = filter.toLowerCase();
+      return data.username.toLowerCase().includes(searchStr) ||
+             data.email.toLowerCase().includes(searchStr) ||
+             `${data.first_name} ${data.last_name}`.toLowerCase().includes(searchStr);
+    };
   }
 
   get currentRoute(): string {
@@ -330,12 +380,19 @@ export class UsersListComponent implements OnInit {
     this.loadUsers();
   }
 
+  ngAfterViewInit(): void {
+    // Set paginator to dataSource after view initialization
+    setTimeout(() => {
+      this.dataSource.paginator = this.paginator;
+    });
+  }
+
   loadUsers(): void {
     this.loading = true;
     this.usersService.getUsers().subscribe({
       next: (users) => {
         this.users = users;
-        this.filterUsers();
+        this.applyViewModeFilter();
         this.loading = false;
       },
       error: (err) => {
@@ -346,33 +403,50 @@ export class UsersListComponent implements OnInit {
   }
 
   onTabChange(): void {
-    this.filterUsers();
+    this.applyViewModeFilter();
   }
 
-  filterUsers(): void {
+  applyViewModeFilter(): void {
     const mode = this.viewMode;
+    let filteredUsers: User[] = [];
 
     if (mode === 'employees') {
       // Show only employees (user_type === 'employee')
-      this.filteredUsers = this.users.filter(u => u.user_type === 'employee');
+      filteredUsers = this.users.filter(u => u.user_type === 'employee');
     } else if (mode === 'contacts') {
       // Show only contacts (user_type === 'contact')
-      this.filteredUsers = this.users.filter(u => u.user_type === 'contact');
+      filteredUsers = this.users.filter(u => u.user_type === 'contact');
     } else {
       // Legacy /users route - show based on tabs and permissions
       if (!this.currentUser?.is_superuser) {
         // Non-superusers see only organization users (contacts)
-        this.filteredUsers = this.users.filter(u => u.user_type === 'contact');
+        filteredUsers = this.users.filter(u => u.user_type === 'contact');
       } else {
         // Superusers can filter
         if (this.selectedTabIndex === 0) {
           // Organization users (contacts)
-          this.filteredUsers = this.users.filter(u => u.user_type === 'contact');
+          filteredUsers = this.users.filter(u => u.user_type === 'contact');
         } else {
           // System users (employees)
-          this.filteredUsers = this.users.filter(u => u.user_type === 'employee');
+          filteredUsers = this.users.filter(u => u.user_type === 'employee');
         }
       }
+    }
+
+    // Update dataSource with filtered users
+    this.dataSource.data = filteredUsers;
+
+    // Apply search filter if there is a search term
+    if (this.searchTerm) {
+      this.filterUsers();
+    }
+  }
+
+  filterUsers(): void {
+    this.dataSource.filter = this.searchTerm.trim().toLowerCase();
+    // Reset to first page when filtering
+    if (this.paginator) {
+      this.paginator.firstPage();
     }
   }
 

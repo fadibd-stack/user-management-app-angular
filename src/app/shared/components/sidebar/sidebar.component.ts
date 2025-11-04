@@ -29,7 +29,8 @@ export class SidebarComponent {
   expandedSections: { [key: string]: boolean } = {
     'Main': true,
     'System Configuration': true,
-    'Org Code Table': true,
+    'Code Tables': true,
+    'Organization': true,
     'Additional': true
   };
 
@@ -75,6 +76,18 @@ export class SidebarComponent {
           { path: '/organizations', label: 'Organizations' },
           { path: '/users', label: 'Users' },
           { path: '/components', label: 'System Areas' },
+          {
+            label: 'Code Tables',
+            collapsible: true,
+            subitems: [
+              { path: '/code-tables?table=1', label: 'System Areas' },
+              { path: '/code-tables?table=6', label: 'Group Roles' },
+              { path: '/code-tables?table=2', label: 'Priority Levels' },
+              { path: '/code-tables?table=3', label: 'Task Assignment Statuses' },
+              { path: '/code-tables?table=4', label: 'Task Types' },
+              { path: '/code-tables?table=5', label: 'Test Execution Statuses' }
+            ]
+          },
           { path: '/impact-score-config', label: 'Impact Score Settings' }
         ]
       });
@@ -82,28 +95,17 @@ export class SidebarComponent {
       console.log('Sidebar - NOT adding System Configuration menu - user_type is:', user?.user_type);
     }
 
-    // Add Org Code Table section for org/system admins
+    // Add Organization Admin section for org admins (but not for employees who already have System Configuration)
     if (
-      user?.permission_level === 'org_admin' ||
-      user?.permission_level === 'system_admin' ||
-      user?.is_superuser ||
-      user?.is_org_admin
+      user?.user_type !== 'employee' &&
+      (user?.permission_level === 'org_admin' ||
+       user?.permission_level === 'system_admin' ||
+       user?.is_superuser ||
+       user?.is_org_admin)
     ) {
       sections.push({
-        title: 'Org Code Table',
+        title: 'Organization',
         items: [
-          {
-            label: 'Table Configuration',
-            collapsible: true,
-            subitems: [
-              { path: '/code-tables?table=6', label: 'Group Roles' },
-              { path: '/code-tables?table=2', label: 'Priority Levels' },
-              { path: '/code-tables?table=1', label: 'System Areas' },
-              { path: '/code-tables?table=3', label: 'Task Assignment Statuses' },
-              { path: '/code-tables?table=4', label: 'Task Types' },
-              { path: '/code-tables?table=5', label: 'Test Execution Statuses' }
-            ]
-          },
           { path: '/environments', label: 'Environments' },
           { path: '/groups', label: 'Groups & Permissions' }
         ]

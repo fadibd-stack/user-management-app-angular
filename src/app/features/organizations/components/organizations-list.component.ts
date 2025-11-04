@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatTableModule } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
+import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -8,6 +11,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { OrganizationsService } from '../services/organizations.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { Organization } from '../models/organization.model';
@@ -18,14 +23,18 @@ import { OrganizationFormComponent } from './organization-form.component';
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     MatTableModule,
+    MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
     MatCardModule,
     MatChipsModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   template: `
     <div class="organizations-container">
@@ -54,56 +63,39 @@ import { OrganizationFormComponent } from './organization-form.component';
         <p>Loading organizations...</p>
       </mat-card>
 
-      <mat-card *ngIf="!loading" class="table-card">
-        <table mat-table [dataSource]="organizations" class="full-width-table">
+      <mat-card class="table-card">
+        <!-- Search Bar -->
+        <div class="search-container">
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Search Organizations</mat-label>
+            <input matInput [(ngModel)]="searchTerm" (input)="filterOrganizations()" placeholder="Type to search...">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="loading" style="display: flex; justify-content: center; padding: 48px;">
+          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
+
+        <table mat-table [dataSource]="dataSource" class="full-width-table" [style.display]="loading ? 'none' : 'table'">
           <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef>NAME</th>
-            <td mat-cell *matCellDef="let org">{{ org.name }}</td>
+            <td mat-cell *matCellDef="let org" class="org-name-cell">{{ org.name }}</td>
           </ng-container>
 
-          <ng-container matColumnDef="country">
-            <th mat-header-cell *matHeaderCellDef>COUNTRY</th>
-            <td mat-cell *matCellDef="let org">{{ org.country_name || '-' }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="deployment_mode">
-            <th mat-header-cell *matHeaderCellDef>DEPLOYMENT</th>
-            <td mat-cell *matCellDef="let org">
-              <span *ngIf="org.deployment_mode" class="code-badge">{{ org.deployment_mode }}</span>
-              <span *ngIf="!org.deployment_mode">-</span>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="trakcare_version">
-            <th mat-header-cell *matHeaderCellDef>TRAKCARE VERSION</th>
-            <td mat-cell *matCellDef="let org">{{ org.trakcare_version || '-' }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef>STATUS</th>
-            <td mat-cell *matCellDef="let org">
-              <mat-chip class="status-chip" [class.active-chip]="org.status === 'active'">
-                {{ org.status?.toUpperCase() || 'INACTIVE' }}
-              </mat-chip>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef>ACTIONS</th>
-            <td mat-cell *matCellDef="let org">
-              <button mat-button (click)="editOrganization(org)">Edit</button>
-              <button mat-button color="warn" (click)="deleteOrganization(org)">Delete</button>
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="viewOrganization(row)" class="clickable-row"></tr>
         </table>
 
-        <div *ngIf="organizations.length === 0" class="no-data">
+        <mat-paginator
+          [pageSizeOptions]="[10, 20, 30, 50]"
+          [pageSize]="10"
+          [style.display]="loading ? 'none' : 'block'"
+          showFirstLastButtons>
+        </mat-paginator>
+
+        <div *ngIf="!loading && dataSource.data.length === 0" class="no-data">
           <mat-icon class="no-data-icon">business</mat-icon>
-          <p>No organizations found</p>
-          <p class="no-data-hint">Click "Add Organization" to create your first organization</p>
+          <p>{{ searchTerm ? 'No organizations match your search' : 'No organizations found' }}</p>
+          <p class="no-data-hint" *ngIf="!searchTerm">Click "Add Organization" to create your first organization</p>
         </div>
       </mat-card>
     </div>
@@ -122,7 +114,25 @@ import { OrganizationFormComponent } from './organization-form.component';
     .loading-card p { color: #666; margin: 0; }
 
     .table-card { overflow-x: auto; }
+
+    .search-container {
+      padding: 16px;
+      background-color: #f5f5f5;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .search-field {
+      width: 100%;
+    }
+
     .full-width-table { width: 100%; }
+
+    .org-name-cell {
+      padding: 16px;
+      font-size: 15px;
+      color: #333;
+      font-weight: 400;
+    }
 
     .code-badge {
       background-color: #e3f2fd;
@@ -183,26 +193,52 @@ import { OrganizationFormComponent } from './organization-form.component';
       font-size: 14px;
       max-width: 400px;
     }
+
+    .clickable-row {
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .clickable-row:hover {
+      background-color: #f5f5f5;
+    }
   `]
 })
-export class OrganizationsListComponent implements OnInit {
+export class OrganizationsListComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   organizations: Organization[] = [];
+  dataSource = new MatTableDataSource<Organization>([]);
   loading = true;
   syncing = false;
   isSuperuser = false;
-  displayedColumns: string[] = ['name', 'country', 'deployment_mode', 'trakcare_version', 'status', 'actions'];
+  searchTerm = '';
+  displayedColumns: string[] = ['name'];
 
   constructor(
     private organizationsService: OrganizationsService,
     private authService: AuthService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {
     this.isSuperuser = this.authService.currentUserValue?.is_superuser || false;
+
+    // Set up custom filter predicate
+    this.dataSource.filterPredicate = (data: Organization, filter: string) => {
+      return data.name.toLowerCase().includes(filter);
+    };
   }
 
   ngOnInit(): void {
     this.loadOrganizations();
+  }
+
+  ngAfterViewInit(): void {
+    // Set paginator to dataSource after view initialization
+    setTimeout(() => {
+      this.dataSource.paginator = this.paginator;
+    });
   }
 
   loadOrganizations(): void {
@@ -210,6 +246,7 @@ export class OrganizationsListComponent implements OnInit {
     this.organizationsService.getOrganizations().subscribe({
       next: (orgs) => {
         this.organizations = orgs;
+        this.dataSource.data = orgs;
         this.loading = false;
       },
       error: (err) => {
@@ -217,6 +254,14 @@ export class OrganizationsListComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  filterOrganizations(): void {
+    this.dataSource.filter = this.searchTerm.trim().toLowerCase();
+    // Reset to first page when filtering
+    if (this.paginator) {
+      this.paginator.firstPage();
+    }
   }
 
   openDialog(org?: Organization): void {
@@ -230,20 +275,8 @@ export class OrganizationsListComponent implements OnInit {
     });
   }
 
-  editOrganization(org: Organization): void {
-    this.openDialog(org);
-  }
-
-  deleteOrganization(org: Organization): void {
-    if (confirm(`Delete organization "${org.name}"?`)) {
-      this.organizationsService.deleteOrganization(org.id).subscribe({
-        next: () => this.loadOrganizations(),
-        error: (err) => {
-          console.error('Error deleting organization:', err);
-          alert('Failed to delete organization.');
-        }
-      });
-    }
+  viewOrganization(org: Organization): void {
+    this.router.navigate(['/organizations', org.id]);
   }
 
   syncTrakIntel(): void {

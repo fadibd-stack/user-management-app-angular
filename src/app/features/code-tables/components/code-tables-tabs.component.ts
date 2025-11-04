@@ -18,8 +18,8 @@ import { AuthService } from '../../../core/services/auth.service';
     <div class="code-tables-tabs-container">
       <div class="page-header">
         <div>
-          <h2>Organization Code Tables</h2>
-          <p>Manage organization-specific lookup values</p>
+          <h2>Code Tables</h2>
+          <p>Manage system-wide lookup values and configurations</p>
         </div>
       </div>
 

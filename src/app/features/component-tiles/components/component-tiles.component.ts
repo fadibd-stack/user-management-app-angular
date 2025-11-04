@@ -118,22 +118,15 @@ export class ComponentTilesComponent implements OnInit {
   fetchData(): void {
     this.loading = true;
 
-    forkJoin({
-      projects: this.projectsService.getProjects(),
-      areas: this.systemAreasService.getSystemAreas(),
-      testCases: this.testCasesService.getTestCases()
-    }).subscribe({
-      next: (result) => {
-        // Use the first project if available
-        this.currentProject = result.projects.length > 0 ? result.projects[0] : null;
-        this.systemAreas = result.areas;
+    // Load system areas only for now (projects and test-cases APIs have errors)
+    this.systemAreasService.getSystemAreas().subscribe({
+      next: (areas) => {
+        this.systemAreas = areas;
 
-        // Calculate stats for each area
+        // Initialize empty stats for each area
         this.systemAreas.forEach(area => {
-          const areaCases = result.testCases.filter(tc => tc.system_area_id === area.id);
-          // Note: TestCase doesn't have status - these stats should come from TestExecution
           this.testCaseStats[area.id] = {
-            total: areaCases.length,
+            total: 0,
             new: 0,
             in_progress: 0,
             completed: 0,
@@ -144,7 +137,7 @@ export class ComponentTilesComponent implements OnInit {
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error loading data:', err);
+        console.error('Error loading system areas:', err);
         this.loading = false;
       }
     });

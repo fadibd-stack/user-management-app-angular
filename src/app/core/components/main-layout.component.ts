@@ -346,12 +346,13 @@ export class MainLayoutComponent {
           { path: '/organizations', label: 'Organizations', icon: 'business' },
           { path: '/employees', label: 'Employees', icon: 'badge' },
           { path: '/components', label: 'System Areas', icon: 'dashboard_customize' },
+          { path: '/org-code-tables', label: 'Code Tables', icon: 'table_chart' },
           { path: '/impact-score-config', label: 'Impact Score Settings', icon: 'assessment' }
         ]
       });
     }
 
-    // Add Org Code Table section for org/system admins
+    // Add Organization section for org/system admins
     if (
       user?.permission_level === 'org_admin' ||
       user?.permission_level === 'system_admin' ||
@@ -362,7 +363,6 @@ export class MainLayoutComponent {
         title: 'ORGANIZATION',
         items: [
           { path: '/contacts', label: 'Contacts', icon: 'contacts' },
-          { path: '/org-code-tables', label: 'Code Tables', icon: 'table_chart' },
           { path: '/environments', label: 'Environments', icon: 'dns' }
         ]
       });

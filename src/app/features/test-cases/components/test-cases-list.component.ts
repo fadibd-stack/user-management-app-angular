@@ -338,7 +338,7 @@ export class TestCasesListComponent implements OnInit {
   }
 
   get isInterSystemsUser(): boolean {
-    return this.currentUser?.employment_type === 'intersystems';
+    return this.currentUser?.user_type === 'employee';
   }
 
   constructor(
