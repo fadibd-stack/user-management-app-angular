@@ -3,21 +3,31 @@ import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const authService = inject(AuthService);
-
   // Skip adding headers for auth requests
   if (req.url.includes('/api/auth/login')) {
     return next(req);
   }
 
-  // Add X-User-ID header if user is logged in
-  const user = authService.currentUser;
-  if (user) {
-    req = req.clone({
-      setHeaders: {
-        'X-User-ID': user.id.toString()
+  // Get the token from localStorage
+  const userStr = localStorage.getItem('currentUser');
+
+  if (userStr) {
+    try {
+      const user = JSON.parse(userStr);
+
+      if (user && user.access_token) {
+        // Clone the request and add Authorization header with JWT token
+        const clonedReq = req.clone({
+          setHeaders: {
+            'Authorization': `Bearer ${user.access_token}`,
+            'X-User-ID': user.id.toString()
+          }
+        });
+        return next(clonedReq);
       }
-    });
+    } catch (error) {
+      console.error('AuthInterceptor - Error parsing user from localStorage:', error);
+    }
   }
 
   return next(req);
