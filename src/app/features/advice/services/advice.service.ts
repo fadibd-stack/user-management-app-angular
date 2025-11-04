@@ -16,6 +16,10 @@ export class AdviceService {
     return this.apiService.get<Advice[]>(this.baseUrl, params);
   }
 
+  createAdvice(adviceData: { test_case_id: number; question_text: string; asked_by_id: number; asked_to_id: number }): Observable<Advice> {
+    return this.apiService.post<Advice>(this.baseUrl, adviceData);
+  }
+
   postMessage(adviceId: number, body: string): Observable<any> {
     return this.apiService.post(`${this.baseUrl}/${adviceId}/messages`, { body });
   }
@@ -25,8 +29,10 @@ export class AdviceService {
   }
 
   resolveAdvice(adviceId: number, resolutionSummary?: string): Observable<any> {
-    return this.apiService.post(`${this.baseUrl}/${adviceId}/resolve`, {
-      resolution_summary: resolutionSummary || null
-    });
+    const payload = {
+      resolution_summary: resolutionSummary || ''
+    };
+    console.log(`Resolving advice ${adviceId} with payload:`, payload);
+    return this.apiService.post(`${this.baseUrl}/${adviceId}/resolve`, payload);
   }
 }

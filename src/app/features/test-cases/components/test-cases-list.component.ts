@@ -12,12 +12,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { TestCasesService } from '../services/test-cases.service';
 import { TestCase, SystemArea } from '../models/test-case.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { TestCaseFormComponent } from './test-case-form.component';
 import { OrganizationsService } from '../../organizations/services/organizations.service';
 import { Organization } from '../../organizations/models/organization.model';
+import { AdviceFormComponent } from '../../advice/components/advice-form.component';
 
 @Component({
   selector: 'app-test-cases-list',
@@ -34,7 +36,8 @@ import { Organization } from '../../organizations/models/organization.model';
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTooltipModule
   ],
   template: `
     <div class="test-cases-container">
@@ -60,19 +63,6 @@ import { Organization } from '../../organizations/models/organization.model';
       <!-- Filters -->
       <mat-card class="filters-card">
         <div class="filters-row">
-          <mat-form-field appearance="outline" class="filter-field">
-            <mat-label>Status</mat-label>
-            <mat-select [(ngModel)]="filters.status" (ngModelChange)="applyFilters()">
-              <mat-option value="all">All</mat-option>
-              <mat-option value="new">New</mat-option>
-              <mat-option value="in_progress">In Progress</mat-option>
-              <mat-option value="in_review">In Review</mat-option>
-              <mat-option value="completed">Completed</mat-option>
-              <mat-option value="blocked">Blocked</mat-option>
-              <mat-option value="failed">Failed</mat-option>
-            </mat-select>
-          </mat-form-field>
-
           <mat-form-field appearance="outline" class="filter-field">
             <mat-label>Priority</mat-label>
             <mat-select [(ngModel)]="filters.priority" (ngModelChange)="applyFilters()">
@@ -159,16 +149,6 @@ import { Organization } from '../../organizations/models/organization.model';
             </td>
           </ng-container>
 
-          <!-- Status Column -->
-          <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef>STATUS</th>
-            <td mat-cell *matCellDef="let testCase">
-              <mat-chip class="status-chip" [class]="'status-' + testCase.status">
-                {{ formatStatus(testCase.status).toUpperCase() }}
-              </mat-chip>
-            </td>
-          </ng-container>
-
           <!-- Priority Column -->
           <ng-container matColumnDef="priority">
             <th mat-header-cell *matHeaderCellDef>PRIORITY</th>
@@ -199,6 +179,9 @@ import { Organization } from '../../organizations/models/organization.model';
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>ACTIONS</th>
             <td mat-cell *matCellDef="let testCase">
+              <button mat-icon-button [matTooltip]="'Ask for advice about this test case'" (click)="askForAdvice(testCase)">
+                <mat-icon>help_outline</mat-icon>
+              </button>
               <button mat-button (click)="editTestCase(testCase)">Edit</button>
               <button mat-button color="warn" (click)="deleteTestCase(testCase)">Delete</button>
             </td>
@@ -274,19 +257,12 @@ import { Organization } from '../../organizations/models/organization.model';
       color: #999;
     }
 
-    .status-chip, .priority-chip {
+    .priority-chip {
       font-size: 11px;
       font-weight: 600;
       min-height: 24px;
       height: 24px;
     }
-
-    .status-new { background-color: #e0e0e0; color: #424242; }
-    .status-in_progress { background-color: #e3f2fd; color: #1976d2; }
-    .status-in_review { background-color: #fff3e0; color: #f57c00; }
-    .status-completed { background-color: #e8f5e9; color: #2e7d32; }
-    .status-blocked { background-color: #fff3e0; color: #e65100; }
-    .status-failed { background-color: #ffebee; color: #d32f2f; }
 
     .priority-critical { background-color: #ffebee; color: #c62828; }
     .priority-high { background-color: #fff3e0; color: #ef6c00; }
@@ -346,7 +322,6 @@ export class TestCasesListComponent implements OnInit {
   currentUser: any;
 
   filters = {
-    status: 'all',
     priority: 'all',
     system_area_id: 'all',
     organization_id: 'all',
@@ -358,7 +333,7 @@ export class TestCasesListComponent implements OnInit {
     if (this.isInterSystemsUser) {
       columns.push('organization');
     }
-    columns.push('status', 'priority', 'test_type', 'created_by', 'actions');
+    columns.push('priority', 'test_type', 'created_by', 'actions');
     return columns;
   }
 
@@ -377,6 +352,8 @@ export class TestCasesListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('🎯 TestCasesListComponent loaded - NEW VERSION with askForAdvice button!');
+    console.log('Displayed columns:', this.displayedColumns);
     this.loadData();
   }
 
@@ -419,10 +396,6 @@ export class TestCasesListComponent implements OnInit {
     }
 
     let filtered = [...this.testCases];
-
-    if (this.filters.status !== 'all') {
-      filtered = filtered.filter(tc => tc.status === this.filters.status);
-    }
 
     if (this.filters.priority !== 'all') {
       filtered = filtered.filter(tc => tc.priority === this.filters.priority);
@@ -483,11 +456,6 @@ export class TestCasesListComponent implements OnInit {
     }
   }
 
-  formatStatus(status: string): string {
-    if (!status) return '-';
-    return status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-  }
-
   formatPriority(priority: string): string {
     if (!priority) return '-';
     return priority.charAt(0).toUpperCase() + priority.slice(1);
@@ -501,9 +469,6 @@ export class TestCasesListComponent implements OnInit {
   exportCSV(): void {
     // Build query params based on current filters
     const params: any = {};
-    if (this.filters.status !== 'all') {
-      params.status = this.filters.status;
-    }
     if (this.filters.priority !== 'all') {
       params.priority = this.filters.priority;
     }
@@ -536,6 +501,22 @@ export class TestCasesListComponent implements OnInit {
       error: (err) => {
         console.error('Error exporting CSV:', err);
         alert('Error exporting CSV. Please try again.');
+      }
+    });
+  }
+
+  askForAdvice(testCase: TestCase): void {
+    const dialogRef = this.dialog.open(AdviceFormComponent, {
+      width: '600px',
+      data: {
+        testCaseId: testCase.id,
+        testCaseTitle: testCase.title
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        alert('Advice request created successfully! You can view it in the Advice page.');
       }
     });
   }

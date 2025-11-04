@@ -56,17 +56,10 @@ const COMMON_TIMEZONES: Timezone[] = [
     MatProgressSpinnerModule
   ],
   template: `
-    <h2 mat-dialog-title>{{ isEditMode ? 'Edit User' : 'Create New User' }}</h2>
+    <h2 mat-dialog-title>{{ isEditMode ? 'Edit Employee' : 'Create New Employee' }}</h2>
 
     <mat-dialog-content>
       <form [formGroup]="userForm" class="user-form">
-        <!-- User Type Selection (only for create mode) -->
-        <div *ngIf="!isEditMode" class="user-type-section">
-          <mat-radio-group [(ngModel)]="userType" [ngModelOptions]="{standalone: true}" (change)="onUserTypeChange()" class="user-type-radio-group">
-            <mat-radio-button value="customer" class="user-type-radio">Customer</mat-radio-button>
-            <mat-radio-button value="intersystems" class="user-type-radio">InterSystems Employee</mat-radio-button>
-          </mat-radio-group>
-        </div>
         <!-- Username -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Username *</mat-label>
@@ -76,17 +69,6 @@ const COMMON_TIMEZONES: Timezone[] = [
           </mat-error>
         </mat-form-field>
 
-        <!-- Organization (only for customers and superusers) -->
-        <mat-form-field *ngIf="isSuperuser && (isEditMode || userType === 'customer')" appearance="outline" class="full-width">
-          <mat-label>Organization</mat-label>
-          <mat-select formControlName="organization_id">
-            <mat-option [value]="null">-- Select Organization (Optional for Superusers) --</mat-option>
-            <mat-option *ngFor="let org of organizations" [value]="org.id">
-              {{ org.name }}
-            </mat-option>
-          </mat-select>
-          <mat-hint>Leave empty to create a superuser without organization (full access)</mat-hint>
-        </mat-form-field>
 
         <!-- Email -->
         <mat-form-field appearance="outline" class="full-width">
@@ -158,37 +140,38 @@ const COMMON_TIMEZONES: Timezone[] = [
           </mat-error>
         </mat-form-field>
 
-        <!-- Employment Type (only for superusers) -->
-        <mat-form-field *ngIf="isSuperuser" appearance="outline" class="full-width">
-          <mat-label>Employment Type *</mat-label>
-          <mat-select formControlName="employment_type">
-            <mat-option value="customer">Customer</mat-option>
-            <mat-option value="intersystems">InterSystems</mat-option>
-          </mat-select>
-          <mat-hint>Organizational affiliation (label only, doesn't affect permissions)</mat-hint>
-          <mat-error *ngIf="userForm.get('employment_type')?.hasError('required')">
-            Employment type is required
-          </mat-error>
-        </mat-form-field>
+        <!-- Contact Fields (for customer users only) -->
+        <div *ngIf="userType === 'customer'" class="roles-section">
+          <label class="section-label">Access Level</label>
+          <p class="section-hint">Contact will be added to your organization</p>
 
-        <!-- Permission Level -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Permission Level *</mat-label>
-          <mat-select formControlName="permission_level">
-            <mat-option value="user">User</mat-option>
-            <mat-option value="org_admin">Org Admin</mat-option>
-            <mat-option *ngIf="isSuperuser" value="system_admin">System Admin</mat-option>
-          </mat-select>
-          <mat-hint *ngIf="isSuperuser">
-            Controls access permissions. System Admin restricted to InterSystems staff.
-          </mat-hint>
-          <mat-hint *ngIf="!isSuperuser">
-            Controls access permissions within your organization.
-          </mat-hint>
-          <mat-error *ngIf="userForm.get('permission_level')?.hasError('required')">
-            Permission level is required
-          </mat-error>
-        </mat-form-field>
+          <!-- Org Admin Checkbox -->
+          <mat-checkbox formControlName="is_org_admin" class="role-checkbox">
+            Organization Administrator
+            <span class="role-description">Can manage users and settings within the organization</span>
+          </mat-checkbox>
+        </div>
+
+        <!-- Employee Roles (checkboxes for InterSystems employees only) -->
+        <div *ngIf="userType === 'intersystems'" class="roles-section">
+          <label class="section-label">Employee Roles</label>
+          <p class="section-hint">Select one or more roles for this employee (no selection = Standard Employee)</p>
+
+          <mat-checkbox formControlName="is_system_admin" class="role-checkbox">
+            System Administrator
+            <span class="role-description">Full system access and administrative privileges</span>
+          </mat-checkbox>
+
+          <mat-checkbox formControlName="is_manager" class="role-checkbox">
+            Manager
+            <span class="role-description">Team management and oversight responsibilities</span>
+          </mat-checkbox>
+
+          <mat-checkbox formControlName="is_product_manager" class="role-checkbox">
+            Product Manager
+            <span class="role-description">Product development and strategy</span>
+          </mat-checkbox>
+        </div>
 
         <!-- Permission Warning -->
         <div *ngIf="permissionWarning" class="warning-box">
@@ -284,6 +267,45 @@ const COMMON_TIMEZONES: Timezone[] = [
     .user-type-radio {
       flex: 1;
     }
+
+    .roles-section {
+      margin: 16px 0;
+      padding: 16px;
+      background-color: #f5f5f5;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .section-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1976d2;
+      margin-bottom: 4px;
+    }
+
+    .section-hint {
+      font-size: 12px;
+      color: #666;
+      margin: 0 0 12px 0;
+    }
+
+    .role-checkbox {
+      display: flex !important;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      padding: 8px 0;
+    }
+
+    .role-description {
+      display: block;
+      font-size: 11px;
+      color: #666;
+      margin-left: 28px;
+      margin-top: 2px;
+      font-style: italic;
+    }
   `]
 })
 export class UserFormComponent implements OnInit {
@@ -296,7 +318,7 @@ export class UserFormComponent implements OnInit {
   organizations: Organization[] = [];
   timezones = COMMON_TIMEZONES;
   permissionWarning = '';
-  userType: 'customer' | 'intersystems' = 'customer';
+  userType: 'customer' | 'intersystems' = 'intersystems';
 
   constructor(
     private fb: FormBuilder,
@@ -305,9 +327,10 @@ export class UserFormComponent implements OnInit {
     private authService: AuthService,
     private apiService: ApiService,
     private dialogRef: MatDialogRef<UserFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: User | null
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.isEditMode = !!data;
+    // Check if this is actually edit mode (has user data, not just create mode marker)
+    this.isEditMode = !!(data && !data._createMode);
     const currentUser = this.authService.currentUserValue;
     this.isSuperuser = currentUser?.is_superuser || false;
 
@@ -319,16 +342,23 @@ export class UserFormComponent implements OnInit {
       last_name: ['', Validators.required],
       language: ['en', Validators.required],
       timezone: ['', Validators.required],
-      employment_type: ['customer', Validators.required],
+      user_role: ['InterSystems', Validators.required],
       permission_level: ['user', Validators.required],
-      organization_id: [null],
+      organization_id: [null],  // Will be made required for contacts
+      // Employee role checkboxes
+      is_system_admin: [false],
+      is_manager: [false],
+      is_product_manager: [false],
+      // Contact role checkbox
+      is_org_admin: [false],
       is_active: [true],
       use_classic_menu: [false]
     });
 
-    // Listen to permission level and employment type changes for validation
-    this.userForm.get('permission_level')?.valueChanges.subscribe(() => this.validatePermissions());
-    this.userForm.get('employment_type')?.valueChanges.subscribe(() => this.validatePermissions());
+    // Listen to permission level changes for validation
+    this.userForm.get('permission_level')?.valueChanges.subscribe(() => {
+      this.validatePermissions();
+    });
   }
 
   ngOnInit(): void {
@@ -338,15 +368,30 @@ export class UserFormComponent implements OnInit {
       error: (err) => console.error('Error loading languages:', err)
     });
 
-    // Load organizations (for superusers)
-    if (this.isSuperuser) {
-      this.organizationsService.getOrganizations().subscribe({
-        next: (orgs) => this.organizations = orgs,
-        error: (err) => console.error('Error loading organizations:', err)
-      });
-    }
+    // Load organizations (for contact form)
+    this.organizationsService.getOrganizations().subscribe({
+      next: (orgs) => this.organizations = orgs,
+      error: (err) => console.error('Error loading organizations:', err)
+    });
 
     if (this.data) {
+      // Check if this is create mode with a specified user type
+      if (this.data._createMode && this.data._userType) {
+        this.userType = this.data._userType === 'contact' ? 'customer' : 'intersystems';
+        console.log('Create mode - Setting userType to:', this.userType);
+        // Don't patch form values in create mode
+        return;
+      }
+
+      // Edit mode - Set userType based on user_type
+      console.log('Edit mode - User data:', this.data);
+      console.log('User type from data:', this.data.user_type);
+      console.log('is_system_admin from data:', this.data.is_system_admin);
+      console.log('is_manager from data:', this.data.is_manager);
+      console.log('is_product_manager from data:', this.data.is_product_manager);
+      this.userType = this.data.user_type === 'employee' ? 'intersystems' : 'customer';
+      console.log('Set userType to:', this.userType);
+
       this.userForm.patchValue({
         username: this.data.username,
         email: this.data.email,
@@ -354,20 +399,27 @@ export class UserFormComponent implements OnInit {
         last_name: this.data.last_name,
         language: this.data.language || 'en',
         timezone: this.data.timezone || '',
-        employment_type: this.data.employment_type,
+        user_role: this.data.user_role || 'Customer',
         permission_level: this.data.permission_level,
         organization_id: this.data.organization_id || null,
+        // Employee role checkboxes
+        is_system_admin: this.data.is_system_admin || false,
+        is_manager: this.data.is_manager || false,
+        is_product_manager: this.data.is_product_manager || false,
+        // Contact role checkbox
+        is_org_admin: this.data.is_org_admin || false,
         is_active: this.data.is_active,
         use_classic_menu: this.data.use_classic_menu ?? false
       });
+
+      console.log('Form value after patching:', this.userForm.value);
     }
   }
 
   validatePermissions(): void {
     const permissionLevel = this.userForm.get('permission_level')?.value;
-    const employmentType = this.userForm.get('employment_type')?.value;
 
-    if (permissionLevel === 'system_admin' && employmentType !== 'intersystems') {
+    if (permissionLevel === 'system_admin' && this.userType !== 'intersystems') {
       this.permissionWarning = '⚠️ System Admin permission is restricted to InterSystems staff only';
     } else {
       this.permissionWarning = '';
@@ -375,21 +427,34 @@ export class UserFormComponent implements OnInit {
   }
 
   onUserTypeChange(): void {
-    // Update employment_type based on user type selection
+    console.log('[TIMESTAMP: ' + new Date().toISOString() + '] User type changed to:', this.userType);
+
+    // Update user_role based on user type selection
     this.userForm.patchValue({
-      employment_type: this.userType
+      user_role: this.userType === 'intersystems' ? 'InterSystems' : 'Customer'
     });
 
-    // If InterSystems employee, clear organization (they don't belong to an org)
     if (this.userType === 'intersystems') {
+      // InterSystems employees don't need an organization - clear it
       this.userForm.patchValue({
         organization_id: null
+      });
+    } else {
+      // Customer user type - reset role checkboxes
+      this.userForm.patchValue({
+        is_system_admin: false,
+        is_manager: false,
+        is_product_manager: false,
+        permission_level: 'user'
       });
     }
   }
 
   onSubmit(): void {
+    console.log('[TIMESTAMP: ' + new Date().toISOString() + '] onSubmit called');
+
     if (this.userForm.invalid) {
+      console.error('Form is invalid:', this.userForm.errors);
       return;
     }
 
@@ -417,17 +482,29 @@ export class UserFormComponent implements OnInit {
         }
       });
     } else {
-      // Create new user
+      // Create new user - determine user_type from userType
+      const formValue = this.userForm.value;
       const createData: UserCreate = {
-        ...this.userForm.value,
-        username: this.userForm.get('username')?.value
+        ...formValue,
+        username: this.userForm.get('username')?.value,
+        user_type: this.userType === 'intersystems' ? 'employee' : 'contact'
       };
+
+      // For contacts, auto-assign the organization_id from current user
+      if (this.userType === 'customer') {
+        const currentUser = this.authService.currentUserValue;
+        if (currentUser?.organization_id) {
+          createData.organization_id = currentUser.organization_id;
+        }
+      }
+
       this.usersService.createUser(createData).subscribe({
         next: () => {
           this.dialogRef.close(true);
         },
         error: (err) => {
           console.error('Error creating user:', err);
+          console.error('Full error object:', JSON.stringify(err, null, 2));
           this.error = err.error?.detail || err.error?.error?.message || 'Failed to create user. Please try again.';
           this.loading = false;
         }

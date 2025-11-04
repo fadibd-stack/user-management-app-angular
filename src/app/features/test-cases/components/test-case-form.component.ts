@@ -239,14 +239,12 @@ export class TestCaseFormComponent implements OnInit {
         title: this.data.title,
         description: this.data.description || '',
         system_area_id: this.data.system_area_id || null,
-        status: this.data.status,
+        // Note: status, actual_result, due_date removed from TestCase model
         priority: this.data.priority,
         test_type: this.data.test_type,
         complexity: this.data.complexity,
         expected_result: this.data.expected_result || '',
-        actual_result: this.data.actual_result || '',
         test_notes: this.data.test_notes || '',
-        due_date: this.data.due_date ? new Date(this.data.due_date) : null,
         is_automatic_change: this.data.is_automatic_change,
         is_regulatory: this.data.is_regulatory
       });

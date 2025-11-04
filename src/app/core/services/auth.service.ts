@@ -34,14 +34,17 @@ export class AuthService {
   }
 
   get isIntersystemsEmployee(): boolean {
-    return this.currentUser?.employment_type === 'intersystems';
+    return this.currentUser?.user_type === 'employee';
   }
 
   login(credentials: LoginRequest): Observable<User> {
     return this.apiService.post<User>('/api/auth/login', credentials).pipe(
       tap(user => {
+        console.log('AuthService - Login response received:', user);
+        console.log('AuthService - access_token present?', !!user.access_token);
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
+        console.log('AuthService - User saved to localStorage');
       })
     );
   }
@@ -78,6 +81,11 @@ export class AuthService {
 
     return this.apiService.get<User>(`/api/users/${currentUserId}`).pipe(
       tap(user => {
+        // Preserve the access_token from the current user
+        const currentUser = this.currentUser;
+        if (currentUser?.access_token) {
+          user.access_token = currentUser.access_token;
+        }
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
       }),
@@ -89,6 +97,11 @@ export class AuthService {
   }
 
   updateCurrentUser(user: User): void {
+    // Preserve the access_token from the current user
+    const currentUser = this.currentUser;
+    if (currentUser?.access_token) {
+      user.access_token = currentUser.access_token;
+    }
     localStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
   }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -35,8 +36,8 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
       <div class="page-header">
         <div class="header-content">
           <div>
-            <h2>User Management</h2>
-            <p>Manage users, roles, and permissions</p>
+            <h2>{{ pageTitle }}</h2>
+            <p>{{ pageSubtitle }}</p>
           </div>
           <div class="header-actions">
             <button mat-raised-button color="primary" (click)="openUserDialog()">
@@ -47,8 +48,8 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
         </div>
       </div>
 
-      <!-- Filter Tabs - Only for superusers -->
-      <mat-tab-group *ngIf="currentUser?.is_superuser" [(selectedIndex)]="selectedTabIndex" (selectedIndexChange)="onTabChange()">
+      <!-- Filter Tabs - Only for superusers on legacy /users route -->
+      <mat-tab-group *ngIf="currentUser?.is_superuser && viewMode === 'all'" [(selectedIndex)]="selectedTabIndex" (selectedIndexChange)="onTabChange()">
         <mat-tab label="Organization Users"></mat-tab>
         <mat-tab label="System Users"></mat-tab>
       </mat-tab-group>
@@ -91,11 +92,11 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
             </td>
           </ng-container>
 
-          <!-- Permission Level Column -->
+          <!-- Permission/Role Column -->
           <ng-container matColumnDef="permission_level">
-            <th mat-header-cell *matHeaderCellDef>PERMISSION</th>
+            <th mat-header-cell *matHeaderCellDef>ROLE</th>
             <td mat-cell *matCellDef="let user">
-              <span class="code-badge">{{ formatPermissionLevel(user.permission_level) }}</span>
+              <span class="code-badge">{{ formatUserRole(user) }}</span>
             </td>
           </ng-container>
 
@@ -244,23 +245,85 @@ export class UsersListComponent implements OnInit {
   currentUser: User | null = null;
   selectedTabIndex = 0;
 
-  displayedColumns: string[] = [
-    'username',
-    'name',
-    'email',
-    'employment_type',
-    'permission_level',
-    'organization',
-    'status',
-    'actions'
-  ];
+  get displayedColumns(): string[] {
+    const mode = this.viewMode;
+
+    if (mode === 'employees') {
+      // Employees don't have organizations
+      return [
+        'username',
+        'name',
+        'email',
+        'permission_level',
+        'status',
+        'actions'
+      ];
+    } else if (mode === 'contacts') {
+      // Contacts always have organizations
+      return [
+        'username',
+        'name',
+        'email',
+        'permission_level',
+        'organization',
+        'status',
+        'actions'
+      ];
+    } else {
+      // Legacy /users route - show everything
+      return [
+        'username',
+        'name',
+        'email',
+        'employment_type',
+        'permission_level',
+        'organization',
+        'status',
+        'actions'
+      ];
+    }
+  }
 
   constructor(
     private usersService: UsersService,
     private authService: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) {
     this.currentUser = this.authService.currentUser;
+  }
+
+  get currentRoute(): string {
+    return this.router.url;
+  }
+
+  get viewMode(): 'employees' | 'contacts' | 'all' {
+    if (this.currentRoute.includes('/employees')) {
+      return 'employees';
+    } else if (this.currentRoute.includes('/contacts')) {
+      return 'contacts';
+    }
+    return 'all';
+  }
+
+  get pageTitle(): string {
+    const mode = this.viewMode;
+    if (mode === 'employees') {
+      return 'Employee Management';
+    } else if (mode === 'contacts') {
+      return 'Contact Management';
+    }
+    return 'User Management';
+  }
+
+  get pageSubtitle(): string {
+    const mode = this.viewMode;
+    if (mode === 'employees') {
+      return 'Manage employees, roles, and permissions';
+    } else if (mode === 'contacts') {
+      return 'Manage customer contacts and organization access';
+    }
+    return 'Manage users, roles, and permissions';
   }
 
   ngOnInit(): void {
@@ -287,25 +350,42 @@ export class UsersListComponent implements OnInit {
   }
 
   filterUsers(): void {
-    if (!this.currentUser?.is_superuser) {
-      // Non-superusers see only organization users
-      this.filteredUsers = this.users.filter(u => u.organization_id !== null);
+    const mode = this.viewMode;
+
+    if (mode === 'employees') {
+      // Show only employees (user_type === 'employee')
+      this.filteredUsers = this.users.filter(u => u.user_type === 'employee');
+    } else if (mode === 'contacts') {
+      // Show only contacts (user_type === 'contact')
+      this.filteredUsers = this.users.filter(u => u.user_type === 'contact');
     } else {
-      // Superusers can filter
-      if (this.selectedTabIndex === 0) {
-        // Organization users
-        this.filteredUsers = this.users.filter(u => u.organization_id !== null);
+      // Legacy /users route - show based on tabs and permissions
+      if (!this.currentUser?.is_superuser) {
+        // Non-superusers see only organization users (contacts)
+        this.filteredUsers = this.users.filter(u => u.user_type === 'contact');
       } else {
-        // System users
-        this.filteredUsers = this.users.filter(u => u.organization_id === null);
+        // Superusers can filter
+        if (this.selectedTabIndex === 0) {
+          // Organization users (contacts)
+          this.filteredUsers = this.users.filter(u => u.user_type === 'contact');
+        } else {
+          // System users (employees)
+          this.filteredUsers = this.users.filter(u => u.user_type === 'employee');
+        }
       }
     }
   }
 
   openUserDialog(user?: User): void {
+    // When creating a new user, pass the context of which type to create
+    const dialogData = user || {
+      _createMode: true,
+      _userType: this.viewMode === 'contacts' ? 'contact' : 'employee'
+    };
+
     const dialogRef = this.dialog.open(UserFormComponent, {
       width: '600px',
-      data: user || null
+      data: dialogData
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -346,12 +426,46 @@ export class UsersListComponent implements OnInit {
     }
   }
 
+  formatUserRole(user: any): string {
+    // For employees (InterSystems staff), show their employee roles
+    if (user.user_type === 'employee') {
+      const roles: string[] = [];
+
+      if (user.is_system_admin) {
+        roles.push('System Admin');
+      }
+      if (user.is_manager) {
+        roles.push('Manager');
+      }
+      if (user.is_product_manager) {
+        roles.push('Product Manager');
+      }
+
+      // If no roles selected, they are a standard employee
+      if (roles.length === 0) {
+        return 'Standard Employee';
+      }
+
+      // Join multiple roles with comma
+      return roles.join(', ');
+    }
+
+    // For contacts (customer users), show org admin or contact
+    if (user.user_type === 'contact') {
+      return user.is_org_admin ? 'Org Admin' : 'Contact';
+    }
+
+    // Fallback to old permission level format for backward compatibility
+    return this.formatPermissionLevel(user.permission_level);
+  }
+
   formatPermissionLevel(level: string): string {
     const labels: { [key: string]: string } = {
       'system_admin': 'System Admin',
       'org_admin': 'Org Admin',
       'standard': 'Standard',
-      'read_only': 'Read Only'
+      'read_only': 'Read Only',
+      'user': 'User'
     };
     return labels[level] || level;
   }

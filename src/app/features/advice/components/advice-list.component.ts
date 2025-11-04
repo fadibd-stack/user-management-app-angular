@@ -8,9 +8,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AdviceService } from '../services/advice.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { Advice } from '../models/advice.model';
+import { AdviceFormComponent } from './advice-form.component';
 
 @Component({
   selector: 'app-advice-list',
@@ -24,11 +27,24 @@ import { Advice } from '../models/advice.model';
     MatInputModule,
     MatButtonModule,
     MatChipsModule,
-    MatDividerModule
+    MatDividerModule,
+    MatIconModule,
+    MatDialogModule
   ],
   template: `
     <div class="advice-container">
-      <h2>Advice Requests</h2>
+      <div class="page-header">
+        <div class="header-content">
+          <div>
+            <h2>Advice Requests</h2>
+            <p>Ask questions and get expert advice on test cases</p>
+          </div>
+          <button mat-raised-button color="primary" (click)="createNewAdvice()">
+            <mat-icon>add</mat-icon>
+            New Request
+          </button>
+        </div>
+      </div>
 
       <mat-card *ngIf="message" class="message-card">
         {{ message }}
@@ -131,7 +147,11 @@ import { Advice } from '../models/advice.model';
   `,
   styles: [`
     .advice-container { padding: 24px; max-width: 1400px; margin: 0 auto; }
-    h2 { font-size: 28px; font-weight: 600; margin-bottom: 24px; }
+    .page-header { margin-bottom: 24px; }
+    .header-content { display: flex; justify-content: space-between; align-items: flex-start; }
+    .header-content h2 { margin: 0 0 8px 0; font-size: 28px; font-weight: 600; color: #1976d2; }
+    .header-content p { margin: 0; color: #666; font-size: 14px; }
+    .header-content button mat-icon { margin-right: 8px; }
     .message-card { padding: 16px; margin-bottom: 24px; background-color: #e3f2fd; }
     .filter-bar { display: flex; gap: 16px; align-items: center; margin-bottom: 24px; }
     .filter-bar label { font-weight: 600; }
@@ -180,20 +200,33 @@ export class AdviceListComponent implements OnInit {
 
   constructor(
     private adviceService: AdviceService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog
   ) {
     this.currentUser = this.authService.currentUser;
   }
 
   ngOnInit(): void {
+    console.log('🎯 AdviceListComponent loaded - NEW VERSION with createNewAdvice button!');
     this.fetchAdvice();
   }
 
   fetchAdvice(): void {
     this.loading = true;
     const status = this.statusFilter === 'all' ? undefined : this.statusFilter;
+    const currentlySelectedId = this.selectedAdvice?.id;
+
     this.adviceService.getAdvice(status).subscribe({
-      next: (advice) => { this.adviceList = advice; this.loading = false; },
+      next: (advice) => {
+        this.adviceList = advice;
+
+        // Re-select the currently selected advice if it exists
+        if (currentlySelectedId) {
+          this.selectedAdvice = this.adviceList.find(a => a.id === currentlySelectedId) || null;
+        }
+
+        this.loading = false;
+      },
       error: (err) => { console.error(err); this.loading = false; }
     });
   }
@@ -219,8 +252,8 @@ export class AdviceListComponent implements OnInit {
         setTimeout(() => this.message = '', 3000);
       },
       error: (err) => {
-        console.error(err);
-        this.message = 'Error posting message';
+        console.error('Error posting message:', err);
+        this.message = err.error?.detail || err.message || 'Error posting message';
       }
     });
   }
@@ -239,8 +272,8 @@ export class AdviceListComponent implements OnInit {
         setTimeout(() => this.message = '', 3000);
       },
       error: (err) => {
-        console.error(err);
-        this.message = 'Error answering advice';
+        console.error('Error answering advice:', err);
+        this.message = err.error?.detail || err.message || 'Error answering advice';
       }
     });
   }
@@ -257,8 +290,23 @@ export class AdviceListComponent implements OnInit {
         setTimeout(() => this.message = '', 3000);
       },
       error: (err) => {
-        console.error(err);
-        this.message = 'Error resolving advice';
+        console.error('Error resolving advice:', err);
+        this.message = err.error?.detail || err.message || 'Error resolving advice';
+      }
+    });
+  }
+
+  createNewAdvice(): void {
+    const dialogRef = this.dialog.open(AdviceFormComponent, {
+      width: '600px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.message = 'Advice request created successfully!';
+        this.fetchAdvice();
+        setTimeout(() => this.message = '', 3000);
       }
     });
   }

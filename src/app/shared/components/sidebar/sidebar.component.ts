@@ -40,6 +40,9 @@ export class SidebarComponent {
 
   get menuSections(): MenuSection[] {
     const user = this.authService.currentUserValue;
+    // DEBUG: Check user data
+    console.log('Sidebar - Current user:', user);
+    console.log('Sidebar - user_type:', user?.user_type);
 
     const sections: MenuSection[] = [
       {
@@ -60,7 +63,9 @@ export class SidebarComponent {
     ];
 
     // Add System Configuration section for InterSystems employees
-    if (user?.employment_type === 'intersystems') {
+    console.log('Sidebar - Checking if employee:', user?.user_type === 'employee');
+    if (user?.user_type === 'employee') {
+      console.log('Sidebar - Adding System Configuration menu');
       sections.push({
         title: 'System Configuration',
         items: [
@@ -73,6 +78,8 @@ export class SidebarComponent {
           { path: '/impact-score-config', label: 'Impact Score Settings' }
         ]
       });
+    } else {
+      console.log('Sidebar - NOT adding System Configuration menu - user_type is:', user?.user_type);
     }
 
     // Add Org Code Table section for org/system admins
@@ -111,7 +118,7 @@ export class SidebarComponent {
       { path: '/trakintel-config', label: 'Trakintel Configuration' }
     ];
 
-    if (user?.employment_type === 'intersystems') {
+    if (user?.user_type === 'employee') {
       additionalItems.push({ path: '/audit-trail', label: 'Audit Trail' });
     }
 

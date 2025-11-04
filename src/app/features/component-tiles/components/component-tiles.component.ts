@@ -131,13 +131,14 @@ export class ComponentTilesComponent implements OnInit {
         // Calculate stats for each area
         this.systemAreas.forEach(area => {
           const areaCases = result.testCases.filter(tc => tc.system_area_id === area.id);
+          // Note: TestCase doesn't have status - these stats should come from TestExecution
           this.testCaseStats[area.id] = {
             total: areaCases.length,
-            new: areaCases.filter(tc => tc.status === 'new').length,
-            in_progress: areaCases.filter(tc => tc.status === 'in_progress').length,
-            completed: areaCases.filter(tc => tc.status === 'completed').length,
-            blocked: areaCases.filter(tc => tc.status === 'blocked').length,
-            failed: areaCases.filter(tc => tc.status === 'failed').length
+            new: 0,
+            in_progress: 0,
+            completed: 0,
+            blocked: 0,
+            failed: 0
           };
         });
         this.loading = false;

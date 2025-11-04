@@ -16,10 +16,10 @@ export class TaskPoolService {
   }
 
   claimTask(taskId: number): Observable<TaskAssignment> {
-    return this.apiService.post<TaskAssignment>(`${this.baseUrl}/${taskId}/claim`, {});
+    return this.apiService.post<TaskAssignment>(`${this.baseUrl}/claim`, { assignment_id: taskId });
   }
 
   unclaimTask(taskId: number): Observable<void> {
-    return this.apiService.post<void>(`${this.baseUrl}/${taskId}/unclaim`, {});
+    return this.apiService.post<void>(`${this.baseUrl}/unclaim`, { assignment_id: taskId });
   }
 }

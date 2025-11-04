@@ -61,10 +61,12 @@ export class HomeComponent implements OnInit {
       this.stats.totalTestCases = testCases?.length || 0;
       this.stats.totalOrganizations = orgs?.length || 0;
 
+      // Note: TestCase doesn't have status field - status is on TestExecution
+      // TODO: Load test execution stats separately
       if (testCases) {
-        this.stats.activeTestCases = testCases.filter(tc => tc.status === 'in_progress').length;
-        this.stats.completedTestCases = testCases.filter(tc => tc.status === 'completed').length;
-        this.stats.failedTestCases = testCases.filter(tc => tc.status === 'failed').length;
+        this.stats.activeTestCases = 0;
+        this.stats.completedTestCases = 0;
+        this.stats.failedTestCases = 0;
       }
 
       this.loading = false;

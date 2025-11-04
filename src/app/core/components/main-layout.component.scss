@@ -990,7 +990,7 @@ mat-divider {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
+  padding: 8px 12px;
   background: linear-gradient(90deg, #233575 0%, #1a2962 100%);
   color: white;
   position: relative;
@@ -998,7 +998,7 @@ mat-divider {
 
 .ai-chat-header h3 {
   margin: 0;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   position: absolute;
   left: 50%;
@@ -1009,6 +1009,8 @@ mat-divider {
   color: white;
   margin-left: auto;
   z-index: 1;
+  width: 32px;
+  height: 32px;
 }
 
 .ai-chat-messages {

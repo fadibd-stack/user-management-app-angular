@@ -328,6 +328,7 @@ export class MainLayoutComponent {
           { path: '/test-cases', label: 'Test Cases', icon: 'assignment' },
           { path: '/test-executions', label: 'Test Executions', icon: 'play_circle_filled' },
           { path: '/task-pool', label: 'Task Pool', icon: 'task' },
+          { path: '/groups', label: 'Groups & Permissions', icon: 'groups' }, // Moved from ORGANIZATION
           { path: '/advice', label: 'Advice', icon: 'question_answer' },
           { path: '/team-discussions', label: 'Team Discussions', icon: 'forum' }
         ]
@@ -335,7 +336,7 @@ export class MainLayoutComponent {
     ];
 
     // Add System Configuration section for InterSystems employees
-    if (user?.employment_type === 'intersystems') {
+    if (user?.user_type === 'employee') {
       sections.push({
         title: 'SYSTEM CONFIGURATION',
         items: [
@@ -343,7 +344,7 @@ export class MainLayoutComponent {
           { path: '/releases', label: 'Releases', icon: 'new_releases' },
           { path: '/countries', label: 'Countries', icon: 'public' },
           { path: '/organizations', label: 'Organizations', icon: 'business' },
-          { path: '/users', label: 'Users', icon: 'people' },
+          { path: '/employees', label: 'Employees', icon: 'badge' },
           { path: '/components', label: 'System Areas', icon: 'dashboard_customize' },
           { path: '/impact-score-config', label: 'Impact Score Settings', icon: 'assessment' }
         ]
@@ -360,15 +361,15 @@ export class MainLayoutComponent {
       sections.push({
         title: 'ORGANIZATION',
         items: [
+          { path: '/contacts', label: 'Contacts', icon: 'contacts' },
           { path: '/org-code-tables', label: 'Code Tables', icon: 'table_chart' },
-          { path: '/environments', label: 'Environments', icon: 'dns' },
-          { path: '/groups', label: 'Groups & Permissions', icon: 'groups' }
+          { path: '/environments', label: 'Environments', icon: 'dns' }
         ]
       });
     }
 
     // Additional section - only for InterSystems employees
-    if (user?.employment_type === 'intersystems') {
+    if (user?.user_type === 'employee') {
       const additionalItems: MenuItem[] = [
         { path: '/functions', label: 'Functions', icon: 'functions' },
         { path: '/jira-dashboard', label: 'JIRA Dashboard', icon: 'bar_chart' },

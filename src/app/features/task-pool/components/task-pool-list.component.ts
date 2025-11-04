@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -11,7 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TaskPoolService } from '../services/task-pool.service';
 import { TaskAssignment } from '../models/task.model';
 import { AuthService } from '../../../core/services/auth.service';
@@ -82,7 +82,10 @@ import { AuthService } from '../../../core/services/auth.service';
 export class TaskPoolEditDialogComponent {
   formData: any = {};
 
-  constructor(public data: any, private dialogRef: any) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<TaskPoolEditDialogComponent>
+  ) {
     this.formData = {
       task_type: data.task_type || 'TESTING',
       complexity: data.complexity,
@@ -387,10 +390,7 @@ export class TaskPoolListComponent implements OnInit {
   }
 
   claimTask(task: TaskAssignment): void {
-    this.http.put(`http://localhost:8000/api/task-assignments/${task.id}`, {
-      user_id: this.currentUser?.id,
-      status: 'claimed'
-    }).subscribe({
+    this.taskPoolService.claimTask(task.id).subscribe({
       next: () => {
         this.message = 'Task claimed successfully!';
         this.loadTasks();
@@ -403,9 +403,7 @@ export class TaskPoolListComponent implements OnInit {
   }
 
   unclaimTask(task: TaskAssignment): void {
-    this.http.put(`http://localhost:8000/api/task-assignments/${task.id}`, {
-      status: 'in_pool'
-    }).subscribe({
+    this.taskPoolService.unclaimTask(task.id).subscribe({
       next: () => {
         this.message = 'Task unclaimed successfully!';
         this.loadTasks();

@@ -39,7 +39,8 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: '', component: HomeComponent },
-      { path: 'users', component: UsersListComponent },
+      { path: 'employees', component: UsersListComponent },
+      { path: 'contacts', component: UsersListComponent },
       { path: 'groups', component: GroupsListComponent },
       { path: 'test-cases', component: TestCasesListComponent },
       { path: 'test-executions', component: TestExecutionsListComponent },
