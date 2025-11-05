@@ -155,21 +155,26 @@ const COMMON_TIMEZONES: Timezone[] = [
         <!-- Employee Roles (checkboxes for InterSystems employees only) -->
         <div *ngIf="userType === 'intersystems'" class="roles-section">
           <label class="section-label">Employee Roles</label>
-          <p class="section-hint">Select one or more roles for this employee (no selection = Standard Employee)</p>
+          <p class="section-hint">Select one or more roles for this employee</p>
 
-          <mat-checkbox formControlName="is_system_admin" class="role-checkbox">
+          <mat-checkbox formControlName="is_standard" class="role-checkbox-compact">
+            Standard Employee
+          </mat-checkbox>
+
+          <mat-checkbox formControlName="is_system_admin" class="role-checkbox-compact">
             System Administrator
-            <span class="role-description">Full system access and administrative privileges</span>
           </mat-checkbox>
 
-          <mat-checkbox formControlName="is_manager" class="role-checkbox">
+          <mat-checkbox formControlName="is_manager" class="role-checkbox-compact">
             Manager
-            <span class="role-description">Team management and oversight responsibilities</span>
           </mat-checkbox>
 
-          <mat-checkbox formControlName="is_product_manager" class="role-checkbox">
+          <mat-checkbox formControlName="is_product_manager" class="role-checkbox-compact">
             Product Manager
-            <span class="role-description">Product development and strategy</span>
+          </mat-checkbox>
+
+          <mat-checkbox formControlName="is_developer" class="role-checkbox-compact">
+            Developer
           </mat-checkbox>
         </div>
 
@@ -298,6 +303,11 @@ const COMMON_TIMEZONES: Timezone[] = [
       padding: 8px 0;
     }
 
+    .role-checkbox-compact {
+      display: block !important;
+      margin-bottom: 6px;
+    }
+
     .role-description {
       display: block;
       font-size: 11px;
@@ -346,9 +356,11 @@ export class UserFormComponent implements OnInit {
       permission_level: ['user', Validators.required],
       organization_id: [null],  // Will be made required for contacts
       // Employee role checkboxes
+      is_standard: [false],
       is_system_admin: [false],
       is_manager: [false],
       is_product_manager: [false],
+      is_developer: [false],
       // Contact role checkbox
       is_org_admin: [false],
       is_active: [true],
@@ -403,9 +415,11 @@ export class UserFormComponent implements OnInit {
         permission_level: this.data.permission_level,
         organization_id: this.data.organization_id || null,
         // Employee role checkboxes
+        is_standard: this.data.is_standard || false,
         is_system_admin: this.data.is_system_admin || false,
         is_manager: this.data.is_manager || false,
         is_product_manager: this.data.is_product_manager || false,
+        is_developer: this.data.is_developer || false,
         // Contact role checkbox
         is_org_admin: this.data.is_org_admin || false,
         is_active: this.data.is_active,

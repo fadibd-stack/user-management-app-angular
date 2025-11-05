@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -17,7 +17,9 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthService } from '../services/auth.service';
+import { MenuService } from '../services/menu.service';
 import { ChangePasswordDialogComponent } from './change-password-dialog.component';
+import { MenuSection as ApiMenuSection } from '../models/menu.model';
 
 interface MenuItem {
   path?: string;
@@ -266,12 +268,12 @@ interface MenuSection {
     </mat-sidenav-container>
   `,
 })
-export class MainLayoutComponent {
+export class MainLayoutComponent implements OnInit {
   currentUser: any;
   sidenavOpened = true;
   menuSearchQuery = '';
   useClassicMenu = false;
-  expandedSections: { [key: string]: boolean } = {
+  expandedSections: { [key: string]: boolean} = {
     'MAIN': true,
     'RELEASE VALIDATION': true,
     'SYSTEM CONFIGURATION': true,
@@ -279,6 +281,10 @@ export class MainLayoutComponent {
     'ADDITIONAL': true,
     'Table Configuration': true
   };
+
+  // Dynamic menu sections loaded from API
+  dynamicMenuSections: MenuSection[] = [];
+  menuSectionsLoaded = false;
 
   // AI Chat properties
   aiChatOpen = false;
@@ -290,7 +296,8 @@ export class MainLayoutComponent {
     private router: Router,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private http: HttpClient
+    private http: HttpClient,
+    private menuService: MenuService
   ) {
     this.currentUser = this.authService.currentUserValue;
 
@@ -301,6 +308,8 @@ export class MainLayoutComponent {
       if (user) {
         this.useClassicMenu = user.use_classic_menu ?? false;
       }
+      // Reload menus when user changes
+      this.loadDynamicMenus();
     });
 
     // Initialize menu preference from current user
@@ -309,7 +318,67 @@ export class MainLayoutComponent {
     }
   }
 
+  ngOnInit(): void {
+    this.loadDynamicMenus();
+  }
+
+  loadDynamicMenus(): void {
+    this.menuService.getMenusForCurrentUser().subscribe({
+      next: (apiSections: ApiMenuSection[]) => {
+        // Convert API menu sections to local MenuSection format
+        this.dynamicMenuSections = apiSections.map(apiSection => ({
+          title: this.getSectionTitle(apiSection.section),
+          items: apiSection.items.map(apiItem => ({
+            path: apiItem.path,
+            label: apiItem.label,
+            icon: apiItem.icon,
+            collapsible: false
+          }))
+        }));
+
+        // Always add Menu Configuration for System Admins (safety measure)
+        if (this.currentUser?.is_system_admin) {
+          const sysConfigSection = this.dynamicMenuSections.find(s => s.title === 'SYSTEM CONFIGURATION');
+          if (sysConfigSection) {
+            const hasMenuConfig = sysConfigSection.items.some(item => item.path === '/menu-configuration');
+            if (!hasMenuConfig) {
+              sysConfigSection.items.push({
+                path: '/menu-configuration',
+                label: 'Menu Configuration',
+                icon: 'settings_applications'
+              });
+            }
+          }
+        }
+
+        this.menuSectionsLoaded = true;
+      },
+      error: (error) => {
+        console.error('Error loading dynamic menus:', error);
+        // Fall back to hardcoded menus on error
+        this.menuSectionsLoaded = false;
+      }
+    });
+  }
+
+  getSectionTitle(sectionKey: string): string {
+    const titleMap: { [key: string]: string } = {
+      'MAIN': 'MAIN',
+      'RELEASE_VALIDATION': 'RELEASE VALIDATION',
+      'SYSTEM_CONFIGURATION': 'SYSTEM CONFIGURATION',
+      'ORGANIZATION': 'ORGANIZATION',
+      'ADDITIONAL': 'ADDITIONAL'
+    };
+    return titleMap[sectionKey] || sectionKey;
+  }
+
   get menuSections(): MenuSection[] {
+    // Use dynamic menus if loaded, otherwise fall back to hardcoded menus
+    if (this.menuSectionsLoaded && this.dynamicMenuSections.length > 0) {
+      return this.dynamicMenuSections;
+    }
+
+    // Fallback: Hardcoded menus (for safety if API fails)
     const user = this.currentUser;
 
     const sections: MenuSection[] = [
@@ -337,18 +406,29 @@ export class MainLayoutComponent {
 
     // Add System Configuration section for InterSystems employees
     if (user?.user_type === 'employee') {
+      const sysConfigItems = [
+        { path: '/editions', label: 'Editions', icon: 'category' },
+        { path: '/releases', label: 'Releases', icon: 'new_releases' },
+        { path: '/countries', label: 'Countries', icon: 'public' },
+        { path: '/organizations', label: 'Organizations', icon: 'business' },
+        { path: '/employees', label: 'Employees', icon: 'badge' },
+        { path: '/components', label: 'System Areas', icon: 'dashboard_customize' },
+        { path: '/org-code-tables', label: 'Code Tables', icon: 'table_chart' },
+        { path: '/impact-score-config', label: 'Impact Score Settings', icon: 'assessment' }
+      ];
+
+      // Add Menu Configuration for System Admins only
+      if (user?.is_system_admin) {
+        sysConfigItems.push({
+          path: '/menu-configuration',
+          label: 'Menu Configuration',
+          icon: 'settings_applications'
+        });
+      }
+
       sections.push({
         title: 'SYSTEM CONFIGURATION',
-        items: [
-          { path: '/editions', label: 'Editions', icon: 'category' },
-          { path: '/releases', label: 'Releases', icon: 'new_releases' },
-          { path: '/countries', label: 'Countries', icon: 'public' },
-          { path: '/organizations', label: 'Organizations', icon: 'business' },
-          { path: '/employees', label: 'Employees', icon: 'badge' },
-          { path: '/components', label: 'System Areas', icon: 'dashboard_customize' },
-          { path: '/org-code-tables', label: 'Code Tables', icon: 'table_chart' },
-          { path: '/impact-score-config', label: 'Impact Score Settings', icon: 'assessment' }
-        ]
+        items: sysConfigItems
       });
     }
 

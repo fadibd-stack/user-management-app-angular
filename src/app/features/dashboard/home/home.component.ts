@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatBadgeModule } from '@angular/material/badge';
 import { AuthService } from '../../../core/services/auth.service';
-import { UsersService } from '../../../features/users/services/users.service';
-import { TestCasesService } from '../../../features/test-cases/services/test-cases.service';
-import { OrganizationsService } from '../../../features/organizations/services/organizations.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +21,10 @@ import { OrganizationsService } from '../../../features/organizations/services/o
     MatCardModule,
     MatIconModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatListModule,
+    MatDividerModule,
+    MatBadgeModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -27,52 +32,51 @@ import { OrganizationsService } from '../../../features/organizations/services/o
 export class HomeComponent implements OnInit {
   currentUser: any;
   loading = true;
-  stats = {
-    totalUsers: 0,
-    totalTestCases: 0,
-    totalOrganizations: 0,
-    activeTestCases: 0,
-    completedTestCases: 0,
-    failedTestCases: 0
-  };
+
+  // System-wide stats
+  counts: any = {};
+  userStats: any = {};
+  recentActivity: any = {};
+  recentReleases: any[] = [];
+  recentOrganizations: any[] = [];
+
+  private apiUrl = environment.apiUrl || 'http://localhost:8000';
 
   constructor(
     private authService: AuthService,
-    private usersService: UsersService,
-    private testCasesService: TestCasesService,
-    private organizationsService: OrganizationsService
+    private http: HttpClient
   ) {
     this.currentUser = this.authService.currentUser;
   }
 
   ngOnInit(): void {
-    this.loadStats();
+    this.loadSystemOverview();
   }
 
-  loadStats(): void {
+  loadSystemOverview(): void {
     this.loading = true;
 
-    Promise.all([
-      this.usersService.getUsers().toPromise(),
-      this.testCasesService.getTestCases().toPromise(),
-      this.organizationsService.getOrganizations().toPromise()
-    ]).then(([users, testCases, orgs]) => {
-      this.stats.totalUsers = users?.length || 0;
-      this.stats.totalTestCases = testCases?.length || 0;
-      this.stats.totalOrganizations = orgs?.length || 0;
-
-      // Note: TestCase doesn't have status field - status is on TestExecution
-      // TODO: Load test execution stats separately
-      if (testCases) {
-        this.stats.activeTestCases = 0;
-        this.stats.completedTestCases = 0;
-        this.stats.failedTestCases = 0;
+    this.http.get<any>(`${this.apiUrl}/api/dashboard/system-overview`).subscribe({
+      next: (data) => {
+        this.counts = data.counts || {};
+        this.userStats = data.user_stats || {};
+        this.recentActivity = data.recent_activity || {};
+        this.recentReleases = data.recent_releases || [];
+        this.recentOrganizations = data.recent_organizations || [];
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error loading system overview:', err);
+        this.loading = false;
       }
-
-      this.loading = false;
-    }).catch(err => {
-      console.error('Error loading stats:', err);
-      this.loading = false;
     });
+  }
+
+  get isEmployee(): boolean {
+    return this.currentUser?.user_type === 'employee';
+  }
+
+  get isSystemAdmin(): boolean {
+    return this.currentUser?.is_system_admin === true;
   }
 }

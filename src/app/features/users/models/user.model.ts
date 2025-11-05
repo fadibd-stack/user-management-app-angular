@@ -18,9 +18,11 @@ export interface User {
   is_superuser: boolean;
   is_org_admin: boolean;
   // Employee roles (only applicable for employees, false for contacts)
-  is_system_admin: boolean;
-  is_manager: boolean;
-  is_product_manager: boolean;
+  is_standard?: boolean;
+  is_system_admin?: boolean;
+  is_manager?: boolean;
+  is_product_manager?: boolean;
+  is_developer?: boolean;
   use_classic_menu?: boolean;
   created_at?: string;
   updated_at?: string;
@@ -41,9 +43,11 @@ export interface UserCreate {
   user_type: 'employee' | 'contact';
   permission_level: 'read_only' | 'standard' | 'org_admin' | 'system_admin' | 'user';
   // Employee roles (only sent for employees)
+  is_standard?: boolean;
   is_system_admin?: boolean;
   is_manager?: boolean;
   is_product_manager?: boolean;
+  is_developer?: boolean;
   is_active?: boolean;
   use_classic_menu?: boolean;
 }
@@ -62,9 +66,11 @@ export interface UserUpdate {
   user_type?: 'employee' | 'contact';
   permission_level?: 'read_only' | 'standard' | 'org_admin' | 'system_admin' | 'user';
   // Employee roles (only sent for employees)
+  is_standard?: boolean;
   is_system_admin?: boolean;
   is_manager?: boolean;
   is_product_manager?: boolean;
+  is_developer?: boolean;
   is_active?: boolean;
   use_classic_menu?: boolean;
 }

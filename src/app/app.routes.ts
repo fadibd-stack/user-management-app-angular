@@ -31,6 +31,7 @@ import { TrakintelConfigComponent } from './features/trakintel-config/components
 import { ImpactScoreConfigComponent } from './features/impact-score-config/components/impact-score-config.component';
 import { ApiDocsComponent } from './features/api-docs/components/api-docs.component';
 import { JiraDashboardComponent } from './features/jira-dashboard/components/jira-dashboard.component';
+import { MenuConfigComponent } from './features/menu-config/menu-config.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -72,7 +73,8 @@ export const routes: Routes = [
       { path: 'jira-config', component: JiraConfigComponent },
       { path: 'trakintel-config', component: TrakintelConfigComponent },
       { path: 'impact-score-config', component: ImpactScoreConfigComponent },
-      { path: 'audit-trail', component: AuditTrailListComponent }
+      { path: 'audit-trail', component: AuditTrailListComponent },
+      { path: 'menu-configuration', component: MenuConfigComponent }
     ]
   },
   { path: '**', redirectTo: '' }

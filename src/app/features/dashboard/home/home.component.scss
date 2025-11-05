@@ -1,5 +1,7 @@
 .dashboard-container {
   padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .welcome-section {
@@ -23,6 +25,59 @@
   display: flex;
   justify-content: center;
   padding: 64px;
+}
+
+// User-specific stats section
+.user-stats-section {
+  margin-bottom: 32px;
+
+  h2 {
+    margin: 0 0 16px 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .user-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+  }
+
+  .user-stat-card {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+
+    mat-icon {
+      font-size: 40px;
+      width: 40px;
+      height: 40px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    button {
+      color: white;
+      border-color: white;
+    }
+  }
+}
+
+h2 {
+  margin: 0 0 16px 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
 }
 
 .stats-grid {
@@ -72,16 +127,16 @@
     background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
   }
 
-  .active-icon {
+  .projects-icon {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  }
+
+  .releases-icon {
     background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
   }
 
-  .completed-icon {
+  .editions-icon {
     background: linear-gradient(135deg, #5ee7df 0%, #b490ca 100%);
-  }
-
-  .failed-icon {
-    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
   }
 
   .stat-content {
@@ -101,6 +156,14 @@
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
+
+    .stat-detail {
+      display: block;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #999;
+      text-transform: none;
+    }
   }
 
   .view-link {
@@ -112,6 +175,50 @@
       font-size: 18px;
       width: 18px;
       height: 18px;
+    }
+  }
+}
+
+// Recent Activity Section
+.recent-section {
+  margin: 32px 0;
+
+  .recent-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 24px;
+  }
+
+  .recent-card {
+    padding: 20px;
+
+    h3 {
+      margin: 0 0 16px 0;
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      mat-icon {
+        color: #1976d2;
+      }
+    }
+
+    mat-list {
+      padding: 0;
+    }
+
+    mat-list-item {
+      margin-bottom: 8px;
+    }
+
+    .no-data {
+      padding: 20px;
+      text-align: center;
+      color: #999;
+      font-style: italic;
     }
   }
 }
@@ -128,12 +235,12 @@
 
   .actions-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 16px;
 
     button {
       padding: 16px 24px;
-      font-size: 16px;
+      font-size: 15px;
 
       mat-icon {
         margin-right: 8px;

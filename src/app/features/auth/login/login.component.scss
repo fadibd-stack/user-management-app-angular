@@ -10,6 +10,26 @@
   width: 400px;
   max-width: 90%;
 
+  .logo-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 32px 0 24px 0;
+
+    .logo {
+      max-width: 280px;
+      height: auto;
+      margin-bottom: 16px;
+    }
+
+    .app-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 500;
+      color: #0033A0;
+    }
+  }
+
   mat-card-header {
     display: flex;
     flex-direction: column;

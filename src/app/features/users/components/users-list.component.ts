@@ -505,6 +505,9 @@ export class UsersListComponent implements OnInit, AfterViewInit {
     if (user.user_type === 'employee') {
       const roles: string[] = [];
 
+      if (user.is_standard) {
+        roles.push('Standard');
+      }
       if (user.is_system_admin) {
         roles.push('System Admin');
       }
@@ -514,10 +517,13 @@ export class UsersListComponent implements OnInit, AfterViewInit {
       if (user.is_product_manager) {
         roles.push('Product Manager');
       }
+      if (user.is_developer) {
+        roles.push('Developer');
+      }
 
       // If no roles selected, they are a standard employee
       if (roles.length === 0) {
-        return 'Standard Employee';
+        return 'No Role Assigned';
       }
 
       // Join multiple roles with comma

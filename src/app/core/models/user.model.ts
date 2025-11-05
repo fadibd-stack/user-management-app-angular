@@ -18,9 +18,11 @@ export interface User {
   is_superuser: boolean;
   is_org_admin: boolean;
   // Employee roles (only applicable for employees, false for contacts)
-  is_system_admin: boolean;
-  is_manager: boolean;
-  is_product_manager: boolean;
+  is_standard?: boolean;
+  is_system_admin?: boolean;
+  is_manager?: boolean;
+  is_product_manager?: boolean;
+  is_developer?: boolean;
   use_classic_menu?: boolean;
   created_at?: string;
   updated_at?: string;

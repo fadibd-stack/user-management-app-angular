@@ -1,124 +1,194 @@
 <div class="dashboard-container">
   <div class="welcome-section">
     <h1>Welcome back, {{ currentUser?.first_name }}!</h1>
-    <p>Here's an overview of your test management platform</p>
+    <p>System Overview - Release Management Platform</p>
   </div>
 
   <div *ngIf="loading" class="loading-container">
     <mat-spinner></mat-spinner>
   </div>
 
-  <div *ngIf="!loading" class="stats-grid">
-    <!-- Total Users -->
-    <mat-card class="stat-card">
-      <div class="stat-icon users-icon">
-        <mat-icon>people</mat-icon>
-      </div>
-      <div class="stat-content">
-        <h3>{{ stats.totalUsers }}</h3>
-        <p>Total Users</p>
-      </div>
-      <button mat-button routerLink="/users" class="view-link">
-        View All
-        <mat-icon>arrow_forward</mat-icon>
-      </button>
-    </mat-card>
+  <div *ngIf="!loading">
+    <!-- User-Specific Quick Stats (Employees Only) -->
+    <div *ngIf="isEmployee && userStats && (userStats.pending_tasks > 0 || userStats.unread_notifications > 0)" class="user-stats-section">
+      <h2>Your Quick Stats</h2>
+      <div class="user-stats-grid">
+        <mat-card class="user-stat-card" *ngIf="userStats.pending_tasks > 0">
+          <mat-icon [matBadge]="userStats.pending_tasks" matBadgeColor="warn">assignment</mat-icon>
+          <p>Pending Tasks</p>
+          <button mat-button routerLink="/task-pool">View Tasks</button>
+        </mat-card>
 
-    <!-- Total Test Cases -->
-    <mat-card class="stat-card">
-      <div class="stat-icon test-cases-icon">
-        <mat-icon>assignment</mat-icon>
-      </div>
-      <div class="stat-content">
-        <h3>{{ stats.totalTestCases }}</h3>
-        <p>Test Cases</p>
-      </div>
-      <button mat-button routerLink="/test-cases" class="view-link">
-        View All
-        <mat-icon>arrow_forward</mat-icon>
-      </button>
-    </mat-card>
+        <mat-card class="user-stat-card" *ngIf="userStats.unread_notifications > 0">
+          <mat-icon [matBadge]="userStats.unread_notifications" matBadgeColor="accent">notifications</mat-icon>
+          <p>Unread Notifications</p>
+        </mat-card>
 
-    <!-- Organizations -->
-    <mat-card class="stat-card">
-      <div class="stat-icon orgs-icon">
-        <mat-icon>business</mat-icon>
+        <mat-card class="user-stat-card" *ngIf="userStats.bookmarks > 0">
+          <mat-icon [matBadge]="userStats.bookmarks">bookmark</mat-icon>
+          <p>Bookmarks</p>
+        </mat-card>
       </div>
-      <div class="stat-content">
-        <h3>{{ stats.totalOrganizations }}</h3>
-        <p>Organizations</p>
-      </div>
-      <button mat-button routerLink="/organizations" class="view-link">
-        View All
-        <mat-icon>arrow_forward</mat-icon>
-      </button>
-    </mat-card>
+    </div>
 
-    <!-- Active Test Cases -->
-    <mat-card class="stat-card">
-      <div class="stat-icon active-icon">
-        <mat-icon>play_circle</mat-icon>
-      </div>
-      <div class="stat-content">
-        <h3>{{ stats.activeTestCases }}</h3>
-        <p>In Progress</p>
-      </div>
-      <button mat-button routerLink="/test-cases" class="view-link">
-        View All
-        <mat-icon>arrow_forward</mat-icon>
-      </button>
-    </mat-card>
+    <!-- System Overview Cards -->
+    <h2>System Overview</h2>
+    <div class="stats-grid">
+      <!-- Total Organizations -->
+      <mat-card class="stat-card">
+        <div class="stat-icon orgs-icon">
+          <mat-icon>business</mat-icon>
+        </div>
+        <div class="stat-content">
+          <h3>{{ counts.organizations || 0 }}</h3>
+          <p>Organizations</p>
+        </div>
+        <button mat-button routerLink="/organizations" class="view-link" *ngIf="isEmployee">
+          View All
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </mat-card>
 
-    <!-- Completed Test Cases -->
-    <mat-card class="stat-card">
-      <div class="stat-icon completed-icon">
-        <mat-icon>check_circle</mat-icon>
-      </div>
-      <div class="stat-content">
-        <h3>{{ stats.completedTestCases }}</h3>
-        <p>Completed</p>
-      </div>
-      <button mat-button routerLink="/test-cases" class="view-link">
-        View All
-        <mat-icon>arrow_forward</mat-icon>
-      </button>
-    </mat-card>
+      <!-- Total Users -->
+      <mat-card class="stat-card">
+        <div class="stat-icon users-icon">
+          <mat-icon>people</mat-icon>
+        </div>
+        <div class="stat-content">
+          <h3>{{ counts.total_users || 0 }}</h3>
+          <p>Total Users</p>
+          <span class="stat-detail">{{ counts.employees || 0 }} Employees, {{ counts.contacts || 0 }} Contacts</span>
+        </div>
+        <button mat-button routerLink="/employees" class="view-link" *ngIf="isEmployee">
+          View All
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </mat-card>
 
-    <!-- Failed Test Cases -->
-    <mat-card class="stat-card">
-      <div class="stat-icon failed-icon">
-        <mat-icon>error</mat-icon>
-      </div>
-      <div class="stat-content">
-        <h3>{{ stats.failedTestCases }}</h3>
-        <p>Failed</p>
-      </div>
-      <button mat-button routerLink="/test-cases" class="view-link">
-        View All
-        <mat-icon>arrow_forward</mat-icon>
-      </button>
-    </mat-card>
-  </div>
+      <!-- Total Projects -->
+      <mat-card class="stat-card">
+        <div class="stat-icon projects-icon">
+          <mat-icon>folder</mat-icon>
+        </div>
+        <div class="stat-content">
+          <h3>{{ counts.projects || 0 }}</h3>
+          <p>Total Projects</p>
+          <span class="stat-detail">{{ counts.active_projects || 0 }} Active</span>
+        </div>
+        <button mat-button routerLink="/projects" class="view-link">
+          View All
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </mat-card>
 
-  <div *ngIf="!loading" class="quick-actions">
-    <h2>Quick Actions</h2>
-    <div class="actions-grid">
-      <button mat-raised-button color="primary" routerLink="/test-cases">
-        <mat-icon>add</mat-icon>
-        Create Test Case
-      </button>
-      <button mat-raised-button routerLink="/users">
-        <mat-icon>person_add</mat-icon>
-        Add User
-      </button>
-      <button mat-raised-button routerLink="/organizations">
-        <mat-icon>add_business</mat-icon>
-        Add Organization
-      </button>
-      <button mat-raised-button routerLink="/code-tables">
-        <mat-icon>settings</mat-icon>
-        Manage Code Tables
-      </button>
+      <!-- Total Releases -->
+      <mat-card class="stat-card">
+        <div class="stat-icon releases-icon">
+          <mat-icon>new_releases</mat-icon>
+        </div>
+        <div class="stat-content">
+          <h3>{{ counts.releases || 0 }}</h3>
+          <p>Releases</p>
+        </div>
+        <button mat-button routerLink="/releases" class="view-link" *ngIf="isEmployee">
+          View All
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </mat-card>
+
+      <!-- Total Test Cases -->
+      <mat-card class="stat-card">
+        <div class="stat-icon test-cases-icon">
+          <mat-icon>assignment</mat-icon>
+        </div>
+        <div class="stat-content">
+          <h3>{{ counts.test_cases || 0 }}</h3>
+          <p>Test Cases</p>
+          <span class="stat-detail">{{ recentActivity.new_test_cases_7d || 0 }} added in last 7 days</span>
+        </div>
+        <button mat-button routerLink="/test-cases" class="view-link">
+          View All
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </mat-card>
+
+      <!-- Editions -->
+      <mat-card class="stat-card">
+        <div class="stat-icon editions-icon">
+          <mat-icon>category</mat-icon>
+        </div>
+        <div class="stat-content">
+          <h3>{{ counts.editions || 0 }}</h3>
+          <p>Editions</p>
+        </div>
+        <button mat-button routerLink="/editions" class="view-link" *ngIf="isEmployee">
+          View All
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </mat-card>
+    </div>
+
+    <!-- Recent Activity Section -->
+    <div class="recent-section">
+      <h2>Recent Activity</h2>
+      <div class="recent-grid">
+        <!-- Recent Releases -->
+        <mat-card class="recent-card">
+          <h3><mat-icon>new_releases</mat-icon> Recent Releases</h3>
+          <mat-divider></mat-divider>
+          <mat-list *ngIf="recentReleases.length > 0">
+            <mat-list-item *ngFor="let release of recentReleases">
+              <mat-icon matListItemIcon>label</mat-icon>
+              <div matListItemTitle>{{ release.name }} ({{ release.code }})</div>
+            </mat-list-item>
+          </mat-list>
+          <p *ngIf="recentReleases.length === 0" class="no-data">No recent releases</p>
+        </mat-card>
+
+        <!-- Recent Organizations -->
+        <mat-card class="recent-card">
+          <h3><mat-icon>business</mat-icon> Recent Organizations</h3>
+          <mat-divider></mat-divider>
+          <mat-list *ngIf="recentOrganizations.length > 0">
+            <mat-list-item *ngFor="let org of recentOrganizations">
+              <mat-icon matListItemIcon>business</mat-icon>
+              <div matListItemTitle>{{ org.name }}</div>
+            </mat-list-item>
+          </mat-list>
+          <p *ngIf="recentOrganizations.length === 0" class="no-data">No recent organizations</p>
+        </mat-card>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <h2>Quick Actions</h2>
+      <div class="actions-grid">
+        <button mat-raised-button color="primary" routerLink="/test-cases">
+          <mat-icon>add</mat-icon>
+          Create Test Case
+        </button>
+        <button mat-raised-button routerLink="/projects" *ngIf="isEmployee">
+          <mat-icon>create_new_folder</mat-icon>
+          Create Project
+        </button>
+        <button mat-raised-button routerLink="/releases" *ngIf="isEmployee">
+          <mat-icon>add_circle</mat-icon>
+          Create Release
+        </button>
+        <button mat-raised-button routerLink="/workbench">
+          <mat-icon>work</mat-icon>
+          Open Workbench
+        </button>
+        <button mat-raised-button routerLink="/release-highlights" *ngIf="isEmployee">
+          <mat-icon>highlight</mat-icon>
+          Get Release Highlights
+        </button>
+        <button mat-raised-button routerLink="/team-dashboard">
+          <mat-icon>analytics</mat-icon>
+          Team Dashboard
+        </button>
+      </div>
     </div>
   </div>
 </div>
