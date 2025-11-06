@@ -18,8 +18,11 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthService } from '../services/auth.service';
 import { MenuService } from '../services/menu.service';
+import { SearchService, SearchResult } from '../services/search.service';
 import { ChangePasswordDialogComponent } from './change-password-dialog.component';
 import { MenuSection as ApiMenuSection } from '../models/menu.model';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
 interface MenuItem {
   path?: string;
@@ -174,9 +177,37 @@ interface MenuSection {
 
           <div class="search-container">
             <mat-form-field appearance="outline" class="search-field">
-              <input matInput placeholder="Search" class="search-input">
-              <mat-icon matSuffix class="search-icon">search</mat-icon>
+              <input
+                matInput
+                placeholder="Search"
+                class="search-input"
+                [(ngModel)]="globalSearchQuery"
+                (input)="onGlobalSearch(globalSearchQuery)"
+                (focus)="showSearchDropdown = searchResults.length > 0">
+              <mat-icon matSuffix class="search-icon" *ngIf="!searchLoading">search</mat-icon>
+              <mat-icon matSuffix class="search-icon spinning" *ngIf="searchLoading">sync</mat-icon>
+              <button mat-icon-button matSuffix *ngIf="globalSearchQuery" (click)="clearGlobalSearch()" class="clear-search-btn">
+                <mat-icon>close</mat-icon>
+              </button>
             </mat-form-field>
+
+            <!-- Search Results Dropdown -->
+            <div class="search-dropdown" *ngIf="showSearchDropdown && searchResults.length > 0">
+              <div class="search-result-item"
+                   *ngFor="let result of searchResults"
+                   (click)="navigateToSearchResult(result)">
+                <mat-icon class="result-icon">{{ result.type === 'organization' ? 'business' : result.type === 'user' ? 'person' : 'folder' }}</mat-icon>
+                <div class="result-content">
+                  <div class="result-name">{{ result.name }}</div>
+                  <div class="result-meta">
+                    <span class="result-category">{{ result.category }}</span>
+                    <span class="result-detail" *ngIf="result.email">{{ result.email }}</span>
+                    <span class="result-detail" *ngIf="result.sitecode">{{ result.sitecode }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <button mat-button class="ai-assistant-btn" (click)="openAIAssistant()">
               <img src="assets/ai-assistant-icon.svg" alt="AI Assistant" class="ai-icon">
             </button>
@@ -291,13 +322,21 @@ export class MainLayoutComponent implements OnInit {
   aiInputText = '';
   aiMessages: { text: string; isUser: boolean }[] = [];
 
+  // Global search properties
+  globalSearchQuery = '';
+  searchResults: SearchResult[] = [];
+  showSearchDropdown = false;
+  searchLoading = false;
+  private searchTerms = new Subject<string>();
+
   constructor(
     private authService: AuthService,
     private router: Router,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private http: HttpClient,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private searchService: SearchService
   ) {
     this.currentUser = this.authService.currentUserValue;
 
@@ -320,6 +359,53 @@ export class MainLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadDynamicMenus();
+    this.initializeSearch();
+  }
+
+  initializeSearch(): void {
+    this.searchTerms.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term: string) => {
+        if (term.length < 2) {
+          this.searchResults = [];
+          this.showSearchDropdown = false;
+          this.searchLoading = false;
+          return [];
+        }
+        this.searchLoading = true;
+        return this.searchService.search(term);
+      })
+    ).subscribe({
+      next: (response) => {
+        this.searchResults = response.results || [];
+        this.showSearchDropdown = this.searchResults.length > 0;
+        this.searchLoading = false;
+      },
+      error: (err) => {
+        console.error('Search error:', err);
+        this.searchResults = [];
+        this.showSearchDropdown = false;
+        this.searchLoading = false;
+      }
+    });
+  }
+
+  onGlobalSearch(term: string): void {
+    this.searchTerms.next(term);
+  }
+
+  clearGlobalSearch(): void {
+    this.globalSearchQuery = '';
+    this.searchResults = [];
+    this.showSearchDropdown = false;
+  }
+
+  navigateToSearchResult(result: SearchResult): void {
+    if (result.route) {
+      this.router.navigate([result.route]);
+      this.clearGlobalSearch();
+    }
   }
 
   loadDynamicMenus(): void {
@@ -327,7 +413,7 @@ export class MainLayoutComponent implements OnInit {
       next: (apiSections: ApiMenuSection[]) => {
         // Convert API menu sections to local MenuSection format
         this.dynamicMenuSections = apiSections.map(apiSection => ({
-          title: this.getSectionTitle(apiSection.section),
+          title: apiSection.title || apiSection.section || 'UNKNOWN',
           items: apiSection.items.map(apiItem => ({
             path: apiItem.path,
             label: apiItem.label,
