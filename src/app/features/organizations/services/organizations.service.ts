@@ -34,7 +34,9 @@ export class OrganizationsService {
   syncFromTrakIntel(): Observable<{ message: string; created: number; updated: number; total: number }> {
     return this.apiService.post<{ message: string; created: number; updated: number; total: number }>(
       `${this.baseUrl}/sync-from-trakintel`,
-      {}
+      {
+        trakintel_endpoint: '/forms/organisations'  // API v4: removed /list/ from path
+      }
     );
   }
 }

@@ -8,16 +8,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { ApiService } from '../../../core/services/api.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-trakintel-config',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatExpansionModule, MatIconModule, MatChipsModule, MatDialogModule, MatSnackBarModule, MatTooltipModule],
+  imports: [CommonModule, FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatExpansionModule, MatIconModule, MatChipsModule],
   template: `
     <div class="config-container">
       <h2>TrakIntel Configuration</h2>
@@ -42,12 +38,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
       </mat-card>
 
       <mat-card class="api-reference">
-        <h3>API Endpoints Reference & Testing</h3>
+        <h3>TrakIntel API v4 Reference</h3>
         <div class="info-banner">
           <mat-icon>info</mat-icon>
           <div>
-            <strong>Test Individual Endpoints:</strong> Use the play button (▶) next to each endpoint to test it directly.
-            Make sure to save your configuration first and ensure the <code>/api/trakintel/test-endpoint</code> backend proxy is implemented.
+            <strong>How to Use:</strong> Copy the endpoint path and test it in Postman using your configured URL and token above.
+            Example: <code>{{'{{'}}trakintelUrl{{'}}'}}/forms/organisations</code>
           </div>
         </div>
         <mat-accordion>
@@ -64,41 +60,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
                   <mat-chip-set>
                     <mat-chip [class]="'method-' + endpoint.method.toLowerCase()">{{ endpoint.method }}</mat-chip>
                   </mat-chip-set>
-                  <code class="endpoint-path">{{ endpoint.path }}</code>
-                  <button mat-icon-button (click)="testEndpoint(endpoint)"
-                          [disabled]="!trakintelUrl || !trakintelToken"
-                          matTooltip="Test this endpoint">
-                    <mat-icon>play_arrow</mat-icon>
-                  </button>
+                  <code class="endpoint-path">{{ trakintelUrl }}{{ endpoint.path }}</code>
                 </div>
                 <p class="endpoint-description">{{ endpoint.description }}</p>
                 <div *ngIf="endpoint.note" class="endpoint-note">
                   <mat-icon>info</mat-icon>
                   <span>{{ endpoint.note }}</span>
-                </div>
-
-                <div *ngIf="testingEndpoint === endpoint.path" class="test-section">
-                  <mat-form-field *ngIf="endpoint.method === 'POST' || endpoint.method === 'PUT'" appearance="outline" class="full-width">
-                    <mat-label>Request Body (JSON)</mat-label>
-                    <textarea matInput [(ngModel)]="requestBody" rows="4"
-                              [placeholder]="getRequestBodyPlaceholder(endpoint)"></textarea>
-                  </mat-form-field>
-                  <div class="test-actions">
-                    <button mat-raised-button color="primary" (click)="executeTest(endpoint)" [disabled]="executingTest">
-                      {{ executingTest ? 'Testing...' : 'Execute' }}
-                    </button>
-                    <button mat-button (click)="cancelTest()">Cancel</button>
-                  </div>
-                </div>
-
-                <div *ngIf="testResults[endpoint.path]" class="test-results">
-                  <div class="results-header">
-                    <strong>Response:</strong>
-                    <button mat-icon-button (click)="clearTestResult(endpoint.path)" matTooltip="Clear result">
-                      <mat-icon>close</mat-icon>
-                    </button>
-                  </div>
-                  <pre class="results-body">{{ testResults[endpoint.path] }}</pre>
                 </div>
               </div>
             </div>
@@ -150,10 +117,6 @@ export class TrakintelConfigComponent implements OnInit {
   saving = false;
   message = '';
   messageType = 'info';
-  testingEndpoint: string | null = null;
-  executingTest = false;
-  requestBody = '';
-  testResults: { [key: string]: string } = {};
 
   apiCategories = [
     {
@@ -225,11 +188,7 @@ export class TrakintelConfigComponent implements OnInit {
     }
   ];
 
-  constructor(
-    private apiService: ApiService,
-    private http: HttpClient,
-    private snackBar: MatSnackBar
-  ) {}
+  constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
     this.checkAuthentication();
@@ -275,7 +234,7 @@ export class TrakintelConfigComponent implements OnInit {
       trakintel_token: this.trakintelToken
     }).subscribe({
       next: () => {
-        this.message = '✓ Configuration saved successfully! You can now test individual endpoints below.';
+        this.message = '✓ Configuration saved successfully! Use the endpoints below in Postman with your configured URL and token.';
         this.messageType = 'success';
         this.saving = false;
       },
@@ -285,83 +244,5 @@ export class TrakintelConfigComponent implements OnInit {
         this.saving = false;
       }
     });
-  }
-
-  testEndpoint(endpoint: any): void {
-    this.testingEndpoint = endpoint.path;
-    this.requestBody = this.getRequestBodyPlaceholder(endpoint);
-  }
-
-  cancelTest(): void {
-    this.testingEndpoint = null;
-    this.requestBody = '';
-  }
-
-  getRequestBodyPlaceholder(endpoint: any): string {
-    if (endpoint.note && endpoint.note.includes('Body:')) {
-      const bodyPart = endpoint.note.split('Body:')[1].trim();
-      try {
-        // Try to parse and pretty-print if it's JSON-like
-        const jsonMatch = bodyPart.match(/\{[^}]+\}/);
-        if (jsonMatch) {
-          return JSON.stringify(JSON.parse(jsonMatch[0].replace(/'/g, '"')), null, 2);
-        }
-      } catch (e) {
-        // Fall back to the original text
-      }
-      return bodyPart;
-    }
-    return '{}';
-  }
-
-  executeTest(endpoint: any): void {
-    this.executingTest = true;
-
-    // Parse request body if needed
-    let body = null;
-    if (endpoint.method === 'POST' || endpoint.method === 'PUT') {
-      try {
-        body = this.requestBody ? JSON.parse(this.requestBody) : {};
-      } catch (e) {
-        this.snackBar.open('Invalid JSON in request body', 'Close', { duration: 3000 });
-        this.executingTest = false;
-        return;
-      }
-    }
-
-    // Use backend proxy to avoid CORS issues
-    this.apiService.post('/api/trakintel/test-endpoint', {
-      method: endpoint.method,
-      path: endpoint.path,
-      body: body
-    }).subscribe({
-      next: (response: any) => {
-        this.testResults[endpoint.path] = JSON.stringify(response, null, 2);
-        this.snackBar.open('Test successful!', 'Close', { duration: 3000 });
-        this.executingTest = false;
-        this.testingEndpoint = null;
-      },
-      error: (err) => {
-        let errorMessage = `Error: ${err.status || 0} ${err.statusText || 'Unknown Error'}`;
-        if (err.error) {
-          if (typeof err.error === 'string') {
-            errorMessage += `\n\n${err.error}`;
-          } else {
-            errorMessage += `\n\n${JSON.stringify(err.error, null, 2)}`;
-          }
-        }
-        if (err.status === 0) {
-          errorMessage += '\n\nThis might be a CORS or network connectivity issue. Please check:\n1. TrakIntel server is running and accessible\n2. Backend proxy is properly configured\n3. Network connection is stable';
-        }
-        this.testResults[endpoint.path] = errorMessage;
-        this.snackBar.open('Test failed - see response below', 'Close', { duration: 3000 });
-        this.executingTest = false;
-        this.testingEndpoint = null;
-      }
-    });
-  }
-
-  clearTestResult(path: string): void {
-    delete this.testResults[path];
   }
 }

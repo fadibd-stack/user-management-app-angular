@@ -52,6 +52,10 @@ import { UserFormComponent } from '../../users/components/user-form.component';
             <h2>{{ organization?.name || 'Loading...' }}</h2>
             <p>Organization Details</p>
           </div>
+          <button mat-raised-button color="warn" (click)="deleteOrganization()" *ngIf="organization && !loading">
+            <mat-icon>delete</mat-icon>
+            Delete Organization
+          </button>
         </div>
       </div>
 
@@ -117,6 +121,11 @@ import { UserFormComponent } from '../../users/components/user-form.component';
                   </div>
 
                   <div class="info-item">
+                    <label>Data Platform Version</label>
+                    <span>{{ organization.data_platform_version || '-' }}</span>
+                  </div>
+
+                  <div class="info-item">
                     <label>Latest Patch</label>
                     <span>{{ organization.latest_patch || '-' }}</span>
                   </div>
@@ -174,6 +183,11 @@ import { UserFormComponent } from '../../users/components/user-form.component';
                     <div class="info-item">
                       <label>TrakCare Version</label>
                       <span>{{ organization.trakcare_version || '-' }}</span>
+                    </div>
+
+                    <div class="info-item">
+                      <label>Data Platform Version</label>
+                      <span>{{ organization.data_platform_version || '-' }}</span>
                     </div>
 
                     <div class="info-item">
@@ -372,6 +386,17 @@ import { UserFormComponent } from '../../users/components/user-form.component';
 
     .header-content {
       flex: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-content button {
+      margin-left: 16px;
+    }
+
+    .header-content button mat-icon {
+      margin-right: 8px;
     }
 
     .header-content h2 {
@@ -949,6 +974,37 @@ export class OrganizationDetailComponent implements OnInit {
         console.error('Error updating organization:', err);
         this.snackBar.open(
           err.error?.detail || 'Failed to update organization',
+          'Close',
+          { duration: 5000 }
+        );
+      }
+    });
+  }
+
+  deleteOrganization(): void {
+    if (!this.organization) {
+      return;
+    }
+
+    const confirmDelete = confirm(
+      `Are you sure you want to delete "${this.organization.name}"?\n\nThis action cannot be undone.`
+    );
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    this.organizationsService.deleteOrganization(this.organization.id).subscribe({
+      next: () => {
+        this.snackBar.open('Organization deleted successfully', 'Close', {
+          duration: 3000
+        });
+        this.router.navigate(['/organizations']);
+      },
+      error: (err) => {
+        console.error('Error deleting organization:', err);
+        this.snackBar.open(
+          err.error?.detail || 'Failed to delete organization',
           'Close',
           { duration: 5000 }
         );

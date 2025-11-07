@@ -17,6 +17,7 @@ export interface Organization {
   go_live_date?: string;
   version?: string;
   trakcare_version?: string;
+  data_platform_version?: string;
   latest_patch?: string;
   latest_patch_captured_date?: string;
   latest_patch_applied_date?: string;

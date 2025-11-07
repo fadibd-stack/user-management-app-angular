@@ -58,11 +58,14 @@ export class HomeComponent implements OnInit {
 
     this.http.get<any>(`${this.apiUrl}/api/dashboard/system-overview`).subscribe({
       next: (data) => {
+        console.log('Dashboard API Response:', data);
+        console.log('Counts:', data.counts);
         this.counts = data.counts || {};
         this.userStats = data.user_stats || {};
         this.recentActivity = data.recent_activity || {};
         this.recentReleases = data.recent_releases || [];
         this.recentOrganizations = data.recent_organizations || [];
+        console.log('After assignment - this.counts:', this.counts);
         this.loading = false;
       },
       error: (err) => {
