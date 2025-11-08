@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -8,12 +9,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ApiService } from '../../../core/services/api.service';
 
 @Component({
   selector: 'app-trakintel-config',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatExpansionModule, MatIconModule, MatChipsModule],
+  imports: [CommonModule, FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatExpansionModule, MatIconModule, MatChipsModule, MatProgressSpinnerModule],
   template: `
     <div class="config-container">
       <h2>TrakIntel Configuration</h2>
@@ -61,11 +63,28 @@ import { ApiService } from '../../../core/services/api.service';
                     <mat-chip [class]="'method-' + endpoint.method.toLowerCase()">{{ endpoint.method }}</mat-chip>
                   </mat-chip-set>
                   <code class="endpoint-path">{{ trakintelUrl }}{{ endpoint.path }}</code>
+                  <button mat-icon-button color="primary" (click)="testEndpoint(endpoint)" [disabled]="testingEndpoint === endpoint.path">
+                    <mat-spinner *ngIf="testingEndpoint === endpoint.path" diameter="20"></mat-spinner>
+                    <mat-icon *ngIf="testingEndpoint !== endpoint.path">play_arrow</mat-icon>
+                  </button>
                 </div>
                 <p class="endpoint-description">{{ endpoint.description }}</p>
                 <div *ngIf="endpoint.note" class="endpoint-note">
                   <mat-icon>info</mat-icon>
                   <span>{{ endpoint.note }}</span>
+                </div>
+
+                <!-- Test Results -->
+                <div *ngIf="testResults[endpoint.path]" class="test-results">
+                  <div class="results-header">
+                    <span [class.success]="testResults[endpoint.path].success" [class.error]="!testResults[endpoint.path].success">
+                      {{ testResults[endpoint.path].success ? 'Success' : 'Error' }}
+                    </span>
+                    <button mat-icon-button (click)="clearTestResult(endpoint.path)">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </div>
+                  <pre class="results-body">{{ testResults[endpoint.path].data | json }}</pre>
                 </div>
               </div>
             </div>
@@ -108,6 +127,11 @@ import { ApiService } from '../../../core/services/api.service';
     .info-banner { display: flex; gap: 12px; padding: 16px; background: #e3f2fd; border-radius: 4px; margin-bottom: 16px; align-items: flex-start; }
     .info-banner mat-icon { color: #1976d2; margin-top: 2px; }
     .info-banner code { background: #fff; padding: 2px 6px; border-radius: 3px; font-size: 13px; }
+    .test-results { margin-top: 16px; border: 1px solid #e0e0e0; border-radius: 4px; overflow: hidden; }
+    .results-header { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: #f5f5f5; border-bottom: 1px solid #e0e0e0; }
+    .results-header .success { color: #4caf50; font-weight: 600; }
+    .results-header .error { color: #f44336; font-weight: 600; }
+    .results-body { margin: 0; padding: 16px; background: #fff; font-family: 'Courier New', monospace; font-size: 12px; overflow-x: auto; max-height: 400px; overflow-y: auto; }
   `]
 
 })
@@ -117,6 +141,8 @@ export class TrakintelConfigComponent implements OnInit {
   saving = false;
   message = '';
   messageType = 'info';
+  testingEndpoint: string | null = null;
+  testResults: { [key: string]: { success: boolean; data: any } } = {};
 
   apiCategories = [
     {
@@ -188,7 +214,10 @@ export class TrakintelConfigComponent implements OnInit {
     }
   ];
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this.checkAuthentication();
@@ -234,7 +263,7 @@ export class TrakintelConfigComponent implements OnInit {
       trakintel_token: this.trakintelToken
     }).subscribe({
       next: () => {
-        this.message = '✓ Configuration saved successfully! Use the endpoints below in Postman with your configured URL and token.';
+        this.message = '✓ Configuration saved successfully! You can now test the endpoints below.';
         this.messageType = 'success';
         this.saving = false;
       },
@@ -244,5 +273,41 @@ export class TrakintelConfigComponent implements OnInit {
         this.saving = false;
       }
     });
+  }
+
+  testEndpoint(endpoint: any): void {
+    if (!this.trakintelUrl || !this.trakintelToken) {
+      this.message = '⚠️ Please save configuration first before testing endpoints.';
+      this.messageType = 'error';
+      return;
+    }
+
+    this.testingEndpoint = endpoint.path;
+
+    // Use backend proxy to avoid CORS issues
+    this.apiService.post('/api/trakintel/test-endpoint', {
+      endpoint: endpoint.path,
+      method: endpoint.method,
+      body: {}
+    }).subscribe({
+      next: (data) => {
+        this.testResults[endpoint.path] = {
+          success: true,
+          data: data
+        };
+        this.testingEndpoint = null;
+      },
+      error: (err) => {
+        this.testResults[endpoint.path] = {
+          success: false,
+          data: err.error || { message: err.message }
+        };
+        this.testingEndpoint = null;
+      }
+    });
+  }
+
+  clearTestResult(path: string): void {
+    delete this.testResults[path];
   }
 }

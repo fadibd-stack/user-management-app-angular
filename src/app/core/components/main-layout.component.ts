@@ -438,6 +438,22 @@ export class MainLayoutComponent implements OnInit {
         }
 
         this.menuSectionsLoaded = true;
+
+        // Auto-redirect if user is on Dashboard (/) but doesn't have access to it
+        if (this.router.url === '/' || this.router.url === '') {
+          const hasDashboardAccess = this.dynamicMenuSections.some(section =>
+            section.items.some(item => item.path === '/')
+          );
+
+          if (!hasDashboardAccess) {
+            // User doesn't have Dashboard access, redirect to first available menu
+            const firstMenu = this.dynamicMenuSections[0]?.items[0];
+            if (firstMenu && firstMenu.path) {
+              console.log(`Redirecting to first allowed menu: ${firstMenu.path}`);
+              this.router.navigate([firstMenu.path]);
+            }
+          }
+        }
       },
       error: (error) => {
         console.error('Error loading dynamic menus:', error);

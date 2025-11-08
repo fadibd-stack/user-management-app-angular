@@ -319,6 +319,8 @@ export class MenuConfigComponent implements OnInit {
     this.loading = true;
     this.menuService.getMenuPermissionMatrix().subscribe({
       next: (data) => {
+        console.log('Menu Permission Matrix Data:', data);
+        console.log('Data length:', data?.length);
         this.matrixData = data;
         this.groupedMatrix = this.groupBySection(data);
         this.storeOriginalPermissions();

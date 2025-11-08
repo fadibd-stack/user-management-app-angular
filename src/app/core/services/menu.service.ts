@@ -74,4 +74,11 @@ export class MenuService {
   getMenusForCurrentUser(): Observable<MenuSection[]> {
     return this.http.get<MenuSection[]>(`${this.apiUrl}/api/menus/for-user`);
   }
+
+  /**
+   * Check if the current user has access to a specific route
+   */
+  hasRouteAccess(route: string): Observable<boolean> {
+    return this.http.post<boolean>(`${this.apiUrl}/api/check-route-access`, { route });
+  }
 }
