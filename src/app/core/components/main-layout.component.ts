@@ -439,18 +439,26 @@ export class MainLayoutComponent implements OnInit {
 
         this.menuSectionsLoaded = true;
 
+        console.log('Menu sections loaded:', this.dynamicMenuSections);
+        console.log('Current URL:', this.router.url);
+
         // Auto-redirect if user is on Dashboard (/) but doesn't have access to it
         if (this.router.url === '/' || this.router.url === '') {
           const hasDashboardAccess = this.dynamicMenuSections.some(section =>
             section.items.some(item => item.path === '/')
           );
 
+          console.log('Has dashboard access:', hasDashboardAccess);
+
           if (!hasDashboardAccess) {
             // User doesn't have Dashboard access, redirect to first available menu
             const firstMenu = this.dynamicMenuSections[0]?.items[0];
             if (firstMenu && firstMenu.path) {
-              console.log(`Redirecting to first allowed menu: ${firstMenu.path}`);
+              console.log(`User has no dashboard access. Redirecting to first allowed menu: ${firstMenu.path}`);
               this.router.navigate([firstMenu.path]);
+            } else {
+              // User has no menus at all - show message on dashboard
+              console.log('User has no menu access at all');
             }
           }
         }
@@ -475,12 +483,12 @@ export class MainLayoutComponent implements OnInit {
   }
 
   get menuSections(): MenuSection[] {
-    // Use dynamic menus if loaded, otherwise fall back to hardcoded menus
-    if (this.menuSectionsLoaded && this.dynamicMenuSections.length > 0) {
+    // Use dynamic menus if loaded (even if empty array)
+    if (this.menuSectionsLoaded) {
       return this.dynamicMenuSections;
     }
 
-    // Fallback: Hardcoded menus (for safety if API fails)
+    // Fallback: Hardcoded menus (only if API fails to load)
     const user = this.currentUser;
 
     const sections: MenuSection[] = [

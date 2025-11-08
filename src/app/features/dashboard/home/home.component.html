@@ -8,7 +8,23 @@
     <mat-spinner></mat-spinner>
   </div>
 
-  <div *ngIf="!loading">
+  <!-- No Access Message -->
+  <div *ngIf="!loading && !hasMenuAccess" class="no-access-container">
+    <mat-card class="no-access-card">
+      <mat-card-header>
+        <mat-icon class="no-access-icon">lock</mat-icon>
+      </mat-card-header>
+      <mat-card-content>
+        <h2>No Access</h2>
+        <p>You do not have access to any menus or features at this time.</p>
+        <p style="font-size: 0.875rem; color: #666; margin-top: 1rem;">
+          Please contact your system administrator to request access to the features you need.
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div *ngIf="!loading && hasMenuAccess">
     <!-- User-Specific Quick Stats (Employees Only) -->
     <div *ngIf="isEmployee && userStats && (userStats.pending_tasks > 0 || userStats.unread_notifications > 0)" class="user-stats-section">
       <h2>Your Quick Stats</h2>

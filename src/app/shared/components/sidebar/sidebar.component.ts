@@ -30,7 +30,9 @@ export class SidebarComponent implements OnInit {
     public authService: AuthService,
     private router: Router,
     private menuService: MenuService
-  ) {}
+  ) {
+    console.log('SidebarComponent constructor called');
+  }
 
   ngOnInit(): void {
     // Load menus from database based on user permissions
@@ -38,6 +40,8 @@ export class SidebarComponent implements OnInit {
       next: (sections) => {
         this.menuSections = sections;
         console.log('Loaded menu sections from database:', sections);
+        console.log('Number of menu sections:', sections.length);
+        console.log('Menu sections is array:', Array.isArray(sections));
       },
       error: (error) => {
         console.error('Error loading menu sections:', error);

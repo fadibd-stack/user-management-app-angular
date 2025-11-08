@@ -10,6 +10,17 @@
   </div>
 
   <div class="sidebar-content">
+    <!-- DEBUG: Menu sections length = {{menuSections.length}} -->
+
+    @if (menuSections.length === 0) {
+      <div class="no-access-message">
+        <p>No menu access configured</p>
+        <p style="font-size: 0.875rem; color: #666; margin-top: 0.5rem;">
+          Please contact your administrator to request access.
+        </p>
+      </div>
+    }
+
     @for (section of menuSections; track section.section) {
       <div class="section">
         <div class="section-title" (click)="toggleSection(section.section)">

@@ -27,6 +27,50 @@
   padding: 64px;
 }
 
+// No Access Message
+.no-access-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 64px 24px;
+  min-height: 400px;
+
+  .no-access-card {
+    max-width: 500px;
+    text-align: center;
+    padding: 48px;
+
+    mat-card-header {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .no-access-icon {
+      font-size: 72px;
+      width: 72px;
+      height: 72px;
+      color: #999;
+    }
+
+    mat-card-content {
+      h2 {
+        margin: 0 0 16px 0;
+        font-size: 28px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      p {
+        margin: 0;
+        font-size: 16px;
+        color: #666;
+        line-height: 1.6;
+      }
+    }
+  }
+}
+
 // User-specific stats section
 .user-stats-section {
   margin-bottom: 32px;

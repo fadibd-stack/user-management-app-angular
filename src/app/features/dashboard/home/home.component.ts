@@ -10,6 +10,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatBadgeModule } from '@angular/material/badge';
 import { AuthService } from '../../../core/services/auth.service';
+import { MenuService } from '../../../core/services/menu.service';
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -32,6 +33,7 @@ import { environment } from '../../../../environments/environment';
 export class HomeComponent implements OnInit {
   currentUser: any;
   loading = true;
+  hasMenuAccess = true;  // Track if user has any menu access
 
   // System-wide stats
   counts: any = {};
@@ -44,13 +46,28 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private http: HttpClient
+    private http: HttpClient,
+    private menuService: MenuService
   ) {
     this.currentUser = this.authService.currentUser;
   }
 
   ngOnInit(): void {
-    this.loadSystemOverview();
+    // Check if user has any menu access
+    this.menuService.getMenusForCurrentUser().subscribe({
+      next: (sections) => {
+        this.hasMenuAccess = sections.length > 0;
+        if (this.hasMenuAccess) {
+          this.loadSystemOverview();
+        } else {
+          this.loading = false;
+        }
+      },
+      error: () => {
+        this.hasMenuAccess = false;
+        this.loading = false;
+      }
+    });
   }
 
   loadSystemOverview(): void {

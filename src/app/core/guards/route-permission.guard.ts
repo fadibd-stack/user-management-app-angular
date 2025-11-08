@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { Router, CanActivateFn } from '@angular/router';
 import { MenuService } from '../services/menu.service';
-import { map, catchError, tap } from 'rxjs/operators';
+import { map, catchError, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 /**
@@ -16,25 +16,48 @@ export const routePermissionGuard: CanActivateFn = (route, state) => {
 
   // Check if user has permission to access this route
   return menuService.hasRouteAccess(currentPath).pipe(
-    map(hasAccess => {
+    switchMap(hasAccess => {
       if (hasAccess) {
-        return true;
+        return of(true);
       }
 
-      // User doesn't have access - redirect to first allowed menu or dashboard
+      // User doesn't have access - redirect to first allowed menu
       console.warn(`Access denied to ${currentPath}`);
 
-      // Redirect to dashboard as fallback
-      setTimeout(() => {
-        router.navigate(['/'], { replaceUrl: true });
-      }, 0);
+      // Get user's menus and redirect to first allowed one
+      return menuService.getMenusForCurrentUser().pipe(
+        map(sections => {
+          // Find first menu item the user can access
+          for (const section of sections) {
+            if (section.items && section.items.length > 0) {
+              const firstMenu = section.items[0];
+              console.log(`Redirecting to first allowed menu: ${firstMenu.path}`);
+              setTimeout(() => {
+                router.navigate([firstMenu.path], { replaceUrl: true });
+              }, 0);
+              return false;
+            }
+          }
 
-      return false;
+          // No menus available - user has no access, just block navigation
+          // Don't redirect them anywhere, let them see the "No Access" message in sidebar
+          console.warn('No accessible menus found - blocking navigation');
+          return false;
+        }),
+        catchError(() => {
+          // If we can't get menus, just block navigation
+          console.error('Error fetching menus - blocking navigation');
+          return of(false);
+        })
+      );
     }),
     catchError((error) => {
-      // On error, allow access to prevent infinite loops
+      // On error, deny access and redirect to login for security
       console.error('Error checking route access:', error);
-      return of(true);
+      setTimeout(() => {
+        router.navigate(['/login'], { replaceUrl: true });
+      }, 0);
+      return of(false);
     })
   );
 };
