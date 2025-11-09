@@ -12,7 +12,14 @@ export const routePermissionGuard: CanActivateFn = (route, state) => {
   const menuService = inject(MenuService);
   const router = inject(Router);
 
-  const currentPath = state.url.split('?')[0]; // Remove query params
+  let currentPath = state.url.split('?')[0]; // Remove query params
+
+  // Extract base path for routes with dynamic segments (e.g., /organizations/4 -> /organizations)
+  const pathSegments = currentPath.split('/').filter(s => s);
+  if (pathSegments.length > 1 && !isNaN(Number(pathSegments[pathSegments.length - 1]))) {
+    // Last segment is a number (likely an ID), use parent path
+    currentPath = '/' + pathSegments.slice(0, -1).join('/');
+  }
 
   // Check if user has permission to access this route
   return menuService.hasRouteAccess(currentPath).pipe(
