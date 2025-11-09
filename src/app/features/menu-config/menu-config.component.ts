@@ -62,49 +62,53 @@ import {
           </div>
         </div>
 
-        <!-- Permission Matrix Table -->
-        <mat-card class="matrix-card">
-          <div class="table-container">
-            <table mat-table [dataSource]="groupedMatrix" class="permission-matrix">
-
-              <!-- Menu Column -->
-              <ng-container matColumnDef="menu">
-                <th mat-header-cell *matHeaderCellDef class="menu-column">Menu Item</th>
-                <td mat-cell *matCellDef="let element" class="menu-cell">
-                  <div class="menu-info">
-                    <mat-icon class="menu-icon">{{ element.menu_item.icon || 'label' }}</mat-icon>
-                    <div class="menu-details">
-                      <span class="menu-label">{{ element.menu_item.label }}</span>
-                      <span class="menu-path">{{ element.menu_item.path }}</span>
-                    </div>
-                  </div>
-                </td>
-              </ng-container>
-
-              <!-- Role Columns -->
-              <ng-container *ngFor="let role of roles" [matColumnDef]="role.name">
-                <th mat-header-cell *matHeaderCellDef class="role-column">
-                  <div class="role-header">
-                    {{ role.label }}
-                  </div>
-                </th>
-                <td mat-cell *matCellDef="let element" class="role-cell">
+        <!-- Permission Matrix by Section -->
+        <div class="sections-container">
+          <mat-card *ngFor="let section of sections" class="section-card">
+            <div class="section-header-row" (click)="toggleSection(section.key)">
+              <div class="section-title">
+                <mat-icon class="expand-icon">{{ isSectionExpanded(section.key) ? 'expand_more' : 'chevron_right' }}</mat-icon>
+                <mat-icon>{{ getSectionIcon(section.key) }}</mat-icon>
+                <h3>{{ section.label }}</h3>
+                <span class="item-count">{{ section.items.length }} items</span>
+              </div>
+              <div class="section-controls" (click)="$event.stopPropagation()">
+                <div class="role-select-all" *ngFor="let role of roles">
                   <mat-checkbox
-                    [checked]="element.permissions[role.name]"
-                    (change)="togglePermission(element.menu_item.id, role.name, $event.checked)"
-                    [color]="'primary'">
+                    [checked]="isSectionFullyChecked(section.key, role.name)"
+                    [indeterminate]="isSectionPartiallyChecked(section.key, role.name)"
+                    (change)="toggleSectionPermission(section.key, role.name, $event.checked)"
+                    [color]="'primary'"
+                    class="section-checkbox">
                   </mat-checkbox>
-                </td>
-              </ng-container>
+                  <span class="role-label-small">{{ role.label }}</span>
+                </div>
+              </div>
+            </div>
 
-              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-                  [class.section-header]="row.isSection"
-                  [class.changed-row]="isRowChanged(row.menu_item?.id)">
-              </tr>
-            </table>
-          </div>
-        </mat-card>
+            <div class="menu-items-list" *ngIf="isSectionExpanded(section.key)">
+              <div *ngFor="let item of section.items"
+                   class="menu-item-row"
+                   [class.changed-row]="isRowChanged(item.menu_item.id)">
+                <div class="menu-info">
+                  <mat-icon class="menu-icon">{{ item.menu_item.icon || 'label' }}</mat-icon>
+                  <div class="menu-details">
+                    <span class="menu-label">{{ item.menu_item.label }}</span>
+                    <span class="menu-path">{{ item.menu_item.path }}</span>
+                  </div>
+                </div>
+                <div class="menu-permissions">
+                  <mat-checkbox *ngFor="let role of roles"
+                    [checked]="item.permissions[role.name]"
+                    (change)="togglePermission(item.menu_item.id, role.name, $event.checked)"
+                    [color]="'primary'"
+                    class="role-checkbox">
+                  </mat-checkbox>
+                </div>
+              </div>
+            </div>
+          </mat-card>
+        </div>
       </div>
 
       <div *ngIf="!loading && matrixData.length === 0" class="empty-state">
@@ -149,7 +153,7 @@ import {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 16px;
+      margin-bottom: 24px;
       padding: 12px 16px;
       background: #f5f5f5;
       border-radius: 8px;
@@ -178,65 +182,122 @@ import {
       height: 18px;
     }
 
-    .matrix-card {
+    /* Section-based layout */
+    .sections-container {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .section-card {
+      padding: 0;
       overflow: hidden;
     }
 
-    .table-container {
-      overflow-x: auto;
-      max-height: calc(100vh - 280px);
-      overflow-y: auto;
-    }
-
-    .permission-matrix {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .mat-mdc-header-cell {
-      background: #fafafa;
-      font-weight: 600;
-      padding: 16px 12px !important;
-      border-bottom: 2px solid #e0e0e0;
-    }
-
-    .menu-column {
-      min-width: 300px;
-      position: sticky;
-      left: 0;
-      background: #fafafa;
-      z-index: 10;
-    }
-
-    .role-column {
-      min-width: 120px;
-      text-align: center;
-    }
-
-    .role-header {
+    .section-header-row {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 10px 16px;
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      gap: 4px;
+      flex-wrap: wrap;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      user-select: none;
     }
 
-    .mat-mdc-cell {
-      padding: 12px !important;
+    .section-header-row:hover {
+      opacity: 0.95;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .expand-icon {
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+      transition: transform 0.2s;
+    }
+
+    .section-title mat-icon {
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+    }
+
+    .section-title h3 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .section-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .item-count {
+      font-size: 11px;
+      opacity: 0.85;
+      font-weight: 500;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    .role-select-all {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .role-label-small {
+      font-size: 12px;
+      font-weight: 500;
+      opacity: 0.95;
+    }
+
+    .section-checkbox {
+      transform: scale(0.9);
+    }
+
+    /* Menu items list */
+    .menu-items-list {
+      padding: 8px;
+    }
+
+    .menu-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
       border-bottom: 1px solid #f0f0f0;
+      transition: background-color 0.2s;
     }
 
-    .menu-cell {
-      position: sticky;
-      left: 0;
-      background: white;
-      z-index: 5;
-      border-right: 1px solid #e0e0e0;
+    .menu-item-row:hover {
+      background-color: #fafafa;
+    }
+
+    .menu-item-row:last-child {
+      border-bottom: none;
     }
 
     .menu-info {
       display: flex;
       align-items: center;
       gap: 12px;
+      flex: 1;
     }
 
     .menu-icon {
@@ -244,6 +305,7 @@ import {
       font-size: 20px;
       width: 20px;
       height: 20px;
+      flex-shrink: 0;
     }
 
     .menu-details {
@@ -255,24 +317,32 @@ import {
     .menu-label {
       font-weight: 500;
       font-size: 14px;
+      color: #333;
     }
 
     .menu-path {
       font-size: 12px;
       color: #999;
+      font-family: monospace;
     }
 
-    .role-cell {
-      text-align: center;
+    .menu-permissions {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .role-checkbox {
+      margin: 0;
     }
 
     .changed-row {
       background-color: #fff9e6 !important;
+      border-left: 3px solid #ff9800;
     }
 
-    .section-header {
-      background: #e3f2fd !important;
-      font-weight: bold;
+    .changed-row:hover {
+      background-color: #fff3cd !important;
     }
 
     .empty-state {
@@ -290,18 +360,44 @@ import {
       height: 64px;
       margin-bottom: 16px;
     }
+
+    /* Different section colors */
+    .section-card:nth-child(2) .section-header-row {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .section-card:nth-child(3) .section-header-row {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .section-card:nth-child(4) .section-header-row {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    }
+
+    .section-card:nth-child(5) .section-header-row {
+      background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
   `]
 })
 export class MenuConfigComponent implements OnInit {
   matrixData: MenuPermissionMatrix[] = [];
-  groupedMatrix: any[] = [];
+  sections: any[] = [];
   roles = EMPLOYEE_ROLES;
-  displayedColumns: string[] = ['menu', ...EMPLOYEE_ROLES.map(r => r.name)];
 
   loading = false;
   saving = false;
   hasChanges = false;
   changeCount = 0;
+
+  private expandedSections: Set<string> = new Set(['MAIN']); // Start with MAIN section expanded
+
+  private sectionLabels: { [key: string]: string } = {
+    'MAIN': 'Main Navigation',
+    'RELEASE_VALIDATION': 'Release Validation',
+    'SYSTEM_CONFIGURATION': 'System Configuration',
+    'ORGANIZATION': 'Organization Management',
+    'ADDITIONAL': 'Additional Features'
+  };
 
   private originalPermissions: Map<string, boolean> = new Map();
   private changedPermissions: Map<string, RoleMenuPermissionCreate> = new Map();
@@ -322,7 +418,7 @@ export class MenuConfigComponent implements OnInit {
         console.log('Menu Permission Matrix Data:', data);
         console.log('Data length:', data?.length);
         this.matrixData = data;
-        this.groupedMatrix = this.groupBySection(data);
+        this.sections = this.groupBySection(data);
         this.storeOriginalPermissions();
         this.loading = false;
       },
@@ -335,27 +431,83 @@ export class MenuConfigComponent implements OnInit {
   }
 
   groupBySection(data: MenuPermissionMatrix[]): any[] {
-    const sections: { [key: string]: MenuPermissionMatrix[] } = {};
+    const sectionsMap: { [key: string]: MenuPermissionMatrix[] } = {};
     const sectionOrder = ['MAIN', 'RELEASE_VALIDATION', 'SYSTEM_CONFIGURATION', 'ORGANIZATION', 'ADDITIONAL'];
 
     // Group by section
     data.forEach(item => {
       const section = item.menu_item.section;
-      if (!sections[section]) {
-        sections[section] = [];
+      if (!sectionsMap[section]) {
+        sectionsMap[section] = [];
       }
-      sections[section].push(item);
+      sectionsMap[section].push(item);
     });
 
-    // Build flat array with section headers
+    // Build sections array
     const result: any[] = [];
     sectionOrder.forEach(sectionKey => {
-      if (sections[sectionKey]) {
-        result.push(...sections[sectionKey]);
+      if (sectionsMap[sectionKey] && sectionsMap[sectionKey].length > 0) {
+        result.push({
+          key: sectionKey,
+          label: this.sectionLabels[sectionKey] || sectionKey,
+          items: sectionsMap[sectionKey]
+        });
       }
     });
 
     return result;
+  }
+
+  getSectionIcon(sectionKey: string): string {
+    const icons: { [key: string]: string } = {
+      'MAIN': 'dashboard',
+      'RELEASE_VALIDATION': 'verified',
+      'SYSTEM_CONFIGURATION': 'settings',
+      'ORGANIZATION': 'business',
+      'ADDITIONAL': 'more_horiz'
+    };
+    return icons[sectionKey] || 'folder';
+  }
+
+  isSectionFullyChecked(sectionKey: string, roleName: string): boolean {
+    const section = this.sections.find(s => s.key === sectionKey);
+    if (!section || section.items.length === 0) return false;
+
+    return section.items.every((item: MenuPermissionMatrix) =>
+      item.permissions[roleName] === true
+    );
+  }
+
+  isSectionPartiallyChecked(sectionKey: string, roleName: string): boolean {
+    const section = this.sections.find(s => s.key === sectionKey);
+    if (!section || section.items.length === 0) return false;
+
+    const checkedCount = section.items.filter((item: MenuPermissionMatrix) =>
+      item.permissions[roleName] === true
+    ).length;
+
+    return checkedCount > 0 && checkedCount < section.items.length;
+  }
+
+  toggleSectionPermission(sectionKey: string, roleName: string, checked: boolean) {
+    const section = this.sections.find(s => s.key === sectionKey);
+    if (!section) return;
+
+    section.items.forEach((item: MenuPermissionMatrix) => {
+      this.togglePermission(item.menu_item.id, roleName, checked);
+    });
+  }
+
+  toggleSection(sectionKey: string) {
+    if (this.expandedSections.has(sectionKey)) {
+      this.expandedSections.delete(sectionKey);
+    } else {
+      this.expandedSections.add(sectionKey);
+    }
+  }
+
+  isSectionExpanded(sectionKey: string): boolean {
+    return this.expandedSections.has(sectionKey);
   }
 
   storeOriginalPermissions() {
