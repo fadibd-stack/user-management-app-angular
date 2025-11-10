@@ -391,7 +391,14 @@ export class UserFormComponent implements OnInit {
       if (this.data._createMode && this.data._userType) {
         this.userType = this.data._userType === 'contact' ? 'customer' : 'intersystems';
         console.log('Create mode - Setting userType to:', this.userType);
-        // Don't patch form values in create mode
+
+        // If organization_id provided in dialog data, set it in the form
+        if (this.data.organization_id) {
+          this.userForm.patchValue({ organization_id: this.data.organization_id });
+          console.log('Setting organization_id from dialog data:', this.data.organization_id);
+        }
+
+        // Don't patch other form values in create mode
         return;
       }
 
@@ -480,11 +487,20 @@ export class UserFormComponent implements OnInit {
       const formValue = this.userForm.getRawValue();
       const { username, password, ...updateData } = formValue;  // Exclude username and password
 
-      this.usersService.updateUser(this.data.id, updateData as UserUpdate).subscribe({
+      // IMPORTANT: Include user_type from original data to prevent ID collision between employees and contacts
+      const updatePayload = {
+        ...updateData,
+        user_type: this.data.user_type  // Preserve the user type from original data
+      } as UserUpdate;
+
+      this.usersService.updateUser(this.data.id, updatePayload).subscribe({
         next: (updatedUser) => {
           // If the updated user is the current logged-in user, refresh the auth service
+          // IMPORTANT: Check both ID and user_type to avoid confusion when employee ID=1 and contact ID=1 both exist
           const currentUser = this.authService.currentUserValue;
-          if (currentUser && this.data && currentUser.id === this.data.id) {
+          if (currentUser && this.data &&
+              currentUser.id === this.data.id &&
+              currentUser.user_type === this.data.user_type) {
             this.authService.updateCurrentUser(updatedUser);
           }
           this.dialogRef.close(true);
@@ -504,13 +520,15 @@ export class UserFormComponent implements OnInit {
         user_type: this.userType === 'intersystems' ? 'employee' : 'contact'
       };
 
-      // For contacts, auto-assign the organization_id from current user
-      if (this.userType === 'customer') {
+      // For contacts, auto-assign the organization_id from current user if not already set
+      if (this.userType === 'customer' && !createData.organization_id) {
         const currentUser = this.authService.currentUserValue;
         if (currentUser?.organization_id) {
           createData.organization_id = currentUser.organization_id;
         }
       }
+
+      console.log('Creating user with data:', createData);
 
       this.usersService.createUser(createData).subscribe({
         next: () => {
