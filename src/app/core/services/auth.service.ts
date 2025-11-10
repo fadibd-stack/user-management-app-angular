@@ -75,11 +75,17 @@ export class AuthService {
 
   refreshCurrentUser(): Observable<User> {
     const currentUserId = this.currentUser?.id;
-    if (!currentUserId) {
+    const currentUserType = this.currentUser?.user_type;
+    if (!currentUserId || !currentUserType) {
       return of(null as any);
     }
 
-    return this.apiService.get<User>(`/api/users/${currentUserId}`).pipe(
+    // Use specific endpoint based on user type to avoid ID collision bug
+    const endpoint = currentUserType === 'employee'
+      ? `/api/employees/${currentUserId}`
+      : `/api/contacts/${currentUserId}`;
+
+    return this.apiService.get<User>(endpoint).pipe(
       tap(user => {
         // Preserve the access_token from the current user
         const currentUser = this.currentUser;

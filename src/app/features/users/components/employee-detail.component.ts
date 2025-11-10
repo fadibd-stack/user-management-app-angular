@@ -576,7 +576,7 @@ export class EmployeeDetailComponent implements OnInit {
   loadEmployee(id: number): void {
     this.loading = true;
     this.error = null;
-    this.usersService.getUser(id).subscribe({
+    this.usersService.getUser(id, 'employee').subscribe({
       next: (user) => {
         console.log('=== Employee Data ===', user);
         this.employee = user;
@@ -643,7 +643,7 @@ export class EmployeeDetailComponent implements OnInit {
 
     const updateData = this.editForm.value;
 
-    this.usersService.updateUser(this.employee.id, updateData).subscribe({
+    this.usersService.updateUser(this.employee.id, updateData, 'employee').subscribe({
       next: (updatedUser) => {
         this.employee = updatedUser;
         this.isEditMode = false;
@@ -683,7 +683,7 @@ export class EmployeeDetailComponent implements OnInit {
       return;
     }
 
-    this.usersService.deleteUser(this.employee.id).subscribe({
+    this.usersService.deleteUser(this.employee.id, 'employee').subscribe({
       next: () => {
         this.snackBar.open('Employee deleted successfully', 'Close', {
           duration: 3000

@@ -493,7 +493,7 @@ export class UserFormComponent implements OnInit {
         user_type: this.data.user_type  // Preserve the user type from original data
       } as UserUpdate;
 
-      this.usersService.updateUser(this.data.id, updatePayload).subscribe({
+      this.usersService.updateUser(this.data.id, updatePayload, this.data.user_type as 'employee' | 'contact').subscribe({
         next: (updatedUser) => {
           // If the updated user is the current logged-in user, refresh the auth service
           // IMPORTANT: Check both ID and user_type to avoid confusion when employee ID=1 and contact ID=1 both exist

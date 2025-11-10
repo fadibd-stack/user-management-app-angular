@@ -189,7 +189,7 @@ export class ChangePasswordDialogComponent {
       password: this.passwordForm.get('password')?.value
     };
 
-    this.usersService.updateUser(this.data.user.id, updateData).subscribe({
+    this.usersService.updateUser(this.data.user.id, updateData, this.data.user.user_type as 'employee' | 'contact').subscribe({
       next: () => {
         this.dialogRef.close(true);
       },

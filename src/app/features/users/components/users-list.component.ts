@@ -496,7 +496,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
 
   deleteUser(user: User): void {
     if (confirm(`Are you sure you want to delete user ${user.username}?`)) {
-      this.usersService.deleteUser(user.id).subscribe({
+      this.usersService.deleteUser(user.id, user.user_type as 'employee' | 'contact').subscribe({
         next: () => {
           this.loadUsers();
         },
