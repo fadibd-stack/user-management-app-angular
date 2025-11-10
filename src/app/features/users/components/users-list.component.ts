@@ -154,7 +154,9 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+              [class.clickable-row]="viewMode === 'employees'"
+              (click)="viewMode === 'employees' ? viewEmployee(row) : null"></tr>
         </table>
 
         <mat-paginator
@@ -275,6 +277,15 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
       font-size: 14px;
       max-width: 400px;
     }
+
+    .clickable-row {
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .clickable-row:hover {
+      background-color: #f5f5f5;
+    }
   `]
 })
 export class UsersListComponent implements OnInit, AfterViewInit {
@@ -291,14 +302,11 @@ export class UsersListComponent implements OnInit, AfterViewInit {
     const mode = this.viewMode;
 
     if (mode === 'employees') {
-      // Employees don't have organizations
+      // Simplified employees view - just name, email, status
       return [
-        'username',
         'name',
         'email',
-        'permission_level',
-        'status',
-        'actions'
+        'status'
       ];
     } else if (mode === 'contacts') {
       // Contacts always have organizations
@@ -548,5 +556,9 @@ export class UsersListComponent implements OnInit, AfterViewInit {
       'user': 'User'
     };
     return labels[level] || level;
+  }
+
+  viewEmployee(user: User): void {
+    this.router.navigate(['/employees', user.id]);
   }
 }
