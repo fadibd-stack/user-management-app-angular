@@ -19,6 +19,13 @@ import { User } from '../models/user.model';
 import { AuthService } from '../../../core/services/auth.service';
 import { UserFormComponent } from './user-form.component';
 import { ChangePasswordDialogComponent } from './change-password-dialog.component';
+import { OrganizationsService } from '../../organizations/services/organizations.service';
+import { MatSelectModule } from '@angular/material/select';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatOptionModule } from '@angular/material/core';
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-users-list',
@@ -26,6 +33,7 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
     MatButtonModule,
@@ -37,7 +45,11 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
     MatDialogModule,
     MatTooltipModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    MatOptionModule,
+    ReactiveFormsModule
   ],
   template: `
     <div class="users-container">
@@ -68,12 +80,33 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
       </mat-card>
 
       <mat-card class="table-card">
-        <!-- Search Bar -->
+        <!-- Search Bar and Filters -->
         <div class="search-container">
           <mat-form-field appearance="outline" class="search-field">
             <mat-label>Search Users</mat-label>
             <input matInput [(ngModel)]="searchTerm" (input)="filterUsers()" placeholder="Search by name, username, or email...">
             <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+
+          <!-- Organization Filter - Only for Employees on Contacts Page -->
+          <mat-form-field appearance="outline" class="org-filter-field" *ngIf="viewMode === 'contacts' && currentUser?.user_type === 'employee'">
+            <mat-label>Filter by Organization</mat-label>
+            <input
+              type="text"
+              matInput
+              [formControl]="orgFilterControl"
+              [matAutocomplete]="autoOrg"
+              placeholder="Type to search organizations...">
+            <mat-icon matSuffix>business</mat-icon>
+            <button matSuffix mat-icon-button (click)="clearOrgFilter()" *ngIf="selectedOrgFilter" tabindex="-1">
+              <mat-icon>clear</mat-icon>
+            </button>
+            <mat-autocomplete #autoOrg="matAutocomplete" (optionSelected)="onOrgSelected($event)" [displayWith]="displayOrgName">
+              <mat-option [value]="null">All Organizations</mat-option>
+              <mat-option *ngFor="let org of filteredOrganizations | async" [value]="org">
+                {{ org.name }}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
         </div>
 
@@ -93,7 +126,9 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
           <!-- Name Column -->
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>NAME</th>
-            <td mat-cell *matCellDef="let user">{{ user.first_name }} {{ user.last_name }}</td>
+            <td mat-cell *matCellDef="let user" class="clickable-name" (click)="viewUserDetail(user)">
+              {{ user.first_name }} {{ user.last_name }}
+            </td>
           </ng-container>
 
           <!-- Email Column -->
@@ -137,8 +172,8 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
             </td>
           </ng-container>
 
-          <!-- Actions Column -->
-          <ng-container matColumnDef="actions">
+          <!-- Actions Column - removed, actions now in detail page -->
+          <!-- <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef>ACTIONS</th>
             <td mat-cell *matCellDef="let user">
               <button mat-icon-button (click)="editUser(user)" matTooltip="Edit User">
@@ -151,12 +186,10 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
                 <mat-icon>delete</mat-icon>
               </button>
             </td>
-          </ng-container>
+          </ng-container> -->
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-              [class.clickable-row]="viewMode === 'employees'"
-              (click)="viewMode === 'employees' ? viewEmployee(row) : null"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
 
         <mat-paginator
@@ -193,10 +226,20 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
       padding: 16px;
       background-color: #f5f5f5;
       border-radius: 8px 8px 0 0;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
     }
 
     .search-field {
-      width: 100%;
+      flex: 0 0 300px;
+      min-width: 250px;
+    }
+
+    .org-filter-field {
+      flex: 1;
+      min-width: 450px;
     }
 
     .full-width-table { width: 100%; }
@@ -286,6 +329,18 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
     .clickable-row:hover {
       background-color: #f5f5f5;
     }
+
+    .clickable-name {
+      cursor: pointer;
+      color: #1976d2;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .clickable-name:hover {
+      color: #1565c0;
+      text-decoration: underline;
+    }
   `]
 })
 export class UsersListComponent implements OnInit, AfterViewInit {
@@ -297,6 +352,10 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   currentUser: User | null = null;
   selectedTabIndex = 0;
   searchTerm = '';
+  organizations: any[] = [];  // List of organizations for filter dropdown
+  selectedOrgFilter: number | string = '';  // Selected organization ID for filtering
+  orgFilterControl = new FormControl('');  // FormControl for autocomplete input
+  filteredOrganizations!: Observable<any[]>;  // Filtered organizations for autocomplete
 
   get displayedColumns(): string[] {
     const mode = this.viewMode;
@@ -309,18 +368,17 @@ export class UsersListComponent implements OnInit, AfterViewInit {
         'status'
       ];
     } else if (mode === 'contacts') {
-      // Contacts always have organizations
+      // Contacts always have organizations - actions removed, now in detail page
       return [
         'username',
         'name',
         'email',
         'permission_level',
         'organization',
-        'status',
-        'actions'
+        'status'
       ];
     } else {
-      // Legacy /users route - show everything
+      // Legacy /users route - show everything, actions removed (now in detail page)
       return [
         'username',
         'name',
@@ -328,8 +386,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
         'employment_type',
         'permission_level',
         'organization',
-        'status',
-        'actions'
+        'status'
       ];
     }
   }
@@ -338,7 +395,8 @@ export class UsersListComponent implements OnInit, AfterViewInit {
     private usersService: UsersService,
     private authService: AuthService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private organizationsService: OrganizationsService
   ) {
     this.currentUser = this.authService.currentUser;
 
@@ -386,6 +444,41 @@ export class UsersListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.loadUsers();
+
+    // Load organizations for filter dropdown (only for employees viewing contacts)
+    if (this.viewMode === 'contacts' && this.currentUser?.user_type === 'employee') {
+      this.organizationsService.getOrganizations().subscribe({
+        next: (orgs) => {
+          this.organizations = orgs;
+
+          // Setup autocomplete filtering
+          this.filteredOrganizations = this.orgFilterControl.valueChanges.pipe(
+            startWith(''),
+            map((value: string | any) => {
+              let filterValue = '';
+              if (typeof value === 'string') {
+                filterValue = value;
+              } else if (value && value.name) {
+                filterValue = value.name;
+              }
+              return filterValue ? this._filterOrganizations(filterValue) : this.organizations.slice();
+            })
+          );
+
+          // Detect when field is manually cleared
+          this.orgFilterControl.valueChanges.subscribe(value => {
+            // If the value is an empty string and we have a filter applied, clear it
+            if (value === '' && this.selectedOrgFilter) {
+              this.selectedOrgFilter = '';
+              this.filterUsers();
+            }
+          });
+        },
+        error: (error) => {
+          console.error('Failed to load organizations:', error);
+        }
+      });
+    }
   }
 
   ngAfterViewInit(): void {
@@ -424,6 +517,11 @@ export class UsersListComponent implements OnInit, AfterViewInit {
     } else if (mode === 'contacts') {
       // Show only contacts (user_type === 'contact')
       filteredUsers = this.users.filter(u => u.user_type === 'contact');
+
+      // Apply organization filter if selected (only for employees viewing contacts)
+      if (this.selectedOrgFilter && this.currentUser?.user_type === 'employee') {
+        filteredUsers = filteredUsers.filter(u => u.organization_id === +this.selectedOrgFilter);
+      }
     } else {
       // Legacy /users route - show based on tabs and permissions
       if (!this.currentUser?.is_superuser) {
@@ -444,18 +542,18 @@ export class UsersListComponent implements OnInit, AfterViewInit {
     // Update dataSource with filtered users
     this.dataSource.data = filteredUsers;
 
-    // Apply search filter if there is a search term
-    if (this.searchTerm) {
-      this.filterUsers();
-    }
-  }
-
-  filterUsers(): void {
+    // Apply search filter
     this.dataSource.filter = this.searchTerm.trim().toLowerCase();
+
     // Reset to first page when filtering
     if (this.paginator) {
       this.paginator.firstPage();
     }
+  }
+
+  filterUsers(): void {
+    // Reapply all filters when search term or organization filter changes
+    this.applyViewModeFilter();
   }
 
   openUserDialog(user?: User): void {
@@ -560,5 +658,38 @@ export class UsersListComponent implements OnInit, AfterViewInit {
 
   viewEmployee(user: User): void {
     this.router.navigate(['/employees', user.id]);
+  }
+
+  viewUserDetail(user: User): void {
+    // Navigate to the appropriate detail page based on user type
+    if (user.user_type === 'employee') {
+      this.router.navigate(['/employees', user.id]);
+    } else if (user.user_type === 'contact') {
+      this.router.navigate(['/contacts', user.id]);
+    }
+  }
+
+  // Organization filter autocomplete methods
+  private _filterOrganizations(value: string): any[] {
+    const filterValue = value.toLowerCase();
+    return this.organizations.filter(org =>
+      org.name.toLowerCase().includes(filterValue)
+    );
+  }
+
+  displayOrgName = (org: any): string => {
+    return org && org.name ? org.name : '';
+  };
+
+  onOrgSelected(event: any): void {
+    const selectedOrg = event.option.value;
+    this.selectedOrgFilter = selectedOrg ? selectedOrg.id : '';
+    this.filterUsers();
+  }
+
+  clearOrgFilter(): void {
+    this.orgFilterControl.setValue('');
+    this.selectedOrgFilter = '';
+    this.filterUsers();
   }
 }

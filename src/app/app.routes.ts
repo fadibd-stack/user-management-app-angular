@@ -6,6 +6,7 @@ import { MainLayoutComponent } from './core/components/main-layout.component';
 import { HomeComponent } from './features/dashboard/home/home.component';
 import { UsersListComponent } from './features/users/components/users-list.component';
 import { EmployeeDetailComponent } from './features/users/components/employee-detail.component';
+import { ContactDetailComponent } from './features/users/components/contact-detail.component';
 import { TestCasesListComponent } from './features/test-cases/components/test-cases-list.component';
 import { TestExecutionsListComponent } from './features/test-executions/components/test-executions-list.component';
 import { GroupsListComponent } from './features/groups/components/groups-list.component';
@@ -47,6 +48,7 @@ export const routes: Routes = [
       { path: 'employees', component: UsersListComponent, canActivate: [routePermissionGuard] },
       { path: 'employees/:id', component: EmployeeDetailComponent, canActivate: [routePermissionGuard] },
       { path: 'contacts', component: UsersListComponent, canActivate: [routePermissionGuard] },
+      { path: 'contacts/:id', component: ContactDetailComponent, canActivate: [routePermissionGuard] },
       { path: 'groups', component: GroupsListComponent, canActivate: [routePermissionGuard] },
       { path: 'test-cases', component: TestCasesListComponent, canActivate: [routePermissionGuard] },
       { path: 'test-executions', component: TestExecutionsListComponent, canActivate: [routePermissionGuard] },

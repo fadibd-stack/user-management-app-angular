@@ -44,10 +44,10 @@ export class UsersService {
 
   /**
    * Create new user
-   * Uses the appropriate endpoint based on user_type or employment_type
+   * Uses the appropriate endpoint based on user_type
    */
   createUser(user: UserCreate): Observable<User> {
-    const userType = user.user_type || (user.employment_type === 'intersystems' ? 'employee' : 'contact');
+    const userType = user.user_type;
 
     if (userType === 'employee') {
       return this.apiService.post<User>('/api/employees', user);
@@ -63,7 +63,7 @@ export class UsersService {
    * Uses the appropriate endpoint based on user_type
    */
   updateUser(id: number, user: UserUpdate, userType?: 'employee' | 'contact'): Observable<User> {
-    const type = userType || user.user_type || (user.employment_type === 'intersystems' ? 'employee' : 'contact');
+    const type = userType || user.user_type;
 
     if (type === 'employee') {
       return this.apiService.put<User>(`/api/employees/${id}`, user);

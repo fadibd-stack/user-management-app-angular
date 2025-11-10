@@ -7,6 +7,7 @@ export interface MenuItem {
   parent_id?: number;
   order_index: number;
   description?: string;
+  access_level?: string;  // 'all' or 'internal'
   created_at?: string;
   updated_at?: string;
 }
@@ -49,3 +50,10 @@ export const EMPLOYEE_ROLES = [
   { name: 'is_product_manager', label: 'Product Manager' },
   { name: 'is_developer', label: 'Developer' }
 ] as const;
+
+export const CONTACT_ROLES = [
+  { name: 'CONTACT_ORG_ADMIN', label: 'Contact Admin' },
+  { name: 'CONTACT_USER', label: 'Contact User' }
+] as const;
+
+export const ALL_ROLES = [...EMPLOYEE_ROLES, ...CONTACT_ROLES];
