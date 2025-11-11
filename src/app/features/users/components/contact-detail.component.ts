@@ -49,6 +49,10 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
             <p>Contact Details</p>
           </div>
           <div class="header-actions" *ngIf="contact && !loading">
+            <button mat-raised-button color="accent" (click)="changePassword()">
+              <mat-icon>lock</mat-icon>
+              Change Password
+            </button>
             <button mat-raised-button color="primary" (click)="deleteContact()">
               <mat-icon>delete</mat-icon>
               Delete Contact
@@ -148,6 +152,16 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
             </div>
 
             <div class="info-item">
+              <label>Enable Global Search</label>
+              <span>{{ contact.enable_search ? 'Yes' : 'No' }}</span>
+            </div>
+
+            <div class="info-item">
+              <label>Enable GenAI Access</label>
+              <span>{{ contact.enable_genai ? 'Yes' : 'No' }}</span>
+            </div>
+
+            <div class="info-item">
               <label>Contact Role</label>
               <div class="roles-container">
                 <mat-chip class="role-chip" *ngIf="contact.is_org_admin">Organization Admin</mat-chip>
@@ -233,6 +247,18 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
               <div class="toggle-field">
                 <mat-slide-toggle formControlName="use_classic_menu" color="primary">
                   Use Classic Menu
+                </mat-slide-toggle>
+              </div>
+
+              <div class="toggle-field">
+                <mat-slide-toggle formControlName="enable_search" color="primary">
+                  Enable Global Search
+                </mat-slide-toggle>
+              </div>
+
+              <div class="toggle-field">
+                <mat-slide-toggle formControlName="enable_genai" color="primary">
+                  Enable GenAI Access
                 </mat-slide-toggle>
               </div>
 
@@ -590,6 +616,8 @@ export class ContactDetailComponent implements OnInit {
         timezone: [this.contact.timezone || ''],
         is_active: [this.contact.is_active],
         use_classic_menu: [this.contact.use_classic_menu || false],
+        enable_search: [this.contact.enable_search !== undefined ? this.contact.enable_search : true],
+        enable_genai: [this.contact.enable_genai || false],
         is_org_admin: [this.contact.is_org_admin || false]
       });
     }

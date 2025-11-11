@@ -19,6 +19,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthService } from '../services/auth.service';
 import { MenuService } from '../services/menu.service';
 import { SearchService, SearchResult } from '../services/search.service';
+import { UsersService } from '../../features/users/services/users.service';
 import { ChangePasswordDialogComponent } from './change-password-dialog.component';
 import { MenuSection as ApiMenuSection } from '../models/menu.model';
 import { Subject } from 'rxjs';
@@ -176,7 +177,8 @@ interface MenuSection {
           </div>
 
           <div class="search-container">
-            <mat-form-field appearance="outline" class="search-field">
+            <!-- Global Search Bar - Requires both role permission and user-level enable_search flag -->
+            <mat-form-field appearance="outline" class="search-field" *ngIf="hasGlobalSearchAccess">
               <input
                 matInput
                 placeholder="Search"
@@ -192,7 +194,7 @@ interface MenuSection {
             </mat-form-field>
 
             <!-- Search Results Dropdown -->
-            <div class="search-dropdown" *ngIf="showSearchDropdown && searchResults.length > 0">
+            <div class="search-dropdown" *ngIf="showSearchDropdown && searchResults.length > 0 && hasGlobalSearchAccess">
               <div class="search-result-item"
                    *ngFor="let result of searchResults"
                    (click)="navigateToSearchResult(result)">
@@ -208,7 +210,8 @@ interface MenuSection {
               </div>
             </div>
 
-            <button mat-button class="ai-assistant-btn" (click)="openAIAssistant()">
+            <!-- AI Assistant Button - Requires both role permission and user-level enable_genai flag -->
+            <button mat-button class="ai-assistant-btn" (click)="openAIAssistant()" *ngIf="hasGenAIAccess">
               <img src="assets/ai-assistant-icon.svg" alt="AI Assistant" class="ai-icon">
             </button>
           </div>
@@ -230,6 +233,11 @@ interface MenuSection {
               <button mat-menu-item [matMenuTriggerFor]="languageMenu">
                 <mat-icon>language</mat-icon>
                 <span>Language: {{ getLanguageLabel(currentUser.language) }}</span>
+              </button>
+              <mat-divider></mat-divider>
+              <button mat-menu-item (click)="toggleClassicMenu()">
+                <mat-icon>{{ useClassicMenu ? 'check_box' : 'check_box_outline_blank' }}</mat-icon>
+                <span>Classic Menu Style</span>
               </button>
               <mat-divider></mat-divider>
               <div class="user-actions">
@@ -314,7 +322,8 @@ export class MainLayoutComponent implements OnInit {
   };
 
   // Dynamic menu sections loaded from API
-  dynamicMenuSections: MenuSection[] = [];
+  private allMenuSections: MenuSection[] = []; // Full menu including GLOBAL FEATURES for permission checks
+  dynamicMenuSections: MenuSection[] = []; // Filtered menu for display (excludes GLOBAL FEATURES)
   menuSectionsLoaded = false;
 
   // AI Chat properties
@@ -336,7 +345,8 @@ export class MainLayoutComponent implements OnInit {
     private snackBar: MatSnackBar,
     private http: HttpClient,
     private menuService: MenuService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private usersService: UsersService
   ) {
     this.currentUser = this.authService.currentUserValue;
 
@@ -412,7 +422,7 @@ export class MainLayoutComponent implements OnInit {
     this.menuService.getMenusForCurrentUser().subscribe({
       next: (apiSections: ApiMenuSection[]) => {
         // Convert API menu sections to local MenuSection format
-        this.dynamicMenuSections = apiSections.map(apiSection => ({
+        const allSections = apiSections.map(apiSection => ({
           title: apiSection.title || apiSection.section || 'UNKNOWN',
           items: apiSection.items.map(apiItem => ({
             path: apiItem.path,
@@ -424,7 +434,7 @@ export class MainLayoutComponent implements OnInit {
 
         // Always add Menu Configuration for System Admins (safety measure)
         if (this.currentUser?.is_system_admin) {
-          const sysConfigSection = this.dynamicMenuSections.find(s => s.title === 'SYSTEM CONFIGURATION');
+          const sysConfigSection = allSections.find(s => s.title === 'SYSTEM CONFIGURATION');
           if (sysConfigSection) {
             const hasMenuConfig = sysConfigSection.items.some(item => item.path === '/menu-configuration');
             if (!hasMenuConfig) {
@@ -436,6 +446,12 @@ export class MainLayoutComponent implements OnInit {
             }
           }
         }
+
+        // Store all sections for permission checking
+        this.allMenuSections = allSections;
+
+        // Filter out GLOBAL FEATURES section for display
+        this.dynamicMenuSections = allSections.filter(section => section.title !== 'GLOBAL FEATURES');
 
         this.menuSectionsLoaded = true;
 
@@ -764,5 +780,81 @@ export class MainLayoutComponent implements OnInit {
         this.snackBar.open('Failed to change language', 'Close', { duration: 3000 });
       }
     });
+  }
+
+  /**
+   * Toggle classic menu style preference
+   * Updates both local UI state and persists to database
+   */
+  toggleClassicMenu(): void {
+    if (!this.currentUser) return;
+
+    // Toggle local state immediately for instant UI feedback
+    this.useClassicMenu = !this.useClassicMenu;
+
+    // Update database
+    this.usersService.updateUser(
+      this.currentUser.id,
+      { use_classic_menu: this.useClassicMenu },
+      this.currentUser.user_type
+    ).subscribe({
+      next: (updatedUser) => {
+        // Update auth service with the latest user data
+        this.authService.updateCurrentUser(updatedUser);
+        this.snackBar.open(
+          `Menu style changed to ${this.useClassicMenu ? 'Classic' : 'Modern'}`,
+          'Close',
+          { duration: 3000 }
+        );
+      },
+      error: (err) => {
+        console.error('Error updating menu preference:', err);
+        // Revert local state on error
+        this.useClassicMenu = !this.useClassicMenu;
+        this.snackBar.open('Failed to update menu preference', 'Close', { duration: 3000 });
+      }
+    });
+  }
+
+  /**
+   * Check if user has access to Global Search feature
+   * Requires BOTH role permission (menu access) AND user-level enable_search flag
+   */
+  get hasGlobalSearchAccess(): boolean {
+    if (!this.currentUser) {
+      console.log('hasGlobalSearchAccess: No current user');
+      return false;
+    }
+
+    // Check user-level flag
+    console.log('hasGlobalSearchAccess: currentUser.enable_search =', this.currentUser.enable_search);
+    if (!this.currentUser.enable_search) return false;
+
+    // Check role-level permission (if /global-search menu is in allMenuSections)
+    console.log('hasGlobalSearchAccess: allMenuSections =', this.allMenuSections);
+    const hasRolePermission = this.allMenuSections.some(section =>
+      section.items.some(item => item.path === '/global-search')
+    );
+
+    console.log('hasGlobalSearchAccess: hasRolePermission =', hasRolePermission);
+    return hasRolePermission;
+  }
+
+  /**
+   * Check if user has access to GenAI Assistant feature
+   * Requires BOTH role permission (menu access) AND user-level enable_genai flag
+   */
+  get hasGenAIAccess(): boolean {
+    if (!this.currentUser) return false;
+
+    // Check user-level flag
+    if (!this.currentUser.enable_genai) return false;
+
+    // Check role-level permission (if /genai-assistant menu is in allMenuSections)
+    const hasRolePermission = this.allMenuSections.some(section =>
+      section.items.some(item => item.path === '/genai-assistant')
+    );
+
+    return hasRolePermission;
   }
 }

@@ -24,6 +24,9 @@ export interface User {
   is_product_manager?: boolean;
   is_developer?: boolean;
   use_classic_menu?: boolean;
+  // Global Features access control
+  enable_search?: boolean;
+  enable_genai?: boolean;
   created_at?: string;
   updated_at?: string;
 }
@@ -50,6 +53,9 @@ export interface UserCreate {
   is_developer?: boolean;
   is_active?: boolean;
   use_classic_menu?: boolean;
+  // Global Features access control
+  enable_search?: boolean;
+  enable_genai?: boolean;
 }
 
 export interface UserUpdate {
@@ -73,4 +79,7 @@ export interface UserUpdate {
   is_developer?: boolean;
   is_active?: boolean;
   use_classic_menu?: boolean;
+  // Global Features access control
+  enable_search?: boolean;
+  enable_genai?: boolean;
 }

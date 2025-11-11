@@ -143,6 +143,16 @@ import { AuthService } from '../../../core/services/auth.service';
             </div>
 
             <div class="info-item">
+              <label>Enable Global Search</label>
+              <span>{{ employee.enable_search ? 'Yes' : 'No' }}</span>
+            </div>
+
+            <div class="info-item">
+              <label>Enable GenAI Access</label>
+              <span>{{ employee.enable_genai ? 'Yes' : 'No' }}</span>
+            </div>
+
+            <div class="info-item">
               <label>Employee Roles</label>
               <div class="roles-container">
                 <mat-chip class="role-chip" *ngIf="employee.is_standard">Standard</mat-chip>
@@ -235,6 +245,18 @@ import { AuthService } from '../../../core/services/auth.service';
               <div class="toggle-field">
                 <mat-slide-toggle formControlName="use_classic_menu" color="primary">
                   Use Classic Menu
+                </mat-slide-toggle>
+              </div>
+
+              <div class="toggle-field">
+                <mat-slide-toggle formControlName="enable_search" color="primary">
+                  Enable Global Search
+                </mat-slide-toggle>
+              </div>
+
+              <div class="toggle-field">
+                <mat-slide-toggle formControlName="enable_genai" color="primary">
+                  Enable GenAI Access
                 </mat-slide-toggle>
               </div>
 
@@ -622,6 +644,8 @@ export class EmployeeDetailComponent implements OnInit {
         timezone: [this.employee.timezone || ''],
         is_active: [this.employee.is_active],
         use_classic_menu: [this.employee.use_classic_menu || false],
+        enable_search: [this.employee.enable_search !== undefined ? this.employee.enable_search : true],
+        enable_genai: [this.employee.enable_genai || false],
         is_standard: [this.employee.is_standard || false],
         is_system_admin: [this.employee.is_system_admin || false],
         is_manager: [this.employee.is_manager || false],

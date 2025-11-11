@@ -651,6 +651,7 @@ export class MenuConfigComponent implements OnInit {
     'RELEASE_VALIDATION': 'Release Validation',
     'SYSTEM_CONFIGURATION': 'System Configuration',
     'ORGANIZATION': 'Organization Management',
+    'GLOBAL FEATURES': 'Global Features',
     'ADDITIONAL': 'Additional Features'
   };
 
@@ -690,7 +691,7 @@ export class MenuConfigComponent implements OnInit {
 
   groupBySection(data: MenuPermissionMatrix[]): any[] {
     const sectionsMap: { [key: string]: MenuPermissionMatrix[] } = {};
-    const sectionOrder = ['MAIN', 'RELEASE_VALIDATION', 'SYSTEM_CONFIGURATION', 'ORGANIZATION', 'ADDITIONAL'];
+    const sectionOrder = ['MAIN', 'RELEASE_VALIDATION', 'SYSTEM_CONFIGURATION', 'ORGANIZATION', 'GLOBAL FEATURES', 'ADDITIONAL'];
 
     // Group by section
     data.forEach(item => {
@@ -722,6 +723,7 @@ export class MenuConfigComponent implements OnInit {
       'RELEASE_VALIDATION': 'verified',
       'SYSTEM_CONFIGURATION': 'settings',
       'ORGANIZATION': 'business',
+      'GLOBAL FEATURES': 'language',
       'ADDITIONAL': 'more_horiz'
     };
     return icons[sectionKey] || 'folder';
