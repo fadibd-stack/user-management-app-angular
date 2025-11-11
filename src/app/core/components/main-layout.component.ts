@@ -816,13 +816,15 @@ export class MainLayoutComponent implements OnInit {
   changeLanguage(language: string): void {
     if (!this.currentUser) return;
 
-    this.http.put(`http://localhost:8000/users/${this.currentUser.id}`, {
-      language: language
-    }).subscribe({
-      next: (updatedUser: any) => {
-        // Update current user in localStorage and auth service
-        this.currentUser = { ...this.currentUser!, language: language };
-        localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+    // Use UsersService which handles employee/contact endpoints correctly
+    this.usersService.updateUser(
+      this.currentUser.id,
+      { language: language },
+      this.currentUser.user_type
+    ).subscribe({
+      next: (updatedUser) => {
+        // Update auth service with the latest user data
+        this.authService.updateCurrentUser(updatedUser);
         this.snackBar.open(`Language changed to ${this.getLanguageLabel(language)}`, 'Close', { duration: 3000 });
       },
       error: (err) => {
