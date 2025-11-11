@@ -157,6 +157,11 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
             </div>
 
             <div class="info-item">
+              <label>Auto Hide Menu</label>
+              <span>{{ contact.auto_hide_menu ? 'Yes' : 'No' }}</span>
+            </div>
+
+            <div class="info-item">
               <label>Enable GenAI Access</label>
               <span>{{ contact.enable_genai ? 'Yes' : 'No' }}</span>
             </div>
@@ -253,6 +258,12 @@ import { ChangePasswordDialogComponent } from './change-password-dialog.componen
               <div class="toggle-field">
                 <mat-slide-toggle formControlName="enable_search" color="primary">
                   Enable Global Search
+                </mat-slide-toggle>
+              </div>
+
+              <div class="toggle-field">
+                <mat-slide-toggle formControlName="auto_hide_menu" color="primary">
+                  Auto Hide Menu
                 </mat-slide-toggle>
               </div>
 
@@ -617,6 +628,7 @@ export class ContactDetailComponent implements OnInit {
         is_active: [this.contact.is_active],
         use_classic_menu: [this.contact.use_classic_menu || false],
         enable_search: [this.contact.enable_search !== undefined ? this.contact.enable_search : true],
+        auto_hide_menu: [this.contact.auto_hide_menu || false],
         enable_genai: [this.contact.enable_genai || false],
         is_org_admin: [this.contact.is_org_admin || false]
       });

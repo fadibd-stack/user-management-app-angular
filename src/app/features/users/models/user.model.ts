@@ -24,6 +24,7 @@ export interface User {
   is_product_manager?: boolean;
   is_developer?: boolean;
   use_classic_menu?: boolean;
+  auto_hide_menu?: boolean;
   // Global Features access control
   enable_search?: boolean;
   enable_genai?: boolean;
@@ -53,6 +54,7 @@ export interface UserCreate {
   is_developer?: boolean;
   is_active?: boolean;
   use_classic_menu?: boolean;
+  auto_hide_menu?: boolean;
   // Global Features access control
   enable_search?: boolean;
   enable_genai?: boolean;
@@ -79,6 +81,7 @@ export interface UserUpdate {
   is_developer?: boolean;
   is_active?: boolean;
   use_classic_menu?: boolean;
+  auto_hide_menu?: boolean;
   // Global Features access control
   enable_search?: boolean;
   enable_genai?: boolean;

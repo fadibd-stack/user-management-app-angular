@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,7 +29,7 @@ interface MenuItem {
   path?: string;
   label: string;
   icon?: string;
-  collapsible?: boolean;
+  collapsible?: boolean;  // Optional property
   subitems?: MenuItem[];
   queryParams?: { [key: string]: any };
 }
@@ -64,7 +64,7 @@ interface MenuSection {
   styleUrls: ['./main-layout.component.scss'],
   template: `
     <mat-sidenav-container class="sidenav-container">
-      <mat-sidenav #sidenav mode="side" [opened]="sidenavOpened" class="sidenav">
+      <mat-sidenav #sidenav [mode]="sidenavMode" [opened]="sidenavOpened" class="sidenav">
         <div class="logo" [class.logo-collapsed]="!sidenavOpened">
           <img src="assets/intellicare-logo.svg" alt="IntelliCare" class="logo-image" />
           <p class="logo-subtitle">Release Assistant</p>
@@ -308,8 +308,11 @@ interface MenuSection {
   `,
 })
 export class MainLayoutComponent implements OnInit {
+  @ViewChild('sidenav') sidenav!: MatSidenav;
+
   currentUser: any;
   sidenavOpened = true;
+  sidenavMode: 'side' | 'over' = 'side';
   menuSearchQuery = '';
   useClassicMenu = false;
   expandedSections: { [key: string]: boolean} = {
@@ -352,10 +355,39 @@ export class MainLayoutComponent implements OnInit {
 
     // Subscribe to user updates and apply classic menu preference
     this.authService.currentUser$.subscribe(user => {
+      console.log('🔔 User subscription fired in main-layout:', user);
       this.currentUser = user;
       // Apply user's menu preference from database
       if (user) {
         this.useClassicMenu = user.use_classic_menu ?? false;
+        // Apply auto-hide menu preference
+        console.log('🎯 auto_hide_menu value:', user.auto_hide_menu);
+        if (user.auto_hide_menu) {
+          // Auto-hide ON: use 'over' mode (overlay) which automatically hides
+          console.log('✅ Setting mode to OVER (auto-hide)');
+          this.sidenavMode = 'over';
+          this.sidenavOpened = false; // Start closed
+          // Force the sidenav to close after a short delay
+          setTimeout(() => {
+            if (this.sidenav) {
+              console.log('🔒 Closing sidenav (auto-hide mode)');
+              this.sidenav.close();
+            }
+          }, 100);
+        } else {
+          // Auto-hide OFF: use 'side' mode (pinned) which stays open
+          console.log('✅ Setting mode to SIDE (pinned)');
+          this.sidenavMode = 'side';
+          this.sidenavOpened = true; // Keep open
+          // Force the sidenav to open after a short delay to allow mode change
+          setTimeout(() => {
+            if (this.sidenav) {
+              console.log('🔓 Opening sidenav (pinned mode)');
+              this.sidenav.open();
+            }
+          }, 100);
+        }
+        console.log('📊 Final sidenav state - mode:', this.sidenavMode, 'opened:', this.sidenavOpened);
       }
       // Reload menus when user changes
       this.loadDynamicMenus();
@@ -364,10 +396,24 @@ export class MainLayoutComponent implements OnInit {
     // Initialize menu preference from current user
     if (this.currentUser) {
       this.useClassicMenu = this.currentUser.use_classic_menu ?? false;
+      // Apply auto-hide menu preference on initial load
+      if (this.currentUser.auto_hide_menu) {
+        // Auto-hide ON: use 'over' mode (overlay) which automatically hides
+        this.sidenavMode = 'over';
+        this.sidenavOpened = false; // Start closed
+      } else {
+        // Auto-hide OFF: use 'side' mode (pinned) which stays open
+        this.sidenavMode = 'side';
+        this.sidenavOpened = true; // Keep open
+      }
     }
   }
 
   ngOnInit(): void {
+    // Ensure menu preference is applied on init
+    if (this.currentUser) {
+      this.useClassicMenu = this.currentUser.use_classic_menu ?? false;
+    }
     this.loadDynamicMenus();
     this.initializeSearch();
   }
@@ -422,14 +468,14 @@ export class MainLayoutComponent implements OnInit {
     this.menuService.getMenusForCurrentUser().subscribe({
       next: (apiSections: ApiMenuSection[]) => {
         // Convert API menu sections to local MenuSection format
-        const allSections = apiSections.map(apiSection => ({
+        const allSections: MenuSection[] = apiSections.map(apiSection => ({
           title: apiSection.title || apiSection.section || 'UNKNOWN',
           items: apiSection.items.map(apiItem => ({
             path: apiItem.path,
             label: apiItem.label,
             icon: apiItem.icon,
             collapsible: false
-          }))
+          } as MenuItem))
         }));
 
         // Always add Menu Configuration for System Admins (safety measure)
@@ -441,7 +487,8 @@ export class MainLayoutComponent implements OnInit {
               sysConfigSection.items.push({
                 path: '/menu-configuration',
                 label: 'Menu Configuration',
-                icon: 'settings_applications'
+                icon: 'settings_applications',
+                collapsible: false
               });
             }
           }
@@ -511,21 +558,21 @@ export class MainLayoutComponent implements OnInit {
       {
         title: 'MAIN',
         items: [
-          { path: '/', label: 'Dashboard', icon: 'dashboard' },
-          { path: '/release-highlights', label: 'Get Release Highlights', icon: 'highlight' },
-          { path: '/workbench', label: 'Workbench', icon: 'work' }
+          { path: '/', label: 'Dashboard', icon: 'dashboard', collapsible: false },
+          { path: '/release-highlights', label: 'Get Release Highlights', icon: 'highlight', collapsible: false },
+          { path: '/workbench', label: 'Workbench', icon: 'work', collapsible: false }
         ]
       },
       {
         title: 'RELEASE VALIDATION',
         items: [
-          { path: '/team-dashboard', label: 'Team Dashboard', icon: 'analytics' },
-          { path: '/test-cases', label: 'Test Cases', icon: 'assignment' },
-          { path: '/test-executions', label: 'Test Executions', icon: 'play_circle_filled' },
-          { path: '/task-pool', label: 'Task Pool', icon: 'task' },
-          { path: '/groups', label: 'Groups & Permissions', icon: 'groups' }, // Moved from ORGANIZATION
-          { path: '/advice', label: 'Advice', icon: 'question_answer' },
-          { path: '/team-discussions', label: 'Team Discussions', icon: 'forum' }
+          { path: '/team-dashboard', label: 'Team Dashboard', icon: 'analytics', collapsible: false },
+          { path: '/test-cases', label: 'Test Cases', icon: 'assignment', collapsible: false },
+          { path: '/test-executions', label: 'Test Executions', icon: 'play_circle_filled', collapsible: false },
+          { path: '/task-pool', label: 'Task Pool', icon: 'task', collapsible: false },
+          { path: '/groups', label: 'Groups & Permissions', icon: 'groups', collapsible: false }, // Moved from ORGANIZATION
+          { path: '/advice', label: 'Advice', icon: 'question_answer', collapsible: false },
+          { path: '/team-discussions', label: 'Team Discussions', icon: 'forum', collapsible: false }
         ]
       }
     ];
@@ -533,14 +580,14 @@ export class MainLayoutComponent implements OnInit {
     // Add System Configuration section for InterSystems employees
     if (user?.user_type === 'employee') {
       const sysConfigItems = [
-        { path: '/editions', label: 'Editions', icon: 'category' },
-        { path: '/releases', label: 'Releases', icon: 'new_releases' },
-        { path: '/countries', label: 'Countries', icon: 'public' },
-        { path: '/organizations', label: 'Organizations', icon: 'business' },
-        { path: '/employees', label: 'Employees', icon: 'badge' },
-        { path: '/components', label: 'System Areas', icon: 'dashboard_customize' },
-        { path: '/org-code-tables', label: 'Code Tables', icon: 'table_chart' },
-        { path: '/impact-score-config', label: 'Impact Score Settings', icon: 'assessment' }
+        { path: '/editions', label: 'Editions', icon: 'category', collapsible: false },
+        { path: '/releases', label: 'Releases', icon: 'new_releases', collapsible: false },
+        { path: '/countries', label: 'Countries', icon: 'public', collapsible: false },
+        { path: '/organizations', label: 'Organizations', icon: 'business', collapsible: false },
+        { path: '/employees', label: 'Employees', icon: 'badge', collapsible: false },
+        { path: '/components', label: 'System Areas', icon: 'dashboard_customize', collapsible: false },
+        { path: '/org-code-tables', label: 'Code Tables', icon: 'table_chart', collapsible: false },
+        { path: '/impact-score-config', label: 'Impact Score Settings', icon: 'assessment', collapsible: false }
       ];
 
       // Add Menu Configuration for System Admins only
@@ -548,7 +595,8 @@ export class MainLayoutComponent implements OnInit {
         sysConfigItems.push({
           path: '/menu-configuration',
           label: 'Menu Configuration',
-          icon: 'settings_applications'
+          icon: 'settings_applications',
+          collapsible: false
         });
       }
 
@@ -568,8 +616,8 @@ export class MainLayoutComponent implements OnInit {
       sections.push({
         title: 'ORGANIZATION',
         items: [
-          { path: '/contacts', label: 'Contacts', icon: 'contacts' },
-          { path: '/environments', label: 'Environments', icon: 'dns' }
+          { path: '/contacts', label: 'Contacts', icon: 'contacts', collapsible: false },
+          { path: '/environments', label: 'Environments', icon: 'dns', collapsible: false }
         ]
       });
     }
@@ -577,13 +625,13 @@ export class MainLayoutComponent implements OnInit {
     // Additional section - only for InterSystems employees
     if (user?.user_type === 'employee') {
       const additionalItems: MenuItem[] = [
-        { path: '/functions', label: 'Functions', icon: 'functions' },
-        { path: '/jira-dashboard', label: 'JIRA Dashboard', icon: 'bar_chart' },
-        { path: '/jira', label: 'JIRA Issues', icon: 'bug_report' },
-        { path: '/jira-config', label: 'JIRA Configuration', icon: 'settings' },
-        { path: '/trakintel-config', label: 'Trakintel Configuration', icon: 'tune' },
-        { path: '/audit-trail', label: 'Audit Trail', icon: 'history' },
-        { path: '/api-docs', label: 'API Documentation', icon: 'code' }
+        { path: '/functions', label: 'Functions', icon: 'functions', collapsible: false },
+        { path: '/jira-dashboard', label: 'JIRA Dashboard', icon: 'bar_chart', collapsible: false },
+        { path: '/jira', label: 'JIRA Issues', icon: 'bug_report', collapsible: false },
+        { path: '/jira-config', label: 'JIRA Configuration', icon: 'settings', collapsible: false },
+        { path: '/trakintel-config', label: 'Trakintel Configuration', icon: 'tune', collapsible: false },
+        { path: '/audit-trail', label: 'Audit Trail', icon: 'history', collapsible: false },
+        { path: '/api-docs', label: 'API Documentation', icon: 'code', collapsible: false }
       ];
 
       sections.push({
@@ -701,7 +749,9 @@ export class MainLayoutComponent implements OnInit {
   }
 
   onContentClick(): void {
-    if (this.sidenavOpened) {
+    // Only close sidenav if in overlay mode (auto-hide enabled)
+    // In side mode (auto-hide disabled), the menu should stay pinned
+    if (this.sidenavMode === 'over' && this.sidenavOpened) {
       this.sidenavOpened = false;
     }
   }

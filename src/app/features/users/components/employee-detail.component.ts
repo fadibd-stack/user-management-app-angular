@@ -148,6 +148,11 @@ import { AuthService } from '../../../core/services/auth.service';
             </div>
 
             <div class="info-item">
+              <label>Auto Hide Menu</label>
+              <span>{{ employee.auto_hide_menu ? 'Yes' : 'No' }}</span>
+            </div>
+
+            <div class="info-item">
               <label>Enable GenAI Access</label>
               <span>{{ employee.enable_genai ? 'Yes' : 'No' }}</span>
             </div>
@@ -251,6 +256,12 @@ import { AuthService } from '../../../core/services/auth.service';
               <div class="toggle-field">
                 <mat-slide-toggle formControlName="enable_search" color="primary">
                   Enable Global Search
+                </mat-slide-toggle>
+              </div>
+
+              <div class="toggle-field">
+                <mat-slide-toggle formControlName="auto_hide_menu" color="primary">
+                  Auto Hide Menu
                 </mat-slide-toggle>
               </div>
 
@@ -645,6 +656,7 @@ export class EmployeeDetailComponent implements OnInit {
         is_active: [this.employee.is_active],
         use_classic_menu: [this.employee.use_classic_menu || false],
         enable_search: [this.employee.enable_search !== undefined ? this.employee.enable_search : true],
+        auto_hide_menu: [this.employee.auto_hide_menu || false],
         enable_genai: [this.employee.enable_genai || false],
         is_standard: [this.employee.is_standard || false],
         is_system_admin: [this.employee.is_system_admin || false],
@@ -676,6 +688,7 @@ export class EmployeeDetailComponent implements OnInit {
         // If editing own profile, update AuthService's currentUser to reflect changes immediately
         const currentUser = this.authService.currentUser;
         if (currentUser && currentUser.id === updatedUser.id) {
+          console.log('💾 Updating current user after save. auto_hide_menu:', updatedUser.auto_hide_menu);
           this.authService.updateCurrentUser(updatedUser);
         }
 
